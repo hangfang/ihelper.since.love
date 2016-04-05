@@ -1,13 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require "BaseController.php";
-class Express extends BaseController {
+require "Base.php";
+class Express extends Base {
 
 	public function index()
 	{
-        $this->load->library('WeChat', '', 'wechat');
-        print_r($this->wechat->getAccessToken());exit;
+        $this->load->model('wechat', 'wechat_model');
+        $accessToken = $this->wechat_model->getAccessToken();
+        if($accessToken===''){
+            $this->load->library('wx', array('db'=>$this->db), 'wx_library');
+            $accessToken = $this->wx_library->getAccessToken();
+        }
+        
+        var_dump($accessToken);exit;
         if($this->input->is_ajax_request()){
             
             

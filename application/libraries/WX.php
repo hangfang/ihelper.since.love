@@ -1,7 +1,10 @@
 <?php
-class WeChat{
-    public function __construct(){
-        
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class WX{
+    private $db = null;
+    public function __construct($params){
+        $this->db = $params['db'];
     }
     
     public function getAccessToken(){
@@ -9,10 +12,21 @@ class WeChat{
         $data['method'] = 'get';
         $data['url'] = sprintf('%s/token?grant_type=client_credential&appid=%s&secret=%s', WX_CGI_ADDR, WX_APP_ID, WX_APP_SECRET);
         $rt = $this->http($data);
+
+        if(!$rt || isset($rt['errorcode'])){
+            return '';
+        }
         
-        return $rt;
+        if(strlen($rt['access_token']) > 100){
+            if(!$this->db->insert('wechat_token', array('token'=>$rt['access_token']))){
+                error_log('insert into access_token error');
+            }
+        }
+        
+        return $rt['access_token'];
     }
     
+
     /**
     * 内部请求
     * @author hangfang
