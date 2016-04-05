@@ -2,11 +2,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 require "BaseController.php";
-class ExpressController extends BaseController {
+class Express extends BaseController {
 
 	public function index()
 	{
-        if($this->input->is_ajax){
+        $this->load->library('WeChat', '', 'wechat');
+        print_r($this->wechat->getAccessToken());exit;
+        if($this->input->is_ajax_request()){
             
             
         }

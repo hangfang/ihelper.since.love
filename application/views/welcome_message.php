@@ -58,7 +58,7 @@
     </div>
     <div class="panel-body">
         <ul class='list-inline'>
-            <li><a class="btn btn-default btn-lg" role="button" href='//m.kuaidi100.com' target='_blank' title='快递查询'>快递查询</a></li>
+            <li><a href="//m.kuaidi100.com" target="_blank">快递查询</a></li>
         </ul>
     </div>
 </div>

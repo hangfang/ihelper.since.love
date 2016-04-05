@@ -6,5 +6,6 @@ class BaseController extends CI_Controller{
         
         parent::__construct();
         $this->load->library('layout');
+        $this->load->helper('cookie');
     }
 }
