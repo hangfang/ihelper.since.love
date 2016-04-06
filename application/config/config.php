@@ -512,6 +512,12 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
+$config['daigou'] = array('代购', '香港', 'HK', 'Hong Kong');
+
+$config['at'] = array('关注', '好友', '添加');
+
+$config['news'] = array('资讯');
+
 $config['express_list'] = array (
   'auspost' => '澳大利亚邮政',
   'aae' => 'AAE',
