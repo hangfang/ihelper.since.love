@@ -25,7 +25,7 @@ class WechatModel extends MY_Model{
             $data['url'] = sprintf('%s/token?grant_type=client_credential&appid=%s&secret=%s', WX_CGI_ADDR, WX_APP_ID, WX_APP_SECRET);
             $rt = $this->http($data);
             
-            if(!$rt || isset($rt['errorcode'])){
+            if(!$rt || isset($rt['errcode'])){
                 error_log('get access_token from wechat error, msg: '. json_encode($rt));
                 return '';
             }
@@ -67,8 +67,8 @@ class WechatModel extends MY_Model{
         $data['method'] = 'post';
         $rt = $this->http($data);
 
-        if(!$rt || isset($rt['errorcode'])){
-            if($rt['errorcode'] == 42001){
+        if(!$rt || isset($rt['errcode'])){
+            if($rt['errcode'] == 42001){
                 $this->accessTokenExpired();
                 return call_user_func_array(array($this, 'sendMessage'), $msg);
             }
