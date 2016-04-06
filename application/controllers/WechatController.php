@@ -1,8 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require "BaseController.php";
-class WechatController extends BaseController {
+class WechatController extends MY_Controller {
 
 	public function index()
 	{

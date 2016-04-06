@@ -1,8 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require "BaseController.php";
-class ExpressController extends BaseController {
+class ExpressController extends MY_Controller {
 
 	public function index()
 	{
