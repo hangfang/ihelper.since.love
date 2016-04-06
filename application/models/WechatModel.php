@@ -62,19 +62,20 @@ class WechatModel extends MY_Model{
      * @return boolean
      */
     public function sendMessage($msg){
-        $data['data'] = $msg;
-        $data['url'] = sprintf('%s/message/custom/send?access_token=%s', WX_CGI_ADDR, $this->getAccessToken());
-        $data['method'] = 'post';
-        $rt = $this->http($data);
-
-        if(!$rt || isset($rt['errcode'])){
-            if($rt['errcode'] == 42001){
-                $this->accessTokenExpired();
-                return call_user_func_array(array($this, 'sendMessage'), array($msg));
-            }
-            error_log('send wechat message, msg: '. json_encode($rt));
-            return false;
-        }
+//        没权限发消息/(ㄒoㄒ)/~~
+//        $data['data'] = $msg;
+//        $data['url'] = sprintf('%s/message/custom/send?access_token=%s', WX_CGI_ADDR, $this->getAccessToken());
+//        $data['method'] = 'post';
+//        $rt = $this->http($data);
+//
+//        if(!$rt || isset($rt['errcode'])){
+//            if($rt['errcode'] == 42001){
+//                $this->accessTokenExpired();
+//                return call_user_func_array(array($this, 'sendMessage'), array($msg));
+//            }
+//            error_log('send wechat message, msg: '. json_encode($rt));
+//            return false;
+//        }
         
         $data = array();
         foreach($msg as $_msg_name=>$_msg_value){
@@ -111,13 +112,17 @@ class WechatModel extends MY_Model{
        ) ,$args);
        if(strtolower($args['method']) === 'post'){
            curl_setopt($ch, CURLOPT_POST, true);
-           curl_setopt($ch ,CURLOPT_POSTFIELDS, http_build_query($args['data']));
+           curl_setopt($ch ,CURLOPT_POSTFIELDS, is_array($args['data']) ? http_build_query($args['data']) : $args['data']);
        }else{
-           $data = array();
-           foreach ($args['data'] as $key => $value) {
-               $data[] = urlencode($key).'='.urlencode($value);
+           if(is_array($args['data'])){
+                $data = array();
+                foreach ($args['data'] as $key => $value) {
+                    $data[] = urlencode($key).'='.urlencode($value);
+                }
+                $data = implode('&', $data);
+           }else{
+               $data = $args['data'];
            }
-           $data = implode('&', $data);
            $args['url'] .=(strpos($args['url'] ,'?')==false?'?':'&').$data;
            $args['url'] = trim($args['url'], '&');
        }

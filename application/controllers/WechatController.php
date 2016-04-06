@@ -41,6 +41,89 @@ class WechatController extends MY_Controller {
             'music' => array('touser'=>'', 'msgtype'=>'music', 'music'=>array('title'=>'', 'description'=>'', 'musicurl'=>'', 'hqmusicurl'=>'', 'thumb_media_id'=>'')),
             'news' => array('touser'=>'', 'msgtype'=>'news', 'news'=>array('articles'=>array('title'=>'', 'description'=>'', 'url'=>'', 'picurl'=>''))),
         );
+    
+    public $text = <<<EOF
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[%s]]></Content>
+</xml>
+EOF;
+    
+    public $image = <<<EOF
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[image]]></MsgType>
+<Image>
+<MediaId><![CDATA[%s]]></MediaId>
+</Image>
+</xml>
+EOF;
+    
+    public $voice = <<<EOF
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[voice]]></MsgType>
+<Voice>
+<MediaId><![CDATA[%s]]></MediaId>
+</Voice>
+</xml>
+EOF;
+    public $video = <<<EOF
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[video]]></MsgType>
+<Video>
+<MediaId><![CDATA[%s]]></MediaId>
+<Title><![CDATA[%s]]></Title>
+<Description><![CDATA[%s]]></Description>
+</Video> 
+</xml>
+EOF;
+
+    public $music = <<<EOF
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[music]]></MsgType>
+<Music>
+<Title><![CDATA[%s]]></Title>
+<Description><![CDATA[%s]]></Description>
+<MusicUrl><![CDATA[%s]]></MusicUrl>
+<HQMusicUrl><![CDATA[%s]]></HQMusicUrl>
+<ThumbMediaId><![CDATA[%s]]></ThumbMediaId>
+</Music>
+</xml>
+EOF;
+    
+    public $news = <<<EOF
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[news]]></MsgType>
+<ArticleCount>%s</ArticleCount>
+<Articles>
+<item>
+<Title><![CDATA[%s]]></Title> 
+<Description><![CDATA[%s]]></Description>
+<PicUrl><![CDATA[%s]]></PicUrl>
+<Url><![CDATA[%s]]></Url>
+</item>
+<item>
+</Articles>
+</xml> 
+EOF;
+    
     public $_msg = array();
 
 	public function index()
@@ -78,22 +161,30 @@ class WechatController extends MY_Controller {
                 if(count($contents) === 1){
                     $expressCompanyName = array_keys($this->config->item('express_list'));
                     if(in_array($contents[0], $expressCompanyName)){
-                        $msg = $this->_send_format['text'];
-                        $msg['touser'] = $msgXml['FromUserName'];
-                        $msg['text']['content'] = '抱歉，查无名为“'. $contents[0] .'”的快递公司...';
-                        $this->WechatModel->sendMessage($msg);
+                        $data = $this->_send_format['text'];
+                        $data['touser'] = $msgXml['FromUserName'];
+                        $data['text']['content'] = '抱歉，查无名为“'. $contents[0] .'”的快递公司...';
+                        $this->WechatModel->sendMessage($data);
+                        
+                        $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), '抱歉，查无名为“'. $contents[0] .'”的快递公司...');
                     }elseif(in_array($contents[0], $this->config->item('province_city'))){
-                        $msg = $this->_send_format['text'];
-                        $msg['touser'] = $msgXml['FromUserName'];
-                        $msg['text']['content'] = '抱歉，查无名为“'. $contents[0] .'”的地区...';
-                        $this->WechatModel->sendMessage($msg);
+                        $data = $this->_send_format['text'];
+                        $data['touser'] = $msgXml['FromUserName'];
+                        $data['text']['content'] = '抱歉，查无名为“'. $contents[0] .'”的地区...';
+                        $this->WechatModel->sendMessage($data);
+                        
+                        $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), '抱歉，查无名为“'. $contents[0] .'”的地区...');
                     }else{
-                        $msg = $this->_send_format['text'];
-                        $msg['touser'] = $msgXml['FromUserName'];
-                        $msg['text']['content'] = '您是说“'. $contents[0] .'”吗？';
-                        $this->WechatModel->sendMessage($msg);
+                        $data = $this->_send_format['text'];
+                        $data['touser'] = $msgXml['FromUserName'];
+                        $data['text']['content'] = '您是说“'. $contents[0] .'”吗？';
+                        $this->WechatModel->sendMessage($data);
+                        
+                        $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), '您是说“'. $contents[0] .'”吗？');
                     }
                     
+                    header('Content-Type: text/xml;');
+                    echo $msg;
                 }
             }
         }else {
