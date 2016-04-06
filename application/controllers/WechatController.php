@@ -159,21 +159,21 @@ EOF;
             if($msgXml['MsgType'] === 'text'){
                 $contents = explode(' ', $msgXml['Content']);
                 if(count($contents) === 1){
-                    $expressCompanyName = array_keys($this->config->item('express_list'));
+                    $expressCompanyName = array_values($this->config->item('express_list'));
                     if(in_array($contents[0], $expressCompanyName)){
                         $data = $this->_send_format['text'];
                         $data['touser'] = $msgXml['FromUserName'];
-                        $data['text']['content'] = '抱歉，查无名为“'. $contents[0] .'”的快递公司...';
+                        $data['text']['content'] = '咳，终于找到“'. $contents[0] .'”公司...';
                         $this->WechatModel->sendMessage($data);
                         
-                        $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), '抱歉，查无名为“'. $contents[0] .'”的快递公司...');
-                    }elseif(in_array($contents[0], $this->config->item('province_city'))){
+                        $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), '咳，终于找到“'. $contents[0] .'”公司...');
+                    }elseif(in_array($contents[0], array_values($this->config->item('city')))){
                         $data = $this->_send_format['text'];
                         $data['touser'] = $msgXml['FromUserName'];
-                        $data['text']['content'] = '抱歉，查无名为“'. $contents[0] .'”的地区...';
+                        $data['text']['content'] = '咦，你很关心“'. $contents[0] .'”地区？';
                         $this->WechatModel->sendMessage($data);
                         
-                        $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), '抱歉，查无名为“'. $contents[0] .'”的地区...');
+                        $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), '咦，你很关心“'. $contents[0] .'”地区？');
                     }else{
                         $data = $this->_send_format['text'];
                         $data['touser'] = $msgXml['FromUserName'];
