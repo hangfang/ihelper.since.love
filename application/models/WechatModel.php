@@ -2,7 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class WechatModel extends MY_Model{
-
+    public function accessTokenExpired(){
+        return $this->db->truncate('wechat_token');
+    }
+    
     /**
      * @todo 从微信获取access_token，并存储于数据库
      * @return string
@@ -33,9 +36,9 @@ class WechatModel extends MY_Model{
                     error_log('insert into access_token error, sql: '. $this->db->last_query());
                 }
             }
-
-            return $token;
         }
+        
+        return $token;
     }
     
     /**
@@ -65,6 +68,10 @@ class WechatModel extends MY_Model{
         $rt = $this->http($data);
 
         if(!$rt || isset($rt['errorcode'])){
+            if($rt['errorcode'] == 42001){
+                $this->accessTokenExpired();
+                return call_user_func_array(array($this, 'sendMessage'), $msg);
+            }
             error_log('send wechat message, msg: '. json_encode($rt));
             return false;
         }
