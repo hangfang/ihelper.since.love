@@ -86,7 +86,7 @@ class WechatModel extends MY_Model{
             $data[$_msg_name] = $_msg_value;
         }
         
-        print_r($data);exit;
+
         if(!$this->db->insert('wechat_send_message', $data)){
             error_log('save wechat_send_message error, sql:'. $this->db->last_query());
         }

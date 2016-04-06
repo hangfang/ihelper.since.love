@@ -34,12 +34,12 @@ class WechatController extends MY_Controller {
         );
     
     public $_send_format = array(
-            'text' => array('touser', 'msgtype'=>'text', 'text'=>array('content'=>'')),
-            'image' => array('touser', 'msgtype'=>'image', 'image'=>array('media_id'=>'')),
-            'voice' => array('touser', 'msgtype'=>'voice', 'voice'=>array('media_id'=>'')),
-            'video' => array('touser', 'msgtype'=>'video', 'video'=>array('media_id'=>'', 'thumb_media_id'=>'', 'title'=>'', 'description'=>'')),
-            'music' => array('touser', 'msgtype'=>'music', 'music'=>array('title'=>'', 'description'=>'', 'musicurl'=>'', 'hqmusicurl'=>'', 'thumb_media_id'=>'')),
-            'news' => array('touser', 'msgtype'=>'news', 'news'=>array('articles'=>array('title'=>'', 'description'=>'', 'url'=>'', 'picurl'=>''))),
+            'text' => array('touser'=>'', 'msgtype'=>'text', 'text'=>array('content'=>'')),
+            'image' => array('touser'=>'', 'msgtype'=>'image', 'image'=>array('media_id'=>'')),
+            'voice' => array('touser'=>'', 'msgtype'=>'voice', 'voice'=>array('media_id'=>'')),
+            'video' => array('touser'=>'', 'msgtype'=>'video', 'video'=>array('media_id'=>'', 'thumb_media_id'=>'', 'title'=>'', 'description'=>'')),
+            'music' => array('touser'=>'', 'msgtype'=>'music', 'music'=>array('title'=>'', 'description'=>'', 'musicurl'=>'', 'hqmusicurl'=>'', 'thumb_media_id'=>'')),
+            'news' => array('touser'=>'', 'msgtype'=>'news', 'news'=>array('articles'=>array('title'=>'', 'description'=>'', 'url'=>'', 'picurl'=>''))),
         );
     public $_msg = array();
 
