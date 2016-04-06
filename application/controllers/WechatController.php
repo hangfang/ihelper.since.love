@@ -55,7 +55,7 @@ class WechatController extends MY_Controller {
       	//extract xml data
 		if (!empty($data)){
             libxml_disable_entity_loader(true);
-            $msgXml = json_decode(json_encode(simplexml_load_string($data, '    SimpleXMLElement', LIBXML_NOCDATA)), true);
+            $msgXml = json_decode(json_encode(simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
             
             foreach($this->_format[$msgXml['MsgType']] as $_v){
                 $this->_msg[$_v] = $msgXml[$_v];
