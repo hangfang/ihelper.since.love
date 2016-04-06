@@ -155,9 +155,9 @@ EOF;
             
             $this->load->model('WechatModel');
             $suc = $this->WechatModel->saveMessage($this->_msg);
-            
-            if($msgXml['MsgType'] === 'text'){
-                $contents = explode(' ', $msgXml['Content']);
+            $contents = $msgXml['MsgType'] === 'text' ? $msgXml['Content'] : $msgXml['Recognition'];
+            $contents = explode(' ', $contents);
+            if($contents){
                 if(count($contents) === 1){
                     $expressCompanyName = array_values($this->config->item('express_list'));
                     if(in_array($contents[0], $expressCompanyName)){
@@ -166,14 +166,14 @@ EOF;
                         $data['text']['content'] = '咳，终于找到“'. $contents[0] .'”公司...';
                         $this->WechatModel->sendMessage($data);
                         
-                        $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), '咳，终于找到“'. $contents[0] .'”公司...');
+                        $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), $data['text']['content']);
                     }elseif(in_array($contents[0], array_values($this->config->item('city')))){
                         $data = $this->_send_format['text'];
                         $data['touser'] = $msgXml['FromUserName'];
                         $data['text']['content'] = '咦，你很关心“'. $contents[0] .'”地区？';
                         $this->WechatModel->sendMessage($data);
                         
-                        $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), '咦，你很关心“'. $contents[0] .'”地区？');
+                        $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), $data['text']['content']);
                     }elseif(in_array($contents[0], $this->config->item('daigou')) ||　in_array($contents[0], $this->config->item('news'))){
                         $data = $this->_send_format['news'];
                         $data['touser'] = $msgXml['FromUserName'];
@@ -188,7 +188,7 @@ EOF;
                     }elseif(in_array($contents[0], $this->config->item('at'))){
                         $data = $this->_send_format['image'];
                         $data['touser'] = $msgXml['FromUserName'];
-                        $data['image']['media_id'] = '100000005';
+                        $data['image']['media_id'] = 100000005;
                         $this->WechatModel->sendMessage($data);
                         
                         $msg = sprintf($this->image, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), $data['image']['media_id']);
@@ -198,7 +198,7 @@ EOF;
                         $data['text']['content'] = '您是说“'. $contents[0] .'”吗？';
                         $this->WechatModel->sendMessage($data);
                         
-                        $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), '您是说“'. $contents[0] .'”吗？');
+                        $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), $data['text']['content']);
                     }
                     
                     header('Content-Type: text/xml;');
@@ -206,6 +206,14 @@ EOF;
                 }
             }
         }else {
+            $data = $this->_send_format['text'];
+            $data['touser'] = $msgXml['FromUserName'];
+            $data['text']['content'] = '不知所云...';
+            $this->WechatModel->sendMessage($data);
+
+            $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), $data['text']['content']);
+            header('Content-Type: text/xml;');
+            echo $msg;
         	log_message('error', 'get message from weixin failed');
         	exit;
         }
