@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class WX{
+class WeChat{
     private $db = null;
     public function __construct($params){
         $this->db = $params['db'];
