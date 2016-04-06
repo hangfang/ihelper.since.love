@@ -9,6 +9,7 @@ class WechatController extends MY_Controller {
 	}
     
     public function message(){
+                log_message('info', 'abc');
         $data = $this->input->input_stream();
 
       	//extract post data
