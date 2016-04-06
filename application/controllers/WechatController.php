@@ -187,7 +187,7 @@ EOF;
                     $this->WechatModel->sendMessage($data);
 
                     $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), $data['text']['content']);
-                }else if(strpos($this->config->item('daigou'), $contents[0])!== false ||　strpos($this->config->item('news'), $contents[0])!==false){
+                }else if(strpos($this->config->item('daigou'), $contents[0])!== false){
                     $data = $this->_send_format['news'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['article_count'] = 1;
