@@ -70,7 +70,7 @@ class WechatModel extends MY_Model{
         if(!$rt || isset($rt['errcode'])){
             if($rt['errcode'] == 42001){
                 $this->accessTokenExpired();
-                return call_user_func_array(array($this, 'sendMessage'), $msg);
+                return call_user_func_array(array($this, 'sendMessage'), array($msg));
             }
             error_log('send wechat message, msg: '. json_encode($rt));
             return false;
