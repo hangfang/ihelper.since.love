@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require 'Base.php';
-class WeChat extends BaseModel{
+require 'BaseModel.php';
+class WeChatModel extends BaseModel{
     public function getAccessToken(){
         $this->db->select('token');
         $this->db->order_by('insert_time', 'desc');

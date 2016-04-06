@@ -433,7 +433,7 @@ class CI_Router {
 	 */
 	public function set_class($class)
 	{
-		$this->class = str_replace(array('/', '.'), '', $class);
+		$this->class = str_replace(array('/', '.'), '', $class.'Controller');
 	}
 
 	// --------------------------------------------------------------------
