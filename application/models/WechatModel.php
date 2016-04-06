@@ -20,7 +20,7 @@ class WechatModel extends MY_Model{
         return true;
     }
     
-    public function sageMessage($msg){
+    public function saveMessage($msg){
         
         if(!$this->db->insert('wechat_message', $msg)){
             error_log('save wechat message error, sql:'. $this->db->last_query());

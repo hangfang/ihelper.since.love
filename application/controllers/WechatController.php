@@ -62,7 +62,7 @@ class WechatController extends MY_Controller {
             }
             
             $this->load->model('WechatModel');
-            $suc = $this->WechatModel->saveMsg($this->_msg);
+            $suc = $this->WechatModel->saveMessage($this->_msg);
             
             
             
