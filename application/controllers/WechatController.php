@@ -180,14 +180,14 @@ EOF;
                     $this->WechatModel->sendMessage($data);
 
                     $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), $data['text']['content']);
-                }elseif(in_array($contents[0], array_values($this->config->item('city')))){
+                }else if(in_array($contents[0], array_values($this->config->item('city')))){
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['text']['content'] = '咦，你很关心“'. $contents[0] .'”地区？';
                     $this->WechatModel->sendMessage($data);
 
                     $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), $data['text']['content']);
-                }elseif(in_array($contents[0], $this->config->item('daigou')) ||　in_array($contents[0], $this->config->item('news'))){
+                }else if(strpos($this->config->item('daigou'), $contents[0])!== false ||　strpos($this->config->item('news'), $contents[0])!==false){
                     $data = $this->_send_format['news'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['article_count'] = 1;
@@ -198,7 +198,7 @@ EOF;
                     $this->WechatModel->sendMessage($data);
 
                     $msg = sprintf($this->news, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), 1, $data['news']['title'], $data['news']['description'], $data['news']['picurl'], $data['news']['url']);
-                }elseif(in_array($contents[0], $this->config->item('at'))){
+                }else if(strpos($this->config->item('at'), $contents[0])!== false){
                     $data = $this->_send_format['image'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['image']['media_id'] = 100000005;
