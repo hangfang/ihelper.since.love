@@ -44,7 +44,7 @@ class WechatModel extends MY_Model{
      */
     public function saveMessage($msg){
         
-        if(!$this->db->insert('wechat_message', $msg)){
+        if(!$this->db->insert('wechat_receive_message', $msg)){
             error_log('save wechat message error, sql:'. $this->db->last_query());
             return false;
         }
@@ -67,8 +67,25 @@ class WechatModel extends MY_Model{
             error_log('send wechat message, msg: '. json_encode($rt));
             return false;
         }
-
-        if(!$this->db->insert('wechat_return_message', $msg)){
+        
+        $data = array();
+        foreach($msg as $_msg_name=>$_msg_value){
+            if(is_array($_msg_value)){
+                foreach($_msg_value as $_k=>$_v){
+                    if($_k === 'articles'){
+                        $data['articles'] = json_encode($_msg_value);
+                        break;
+                    }
+                    
+                    $data[$_k] = $_v;
+                }
+                
+                continue;
+            }
+            
+            $data[$_msg_name] = $_msg_value;
+        }
+        if(!$this->db->insert('wechat_send_message', $data)){
             error_log('save wechat_send_message error, sql:'. $this->db->last_query());
         }
         
