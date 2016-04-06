@@ -80,17 +80,17 @@ class WechatController extends MY_Controller {
                     if(in_array($contents[0], $expressCompanyName)){
                         $msg = $this->_send_format['text'];
                         $msg['touser'] = $msgXml['FromUserName'];
-                        $msg['text']['content'] = '抱歉，查无名为“'. $content[0] .'”的快递公司...';
+                        $msg['text']['content'] = '抱歉，查无名为“'. $contents[0] .'”的快递公司...';
                         $this->WechatModel->sendMessage($msg);
                     }elseif(in_array($contents[0], $this->config->item('province_city'))){
                         $msg = $this->_send_format['text'];
                         $msg['touser'] = $msgXml['FromUserName'];
-                        $msg['text']['content'] = '抱歉，查无名为“'. $content[0] .'”的地区...';
+                        $msg['text']['content'] = '抱歉，查无名为“'. $contents[0] .'”的地区...';
                         $this->WechatModel->sendMessage($msg);
                     }else{
                         $msg = $this->_send_format['text'];
                         $msg['touser'] = $msgXml['FromUserName'];
-                        $msg['text']['content'] = '您是说“'. $content[0] .'”吗？';print_r($msg);exit;
+                        $msg['text']['content'] = '您是说“'. $contents[0] .'”吗？';log_message('error', $msg);exit;
                         $this->WechatModel->sendMessage($msg);
                     }
                     
