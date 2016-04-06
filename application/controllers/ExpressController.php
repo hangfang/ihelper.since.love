@@ -5,8 +5,8 @@ class ExpressController extends MY_Controller {
 
 	public function index()
 	{
-        $this->load->model('WeChatModel');
-        $accessToken = $this->WeChatModel->getAccessToken();
+        $this->load->model('WechatModel');
+        $accessToken = $this->WechatModel->getAccessToken();
         if($accessToken===''){
             $this->load->library('WeChat', array('db'=>$this->db));
             $accessToken = $this->WeChat->getAccessToken();

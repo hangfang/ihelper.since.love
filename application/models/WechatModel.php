@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class WeChatModel extends MY_Model{
+class WechatModel extends MY_Model{
     public function getAccessToken(){
         $this->db->select('token');
         $this->db->order_by('insert_time', 'desc');
@@ -14,6 +14,16 @@ class WeChatModel extends MY_Model{
     public function saveAccessToken($token){
         if(!$this->db->insert('wechat_token', array('token'=>$token))){
             error_log('insert into access_token error');
+            return false;
+        }
+        
+        return true;
+    }
+    
+    public function sageMessage($msg){
+        
+        if(!$this->db->insert('wechat_message', $msg)){
+            error_log('save wechat message error, sql:'. $this->db->last_query());
             return false;
         }
         
