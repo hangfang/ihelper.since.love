@@ -75,7 +75,7 @@ class WechatController extends MY_Controller {
             
             if($msgXml['MsgType'] === 'text'){
                 $contents = explode(' ', $msgXml['Content']);
-                if(count($contnets) === 1){
+                if(count($contents) === 1){
                     $expressCompanyName = array_keys($this->config->item('express_list'));
                     if(in_array($contents[0], $expressCompanyName)){
                         $msg = $this->_send_format['text'];
