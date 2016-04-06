@@ -58,7 +58,7 @@ class WechatModel extends MY_Model{
      * @return boolean
      */
     public function sendMessage($msg){
-        $data['data'] = json_encode($msg);
+        $data['data'] = $msg;
         $data['url'] = sprintf('%s/message/custom/send?access_token=%s', WX_CGI_ADDR, $this->getAccessToken());
         $data['method'] = 'post';
         $rt = $this->http($data);
