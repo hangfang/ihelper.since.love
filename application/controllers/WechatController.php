@@ -90,7 +90,7 @@ class WechatController extends MY_Controller {
                     }else{
                         $msg = $this->_send_format['text'];
                         $msg['touser'] = $msgXml['FromUserName'];
-                        $msg['text']['content'] = '您是说“'. $content[0] .'”吗？';
+                        $msg['text']['content'] = '您是说“'. $content[0] .'”吗？';print_r($msg);exit;
                         $this->WechatModel->sendMessage($msg);
                     }
                     
