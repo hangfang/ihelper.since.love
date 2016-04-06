@@ -26,14 +26,15 @@ class WechatModel extends MY_Model{
                 error_log('get access_token from wechat error, msg: '. json_encode($rt));
                 return '';
             }
-
-            if(strlen($rt['access_token']) > 100){
-                if(!$this->db->insert('wechat_token', array('token'=>$rt['access_token']))){
+            
+            $token = $rt['access_token'];
+            if(strlen($token) > 100){
+                if(!$this->db->insert('wechat_token', array('token'=>$token))){
                     error_log('insert into access_token error, sql: '. $this->db->last_query());
                 }
             }
 
-            return $rt['access_token'];
+            return $token;
         }
     }
     
@@ -62,7 +63,7 @@ class WechatModel extends MY_Model{
         $data['url'] = sprintf('%s/message/custom/send?access_token=%s', WX_CGI_ADDR, $this->getAccessToken());
         $data['method'] = 'post';
         $rt = $this->http($data);
-        
+
         if(!$rt || isset($rt['errorcode'])){
             error_log('send wechat message, msg: '. json_encode($rt));
             return false;
