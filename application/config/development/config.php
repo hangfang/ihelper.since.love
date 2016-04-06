@@ -512,7 +512,7 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
-$config['daigou'] = '代购,香港,HK,Hong Kong';
+$config['daigou'] = '代购,香港,HK,Hong Kong,hk';
 
 $config['at'] = '关注,好友,添加';
 
