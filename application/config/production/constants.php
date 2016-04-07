@@ -13,3 +13,5 @@ define('WX_JSAPI_DEBUG', true);
 
 define('KUAIDI_100_APP_ID', 'b653f3a448ef4540');
 define('KUAIDI_100_API_URL', 'http://api.kuaidi100.com/api?id='. KUAIDI_100_APP_ID .'&com=%s&nu=%s&show=%s&muti=%s&order=%s');
+
+define('SINA_IP_LOOKUP_API_URL', 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip=%s');
