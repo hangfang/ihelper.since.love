@@ -212,7 +212,7 @@ EOF;
                 }else if(strpos($this->config->item('at'), $contents[0])!== false){
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
-                    $data['text']['content'] = '搜索“'. WX_HK_ACCOUNT .'”吧\n期待您的关注n(*≧▽≦*)n';
+                    $data['text']['content'] = '搜索“'. WX_HK_ACCOUNT .'”吧'."\n".'期待您的关注n(*≧▽≦*)n';
                     $this->WechatModel->sendMessage($data);
 
                     $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), $data['text']['content']);
