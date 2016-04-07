@@ -41,6 +41,18 @@ class WechatController extends MY_Controller {
             'music' => array('touser'=>'', 'msgtype'=>'music', 'music'=>array('title'=>'', 'description'=>'', 'musicurl'=>'', 'hqmusicurl'=>'', 'thumb_media_id'=>'')),
             'news' => array('touser'=>'', 'msgtype'=>'news', 'news'=>array('articles'=>array('title'=>'', 'description'=>'', 'url'=>'', 'picurl'=>''))),
         );
+    
+        public $_unrecognized_msg = <<<EOF
+咦，您是说“%s”吗？
+可是小i还小，未能理解ㄒoㄒ
+
+1、输入“城市中文名”查询天气
+2、输入“快递公司名称，单号”查询物流
+3、其他功能期待您的发掘(⊙o⊙)…
+        
+再次感谢您的关注
+EOF;
+        
 	public function index()
 	{
         $this->load->model('WechatModel');
@@ -73,7 +85,7 @@ class WechatController extends MY_Controller {
             
             $msg = array();
             foreach($this->_receive_format[$msgXml['MsgType']] as $_v){
-                $msg->_msg[$_v] = $msgXml[$_v];
+                $msg[$_v] = $msgXml[$_v];
             }
             
             $this->load->model('WechatModel');
@@ -94,18 +106,21 @@ class WechatController extends MY_Controller {
                 if(in_array($contents[0], $expressCompanyName)){
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
+                    $data['fromuser'] = $msgXml['ToUserName'];
                     $data['text']['content'] = '咳，终于找到“'. $contents[0] .'”公司...';
                     $this->WechatModel->sendMessage($data);
 
                 }else if(in_array($contents[0], array_values($this->config->item('city')))){
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
+                    $data['fromuser'] = $msgXml['ToUserName'];
                     $data['text']['content'] = '咦，你很关心“'. $contents[0] .'”地区？';
                     $this->WechatModel->sendMessage($data);
 
                 }else if(strpos($this->config->item('daigou'), $contents[0])!== false){
                     $data = $this->_send_format['news'];
                     $data['touser'] = $msgXml['FromUserName'];
+                    $data['fromuser'] = $msgXml['ToUserName'];
                     $data['article_count'] = 1;
                     $data['news']['title'] = '香港代购';
                     $data['news']['description'] = '#4月5日#今天才是小胖妹真正意义上的生日，也因为她，妈咪才走上#香港代购#这条不归路[偷笑]';
@@ -116,12 +131,14 @@ class WechatController extends MY_Controller {
                 }else if(strpos($this->config->item('at'), $contents[0])!== false){
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
+                    $data['fromuser'] = $msgXml['ToUserName'];
                     $data['text']['content'] = '搜索“'. WX_HK_ACCOUNT .'”吧'."\n".'期待您的关注n(*≧▽≦*)n';
                     $this->WechatModel->sendMessage($data);
 
                 }else{
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
+                    $data['fromuser'] = $msgXml['ToUserName'];
                     $data['text']['content'] = sprintf($this->_unrecognized_msg, $contents[0]);
                     $this->WechatModel->sendMessage($data);
                 }

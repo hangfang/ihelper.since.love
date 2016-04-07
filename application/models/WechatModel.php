@@ -80,19 +80,6 @@ EOF;
 </xml> 
 EOF;
     
-    public $_msg = array();
-
-    public $_unrecognized_msg = <<<EOF
-咦，您是说“%s”吗？
-可是小i还小，未能理解ㄒoㄒ
-
-1、输入“城市中文名”查询天气
-2、输入“快递公司名称，单号”查询物流
-3、其他功能期待您的发掘(⊙o⊙)…
-        
-再次感谢您的关注
-EOF;
-    
     public function __construct(){
         $this->access_token = $this->getAccessToken();
         $this->jsapi_ticket = $this->getJsApiTicket();
@@ -291,14 +278,13 @@ EOF;
                 $msg = sprintf($this->news, $msg['touser'], $msg['fromuser'], time(), $msg['news']['article_count'], $articles);
                 break;
             default:
-                $msg = sprintf($this->text, $msg['FromUserName'], $msg['ToUserName'], time(), $msg['text']['content'], $articles);
+                $msg = sprintf($this->text, $msg['touser'], $msg['fromuser'], time(), $msg['text']['content'], $articles);
                 break;
             
         }
         
         
-        header('Content-Type: text/xml;');
-        echo $msg;
+        $this->output->set_content_type('xml')->set_output($msg);
         exit;
     }
     
