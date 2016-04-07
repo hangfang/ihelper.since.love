@@ -6,6 +6,93 @@ class WechatModel extends MY_Model{
     public $access_token = '';
     public $jsapi_ticket = '';
     
+    public $text = <<<EOF
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[%s]]></Content>
+</xml>
+EOF;
+    
+    public $image = <<<EOF
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[image]]></MsgType>
+<Image>
+<MediaId><![CDATA[%s]]></MediaId>
+</Image>
+</xml>
+EOF;
+    
+    public $voice = <<<EOF
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[voice]]></MsgType>
+<Voice>
+<MediaId><![CDATA[%s]]></MediaId>
+</Voice>
+</xml>
+EOF;
+    public $video = <<<EOF
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[video]]></MsgType>
+<Video>
+<MediaId><![CDATA[%s]]></MediaId>
+<Title><![CDATA[%s]]></Title>
+<Description><![CDATA[%s]]></Description>
+</Video> 
+</xml>
+EOF;
+
+    public $music = <<<EOF
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[music]]></MsgType>
+<Music>
+<Title><![CDATA[%s]]></Title>
+<Description><![CDATA[%s]]></Description>
+<MusicUrl><![CDATA[%s]]></MusicUrl>
+<HQMusicUrl><![CDATA[%s]]></HQMusicUrl>
+<ThumbMediaId><![CDATA[%s]]></ThumbMediaId>
+</Music>
+</xml>
+EOF;
+    
+    public $news = <<<EOF
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[news]]></MsgType>
+<ArticleCount>%s</ArticleCount>
+<Articles>%s</Articles>
+</xml> 
+EOF;
+    
+    public $_msg = array();
+
+    public $_unrecognized_msg = <<<EOF
+咦，您是说“%s”吗？
+可是小i还小，未能理解ㄒoㄒ
+
+1、输入“城市中文名”查询天气
+2、输入“快递公司名称，单号”查询物流
+3、其他功能期待您的发掘(⊙o⊙)…
+        
+再次感谢您的关注
+EOF;
+    
     public function __construct(){
         $this->access_token = $this->getAccessToken();
         $this->jsapi_ticket = $this->getJsApiTicket();
@@ -51,6 +138,35 @@ class WechatModel extends MY_Model{
         
         return $this->access_token = $token;
     }
+    
+    public function getJsApiSigObj(){
+        
+        $data = array();
+        $data['debug'] = WX_JSAPI_DEBUG;
+        $data['appid'] = WX_APP_ID;
+        $data['timestamp'] = time();
+        $data['nonceStr'] = md5($data['timestamp']);
+        
+        
+        $data2gen = array();
+        $data2gen['jsapi_ticket'] = $this->jsapi_ticket;
+        $data2gen['noncestr'] = $data['nonceStr'];
+        $data2gen['timestamp'] = $data['timestamp'];
+        $data2gen['url'] = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].$_SERVER['QUERY_STRING'];
+        
+        $string1 = '';
+        foreach($data2gen as $_k=>$_v){
+            $string1 .= $_k.'='.$_v.'&';
+        }
+        unset($data2gen, $_k, $_v);
+        
+        $string1 = trim($string1, '&');
+        
+        $data['signature'] = sha1($string1);
+        
+        return $data;
+    }
+    
     
     public function getJsApiTicket(){
         $this->db->select('jsapi_ticket');
@@ -144,7 +260,46 @@ class WechatModel extends MY_Model{
             error_log('save wechat_send_message error, sql:'. $this->db->last_query());
         }
         
+        $this->autoAnwserWxMessage($msg);
         return true;
+    }
+    
+    public function autoAnwserWxMessage($msg){
+        switch($msg['msgtype']){
+            case 'image':
+                $msg = sprintf($this->image, $msg['touser'], $msg['fromuser'], time(), $msg['image']['media_id']);
+                break;
+            case 'video':
+                $msg = sprintf($this->video, $msg['touser'], $msg['fromuser'], time(), $msg['video']['media_id']);
+                break;
+            case 'music':
+                $msg = sprintf($this->music, $msg['touser'], $msg['fromuser'], time(), $msg['music']['title'], $msg['music']['description'], $msg['music']['musicurl'], $msg['music']['hqmusicurl'], $msg['music']['hqmusicurl'], $msg['music']['thumbmediaid']);
+                break;
+            case 'news':
+                $article_template = <<<EOF
+<item>
+<Title><![CDATA[%s]]></Title> 
+<Description><![CDATA[%s]]></Description>
+<PicUrl><![CDATA[%s]]></PicUrl>
+<Url><![CDATA[%s]]></Url>
+</item>
+EOF;
+                $articles = '';
+                foreach($msg['news']['articles'] as $_article){
+                    $articles .= sprintf($article_template, $_article['title'], $_article['description'], $_article['picurl'], $_article['url']);
+                }
+                $msg = sprintf($this->news, $msg['touser'], $msg['fromuser'], time(), $msg['news']['article_count'], $articles);
+                break;
+            default:
+                $msg = sprintf($this->text, $msg['FromUserName'], $msg['ToUserName'], time(), $msg['text']['content'], $articles);
+                break;
+            
+        }
+        
+        
+        header('Content-Type: text/xml;');
+        echo $msg;
+        exit;
     }
     
     private function http($args = array()){

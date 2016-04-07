@@ -9,3 +9,4 @@ define('WX_TOKEN', 'fanghang2015ieg926400');
 define('WX_ENCODING_AES_KEY', 'QC5CPFmTl06C7j3UYK4YuOdYaz4lBZTJjOywAbDnZwX');
 
 define('WX_HK_ACCOUNT', 'WangLin-ling');
+define('WX_JSAPI_DEBUG', true);
