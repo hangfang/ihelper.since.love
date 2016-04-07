@@ -110,7 +110,7 @@ EOF;
     private function text($msgXml){
         
         $contents = $msgXml['MsgType'] === 'text' ? $msgXml['Content'] : trim($msgXml['Recognition'], '？');
-        $contents = count(explode(',', $contents)) === 2 ?: explode(' ', $contents);
+        $contents = count(explode(',', $contents)) === 2 ? explode(',', $contents) : explode(' ', $contents);
         
         if(empty($contents)){
             $data = $this->_send_format['text'];
