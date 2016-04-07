@@ -284,7 +284,8 @@ EOF;
         }
         
         
-        $this->output->set_content_type('xml')->set_output($msg);
+        header('Content-Type: text/xml');
+        echo $msg;
         exit;
     }
     
