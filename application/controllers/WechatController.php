@@ -73,8 +73,9 @@ EOF;
        
     public function __construct() {
         parent::__construct();
-        $this->load->model('WechatModel');
         $this->load->model('KuaidiModel');
+        $this->load->model('PositionModel');
+        $this->load->model('WechatModel');
     }
     
 	public function index()
@@ -173,6 +174,14 @@ EOF;
                     $data['text']['content'] = '搜索“'. WX_HK_ACCOUNT .'”吧'."\n".'期待您的关注n(*≧▽≦*)n';
                     $this->WechatModel->sendMessage($data);
 
+                }elseif($contents[0]==='我'){
+                    $rt = $this->PositionModel->getPosition();
+                    
+                    $data = $this->_send_format['text'];
+                    $data['touser'] = $msgXml['FromUserName'];
+                    $data['fromuser'] = $msgXml['ToUserName'];
+                    $data['text']['content'] = '搜索“'. WX_HK_ACCOUNT .'”吧'."\n".'期待您的关注n(*≧▽≦*)n';
+                    $this->WechatModel->sendMessage($data);
                 }else{
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
@@ -186,11 +195,18 @@ EOF;
                 if(in_array($contents[0], array_keys($this->config->item('express_list')))){
                     
                     $rt = $this->KuaidiModel->query($this->config->item('express_list')[$contents[0]], $contents[1]);
-  
+                    if($rt['ret'] !== 1){
+                        
+                        $data = $this->_send_format['text'];
+                        $data['touser'] = $msgXml['FromUserName'];
+                        $data['fromuser'] = $msgXml['ToUserName'];
+                        $data['text']['content'] = '你在哪个角落呢？';
+                        $this->WechatModel->sendMessage($data);
+                    }
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
-                    $data['text']['content'] = $rt['status'] > 0 ? $rt['message'] : sprintf($this->_msg_kuaidi, $rt['nu'], $rt['message'], $rt['comcontact'], $rt['comurl']);
+                    $data['text']['content'] = '哈哈，你在'.$rt['country'].'-'.$rt['province'].'-'.$rt['city'].'？';
                     $this->WechatModel->sendMessage($data);
                     break;
                 }
