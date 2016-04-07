@@ -169,7 +169,7 @@ EOF;
                 }
                 break;
             case 2:
-                $expressCompanyName = array_search($this->config->item('express_list'));
+                $expressCompanyName = array_search($contents[0], $this->config->item('express_list'));
                 if($expressCompanyName){
                     $this->load->model('KuaiDi100Model');
                     
