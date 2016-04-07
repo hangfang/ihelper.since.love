@@ -155,7 +155,6 @@ EOF;
             }
             
             $this->load->model('WechatModel');
-            $this->access_token = $this->WechatModel->getAccessToken();
             $suc = $this->WechatModel->saveMessage($this->_msg);
             $contents = $msgXml['MsgType'] === 'text' ? $msgXml['Content'] : trim($msgXml['Recognition'], '？');
             $contents = explode(' ', $contents);
@@ -201,12 +200,12 @@ EOF;
 
                     $msg = sprintf($this->news, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), 1, $data['news']['title'], $data['news']['description'], $data['news']['picurl'], $data['news']['url']);
                 }else if(strpos($this->config->item('at'), $contents[0])!== false){
-                    $data = $this->_send_format['image'];
+                    $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
-                    $data['image']['media_id'] = '100000005';
+                    $data['text']['content'] = '微信添加好友，搜索“'. WX_HK_ACCOUNT .'”吧，期待您的关注n(*≧▽≦*)n';
                     $this->WechatModel->sendMessage($data);
 
-                    $msg = sprintf($this->image, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), $data['image']['media_id']);
+                    $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), $data['text']['content']);
                 }else{
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
