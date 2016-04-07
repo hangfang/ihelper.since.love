@@ -278,7 +278,7 @@ EOF;
                 $msg = sprintf($this->news, $msg['touser'], $msg['fromuser'], time(), $msg['news']['article_count'], $articles);
                 break;
             default:
-                $msg = sprintf($this->text, $msg['touser'], $msg['fromuser'], time(), $msg['text']['content'], $articles);
+                $msg = sprintf($this->text, $msg['touser'], $msg['fromuser'], time(), $msg['text']['content']);
                 break;
             
         }
