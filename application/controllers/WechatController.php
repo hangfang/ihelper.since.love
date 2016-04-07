@@ -63,7 +63,14 @@ EOF;
         
 再次感谢您的关注
 EOF;
-        
+       public $_msg_kuaidi = <<<EOF
+快递单号：%s
+物流信息：%s    
+
+公司电话：%s
+公司网址：%s
+EOF;
+       
     public function __construct() {
         parent::__construct();
         $this->load->model('WechatModel');
@@ -178,11 +185,11 @@ EOF;
                 if(in_array($contents[0], array_keys($this->config->item('express_list')))){
                     
                     $rt = $this->KuaidiModel->query($this->config->item('express_list')[$contents[0]], $contents[1]);
-                    var_dump($rt);exit;
+  
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
-                    $data['text']['content'] = '咳，终于找到“'. $contents[0] .'”公司...';
+                    $data['text']['content'] = $rt['status'] > 0 ? $rt['message'] : sprintf($this->_msg_kuaidi, $rt['nu'], $rt['message'], $rt['comcontact'], $rt['comurl']);
                     $this->WechatModel->sendMessage($data);
                     break;
                 }
