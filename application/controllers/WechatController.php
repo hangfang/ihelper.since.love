@@ -175,8 +175,7 @@ EOF;
                 
                 break;
             case 2:
-                $expressCompanyName = array_search($contents[0], array_keys($this->config->item('express_list')));
-                if($expressCompanyName){
+                if(in_array($contents[0], array_keys($this->config->item('express_list')))){
                     
                     $rt = $this->KuaidiModel->query($this->config->item('express_list')[$contents[0]], $contents[1]);
                     
