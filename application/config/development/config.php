@@ -514,7 +514,7 @@ $config['proxy_ips'] = '';
 
 $config['daigou'] = '代购,香港,HK,Hong Kong,hk';
 
-$config['at'] = '关注,好友,添加';
+$config['at'] = '关注,好友,添加,王琳玲,方航,琰琰';
 
 $config['news'] = '资讯,news,NEWS';
 
