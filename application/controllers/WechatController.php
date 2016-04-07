@@ -127,6 +127,16 @@ EOF;
     
     public $_msg = array();
 
+    public $_unrecognized_msg = <<<EOF
+咦，您是说“%s”吗？\n
+可惜小i暂时无法理解您的意图...\n\n
+
+1、输入“城市中文名”查询天气\n
+2、输入“快递公司名称，单号”查询物流\n
+3、其他功能期待您的发掘(⊙o⊙)…\n\n
+        
+再次感谢您的关注
+EOF;
 	public function index()
 	{
         header('location: /');
@@ -209,7 +219,7 @@ EOF;
                 }else{
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
-                    $data['text']['content'] = '您是说“'. $contents[0] .'”吗？';
+                    $data['text']['content'] = sprintf($this->_unrecognized_msg, $contents[0]);
                     $this->WechatModel->sendMessage($data);
 
                     $msg = sprintf($this->text, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), $data['text']['content']);
