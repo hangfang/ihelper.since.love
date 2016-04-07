@@ -3,7 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class WechatController extends MY_Controller {
     
-    public $access_token = '';
     /**
      *  Content     文本消息内容
      *  CreateTime	消息创建时间 （整型）
@@ -139,7 +138,28 @@ EOF;
 EOF;
 	public function index()
 	{
-        header('location: /');
+        $this->load->model('WechatModel');
+        $jsapi_ticket = $this->WechatModel->getJsApiTicket();
+        $signature = '';
+        
+        
+        $data = array();
+        $data['title'] = '微信首页';
+        $data['appid'] = WX_APP_ID;
+        $data['timestamp'] = time();
+        $data['nonceStr'] = md5($data['timestamp']);
+        
+        
+        $data4signature = array();
+        $data4signature['jsapi_ticket'] = $jsapi_ticket;
+        $data4signature['nonceStr'] = $data['nonceStr'];
+        $data4signature['timestamp'] = $data['timestamp'];
+        $this->load->helper('url_helper');
+        $data4signature['url'] = current_url();
+var_dump(current_url());exit;
+        $data['signature'] = sha1(http_build_query($data4signature));
+        
+        $this->layout->view('Wechat/index', $data);
 	}
     
     public function message(){

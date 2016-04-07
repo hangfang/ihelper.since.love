@@ -2,6 +2,15 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class WechatModel extends MY_Model{
+    
+    public $access_token = '';
+    public $jsapi_ticket = '';
+    
+    public function __construct(){
+        $this->access_token = $this->getAccessToken();
+        $this->jsapi_ticket = $this->getJsApiTicket();
+    }
+    
     public function accessTokenExpired(){
         return $this->db->truncate('wechat_token');
     }
@@ -20,27 +29,62 @@ class WechatModel extends MY_Model{
         $token = $query && $query->num_rows()>0 ? $query->row()->token : '';
         
         if($token === ''){
+            $this->accessTokenExpired();//清除token记录表
+            
             $data = array();
             $data['method'] = 'get';
             $data['url'] = sprintf('%s/token?grant_type=client_credential&appid=%s&secret=%s', WX_CGI_ADDR, WX_APP_ID, WX_APP_SECRET);
             $rt = $this->http($data);
             
-            if(!$rt || isset($rt['errcode'])){
+            if(isset($rt['errcode'])){
                 error_log('get access_token from wechat error, msg: '. json_encode($rt));
                 return '';
             }
             
             $token = $rt['access_token'];
-            if(strlen($token) > 100){
+            if(strlen($token)){
                 if(!$this->db->insert('wechat_token', array('token'=>$token))){
                     error_log('insert into access_token error, sql: '. $this->db->last_query());
                 }
             }
         }
         
-        return $token;
+        return $this->access_token = $token;
     }
     
+    public function getJsApiTicket(){
+        $this->db->select('jsapi_ticket');
+        $this->db->where('insert_time > ', time()-2*3600);
+        $this->db->order_by('insert_time', 'desc');
+        $this->db->limit(1, 0);
+        $query = $this->db->get('wechat_token');
+        
+        $jsapi_ticket = $query && $query->num_rows()>0 ? $query->row()->jsapi_ticket : '';
+        
+        if($jsapi_ticket === ''){
+            $data = array();
+            $data['method'] = 'get';
+            $data['url'] = sprintf('%s/ticket/getticket?access_token=%s&type=jsapi', WX_CGI_ADDR, $this->access_token);
+            $rt = $this->http($data);
+            
+            if(isset($rt['errcode'])){
+                error_log('get jsapi_ticket from wechat error, msg: '. json_encode($rt));
+                if($rt['errcode'] === 42001){//access_token过期
+                    $this->accessTokenExpired();
+                    return call_user_func_array(array($this, 'getJsApiTicket'), array());
+                }
+            }
+            
+            $jsapi_ticket = $rt['ticket'];
+            if(strlen($jsapi_ticket)){
+                if(!$this->db->update('wechat_token', array('jsapi_ticket'=>$jsapi_ticket))){
+                    error_log('update jsapi_ticket error, sql: '. $this->db->last_query());
+                }
+            }
+        }
+        
+        return $this->jsapi_ticket = $jsapi_ticket;
+    }
     /**
      * @todo 存储用户发过来的微信消息
      * @param array $msg
@@ -64,12 +108,12 @@ class WechatModel extends MY_Model{
     public function sendMessage($msg){
 //        没权限发消息/(ㄒoㄒ)/~~
 //        $data['data'] = $msg;
-//        $data['url'] = sprintf('%s/message/custom/send?access_token=%s', WX_CGI_ADDR, $this->getAccessToken());
+//        $data['url'] = sprintf('%s/message/custom/send?access_token=%s', WX_CGI_ADDR, $this->access_token);
 //        $data['method'] = 'post';
 //        $rt = $this->http($data);
 //
 //        if(!$rt || isset($rt['errcode'])){
-//            if($rt['errcode'] == 42001){
+//            if($rt['errcode'] == 42001){//access_token过期
 //                $this->accessTokenExpired();
 //                return call_user_func_array(array($this, 'sendMessage'), array($msg));
 //            }
