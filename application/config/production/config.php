@@ -518,6 +518,8 @@ $config['at'] = '关注,好友,添加,王琳玲,方航,琰琰';
 
 $config['news'] = '资讯,news,NEWS';
 
+$config['position'] = '我,位置';
+
 $config['express_list'] = array (
   '澳大利亚邮政' => 'auspost',
   'AAE' => 'aae',

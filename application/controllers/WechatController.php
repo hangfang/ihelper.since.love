@@ -174,7 +174,7 @@ EOF;
                     $data['text']['content'] = '搜索“'. WX_HK_ACCOUNT .'”吧'."\n".'期待您的关注n(*≧▽≦*)n';
                     $this->WechatModel->sendMessage($data);
 
-                }elseif($contents[0]==='我'){
+                }elseif(strpos($this->config->item('position'), $contents[0])!== false){
                     $rt = $this->PositionModel->getPosition();
                     
                     if($rt['ret'] !== 1){
