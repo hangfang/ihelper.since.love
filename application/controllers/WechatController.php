@@ -178,7 +178,7 @@ EOF;
                 if(in_array($contents[0], array_keys($this->config->item('express_list')))){
                     
                     $rt = $this->KuaidiModel->query($this->config->item('express_list')[$contents[0]], $contents[1]);
-                    
+                    var_dump($rt);exit;
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];

@@ -29,9 +29,7 @@ class KuaidiModel extends MY_Model{
     public function query($com, $nu){
         $data = array();
         $data['method'] = 'get';
-        $data['url'] = sprintf(KUAIDI_100_API_URL, $com, $nu, 1, 1, 'asc');
-        $rt = $this->http($data);
-        
-        var_dump($rt);exit;
+        $data['url'] = sprintf(KUAIDI_100_API_URL, $com, $nu, 0, 1, 'asc');
+        return $this->http($data);
     }
 }

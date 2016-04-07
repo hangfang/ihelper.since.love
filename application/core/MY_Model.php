@@ -53,7 +53,7 @@ class MY_Model extends CI_Model{
         if(!$return){
             $return = array();
             $return['errcode'] = 2;
-            $return['errmsg'] = '微信返回数据非json格式';
+            $return['errmsg'] = '返回数据非json格式';
             return $return;
         }
 
