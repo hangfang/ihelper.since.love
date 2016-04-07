@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class WechatController extends MY_Controller {
     
+    public $access_token = '';
     /**
      *  Content     文本消息内容
      *  CreateTime	消息创建时间 （整型）
@@ -154,8 +155,9 @@ EOF;
             }
             
             $this->load->model('WechatModel');
+            $this->access_token = $this->WechatModel->getAccessToken();
             $suc = $this->WechatModel->saveMessage($this->_msg);
-            $contents = $msgXml['MsgType'] === 'text' ? $msgXml['Content'] : $msgXml['Recognition'];
+            $contents = $msgXml['MsgType'] === 'text' ? $msgXml['Content'] : trim($msgXml['Recognition'], '？');
             $contents = explode(' ', $contents);
             
             if(empty($contents)){
@@ -201,7 +203,7 @@ EOF;
                 }else if(strpos($this->config->item('at'), $contents[0])!== false){
                     $data = $this->_send_format['image'];
                     $data['touser'] = $msgXml['FromUserName'];
-                    $data['image']['media_id'] = 100000005;
+                    $data['image']['media_id'] = '100000005';
                     $this->WechatModel->sendMessage($data);
 
                     $msg = sprintf($this->image, $msgXml['FromUserName'], $msgXml['ToUserName'], time(), $data['image']['media_id']);
