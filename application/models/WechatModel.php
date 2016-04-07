@@ -272,10 +272,10 @@ EOF;
 </item>
 EOF;
                 $articles = '';
-                foreach($msg['news']['articles'] as $_article){
-                    $articles .= sprintf($article_template, $_article['title'], $_article['description'], $_article['picurl'], $_article['url']);
+                foreach($msg['news'] as $news){
+                    $articles .= sprintf($article_template, $news['title'], $news['description'], $news['picurl'], $news['url']);
                 }
-                $msg = sprintf($this->news, $msg['touser'], $msg['fromuser'], time(), $msg['news']['article_count'], $articles);
+                $msg = sprintf($this->news, $msg['touser'], $msg['fromuser'], time(), $msg['article_count'], $articles);
                 break;
             default:
                 $msg = sprintf($this->text, $msg['touser'], $msg['fromuser'], time(), $msg['text']['content']);
