@@ -95,13 +95,13 @@ class WechatController extends MY_Controller {
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['text']['content'] = '咳，终于找到“'. $contents[0] .'”公司...';
-                    $this->WechatModel->sendMessage($data, 'text');
+                    $this->WechatModel->sendMessage($data);
 
                 }else if(in_array($contents[0], array_values($this->config->item('city')))){
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['text']['content'] = '咦，你很关心“'. $contents[0] .'”地区？';
-                    $this->WechatModel->sendMessage($data, 'text');
+                    $this->WechatModel->sendMessage($data);
 
                 }else if(strpos($this->config->item('daigou'), $contents[0])!== false){
                     $data = $this->_send_format['news'];
@@ -111,19 +111,19 @@ class WechatController extends MY_Controller {
                     $data['news']['description'] = '#4月5日#今天才是小胖妹真正意义上的生日，也因为她，妈咪才走上#香港代购#这条不归路[偷笑]';
                     $data['news']['picurl'] = 'https://mmbiz.qlogo.cn/mmbiz/vacvmEeokHY8vfIeqTeF3rR8gGria7u8m0rzD2EoVDCpo64IjyDwkkxicN0pKNUwfHzjKmShsNBGMLicnPwTUAbJA/0?wx_fmt=jpeg';
                     $data['news']['url'] = 'http://mp.weixin.qq.com/s?__biz=MzI4NzIyMjQwNw==&mid=100000006&idx=1&sn=2f99b09162bba5902ac99acf99ef9659#rd';
-                    $this->WechatModel->sendMessage($data, 'news');
+                    $this->WechatModel->sendMessage($data);
 
                 }else if(strpos($this->config->item('at'), $contents[0])!== false){
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['text']['content'] = '搜索“'. WX_HK_ACCOUNT .'”吧'."\n".'期待您的关注n(*≧▽≦*)n';
-                    $this->WechatModel->sendMessage($data, 'text');
+                    $this->WechatModel->sendMessage($data);
 
                 }else{
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['text']['content'] = sprintf($this->_unrecognized_msg, $contents[0]);
-                    $this->WechatModel->sendMessage($data, 'text');
+                    $this->WechatModel->sendMessage($data);
                 }
             }
         }
