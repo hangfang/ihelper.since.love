@@ -9,4 +9,7 @@ define('WX_TOKEN', 'fanghang2015ieg926400');
 define('WX_ENCODING_AES_KEY', 'QC5CPFmTl06C7j3UYK4YuOdYaz4lBZTJjOywAbDnZwX');
 
 define('WX_HK_ACCOUNT', 'WangLin-ling');
-define('WX_JSAPI_DEBUG', false);
+define('WX_JSAPI_DEBUG', true);
+
+define('KUAIDI_100_APP_ID', 'b653f3a448ef4540');
+define('KUAIDI_100_API_URL', 'http://api.kuaidi100.com/api?id='. KUAIDI_100_APP_ID .'&com=%s&nu=%s&show=%s&muti=%s&order=%s');

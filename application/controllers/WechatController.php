@@ -122,7 +122,7 @@ EOF;
 
         switch(count($contents)){
             case 1:
-                $expressCompanyName = array_values($this->config->item('express_list'));
+                $expressCompanyName = array_keys($this->config->item('express_list'));
                 if(in_array($contents[0], $expressCompanyName)){
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
@@ -130,7 +130,7 @@ EOF;
                     $data['text']['content'] = '咳，终于找到“'. $contents[0] .'”公司...';
                     $this->WechatModel->sendMessage($data);
 
-                }else if(in_array($contents[0], array_values($this->config->item('city')))){
+                }else if(in_array($contents[0], array_keys($this->config->item('city')))){
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
@@ -169,8 +169,19 @@ EOF;
                 }
                 break;
             case 2:
-                
-                break;
+                $expressCompanyName = array_search($this->config->item('express_list'));
+                if($expressCompanyName){
+                    $this->load->model('KuaiDi100Model');
+                    
+                    $rt = $this->KuaiDi100Model->query($this->config->item('express_list')[$expressCompanyName], $contents[1]);
+                    
+                    $data = $this->_send_format['text'];
+                    $data['touser'] = $msgXml['FromUserName'];
+                    $data['fromuser'] = $msgXml['ToUserName'];
+                    $data['text']['content'] = '咳，终于找到“'. $contents[0] .'”公司...';
+                    $this->WechatModel->sendMessage($data);
+                    break;
+                }
             default :
                 $data = $this->_send_format['text'];
                 $data['touser'] = $msgXml['FromUserName'];
