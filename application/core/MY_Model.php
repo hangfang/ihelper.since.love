@@ -12,6 +12,7 @@ class MY_Model extends CI_Model{
         $ch = curl_init();
 
         $args = array_merge(array(
+            'header'=> array(),
             'data' => array(),
             'method' => 'get',
         ) ,$args);
@@ -37,6 +38,7 @@ class MY_Model extends CI_Model{
         curl_setopt($ch, CURLOPT_URL, $args['url']);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        !empty($args['header']) && curl_setopt($ch ,CURLOPT_HTTPHEADER, $args['header']);
         $result = curl_exec($ch);
 
         if($result === false){

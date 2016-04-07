@@ -70,11 +70,26 @@ EOF;
 公司电话：%s
 公司网址：%s
 EOF;
+
+       public $_msg_weather = <<<EOF
+%s天气：
+    日期：%s
+    发布时间：%s
+    天气：%s
+    当前气温：%s
+    最高：%s℃
+    最低：%s℃
+    风向：%s
+    风力：%s
+    日出时间：%s
+    日落时间：%s        
+EOF;
        
     public function __construct() {
         parent::__construct();
         $this->load->model('KuaidiModel');
         $this->load->model('PositionModel');
+        $this->load->model('WeatherModel');
         $this->load->model('WechatModel');
     }
     
@@ -145,6 +160,19 @@ EOF;
                     $this->WechatModel->sendMessage($data);
 
                 }else if(in_array($contents[0], array_keys($this->config->item('city')))){
+                    $rt = $this->WeatherModel->getWeather($this->config->item('city')[$contents[0]]);
+                    
+                    if($rt['errNum'] === 0){
+                        
+                        $data = $this->_send_format['text'];
+                        $data['touser'] = $msgXml['FromUserName'];
+                        $data['fromuser'] = $msgXml['ToUserName'];
+                        
+                        $weather = $rt['retData'];
+
+                        $data['text']['content'] = sprintf($this->_msg_weather, $weather['city'], $weather['date'], $weather['time'], $weather['weather'], $weather['temp'], $weather['l_tmp'], $weather['h_tmp'], $weather['WD'], $weather['WS'], $weather['sunrise'], $weather['sunset']);
+                        $this->WechatModel->sendMessage($data);
+                    }
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
