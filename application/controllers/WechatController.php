@@ -64,9 +64,14 @@ EOF;
 再次感谢您的关注
 EOF;
         
+    public function __construct() {
+        parent::__construct();
+        $this->load->model('WechatModel');
+        $this->load->model('KuaidiModel');
+    }
+    
 	public function index()
 	{
-        $this->load->model('WechatModel');
         
         $data = array();
         $data['title'] = '微信jsapi测试';
@@ -99,7 +104,6 @@ EOF;
                 $msg[$_v] = $msgXml[$_v];
             }
             
-            $this->load->model('WechatModel');
             $suc = $this->WechatModel->saveMessage($msg);
             
             $msgtype = $msgXml['MsgType'];
@@ -173,7 +177,6 @@ EOF;
             case 2:
                 $expressCompanyName = array_search($contents[0], array_keys($this->config->item('express_list')));
                 if($expressCompanyName){
-                    $this->load->model('KuaidiModel');
                     
                     $rt = $this->KuaidiModel->query($this->config->item('express_list')[$expressCompanyName], $contents[1]);
                     
