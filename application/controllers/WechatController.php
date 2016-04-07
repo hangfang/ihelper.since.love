@@ -53,6 +53,17 @@ class WechatController extends MY_Controller {
 再次感谢您的关注
 EOF;
         
+        public $_msg_to_large = <<<EOF
+额，信息量太大？
+请说重点吧(*≧▽≦*)
+
+1、输入“城市中文名”查询天气
+2、输入“快递公司名称，单号”查询物流
+3、其他功能期待您的发掘(⊙o⊙)…
+        
+再次感谢您的关注
+EOF;
+        
 	public function index()
 	{
         $this->load->model('WechatModel');
@@ -90,18 +101,27 @@ EOF;
             
             $this->load->model('WechatModel');
             $suc = $this->WechatModel->saveMessage($msg);
-            $contents = $msgXml['MsgType'] === 'text' ? $msgXml['Content'] : trim($msgXml['Recognition'], '？');
-            $contents = explode(' ', $contents);
             
-            if(empty($contents)){
-                $data = $this->_send_format['text'];
-                $data['fromuser'] = $msgXml['ToUserName'];
-                $data['text']['content'] = '不知所云...';
-                $data['touser'] = $msgXml['FromUserName'];
-                $this->WechatModel->sendMessage($data, 'text');
-            }
-            
-            if(count($contents) === 1){
+            $msgtype = $msgXml['MsgType'];
+            $this->$msgtype($msgXml);
+        }
+    }
+    
+    private function text($msgXml){
+        
+        $contents = $msgXml['MsgType'] === 'text' ? $msgXml['Content'] : trim($msgXml['Recognition'], '？');
+        $contents = count(explode(',', $contents)) === 2 ?: explode(' ', $contents);
+        
+        if(empty($contents)){
+            $data = $this->_send_format['text'];
+            $data['fromuser'] = $msgXml['ToUserName'];
+            $data['text']['content'] = '不知所云...';
+            $data['touser'] = $msgXml['FromUserName'];
+            $this->WechatModel->sendMessage($data, 'text');
+        }
+
+        switch(count($contents)){
+            case 1:
                 $expressCompanyName = array_values($this->config->item('express_list'));
                 if(in_array($contents[0], $expressCompanyName)){
                     $data = $this->_send_format['text'];
@@ -121,16 +141,16 @@ EOF;
                     $data = $this->_send_format['news'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
-                    
+
                     $data['news'] = $tmp = array();
                     $tmp['title'] = '香港代购';
                     $tmp['description'] = '#4月5日#今天才是小胖妹真正意义上的生日，也因为她，妈咪才走上#香港代购#这条不归路[偷笑]';
                     $tmp['picurl'] = 'https://mmbiz.qlogo.cn/mmbiz/vacvmEeokHY8vfIeqTeF3rR8gGria7u8m0rzD2EoVDCpo64IjyDwkkxicN0pKNUwfHzjKmShsNBGMLicnPwTUAbJA/0?wx_fmt=jpeg';
                     $tmp['url'] = 'http://mp.weixin.qq.com/s?__biz=MzI4NzIyMjQwNw==&mid=100000006&idx=1&sn=2f99b09162bba5902ac99acf99ef9659#rd';
                     $data['news'][] = $tmp;
-                    
+
                     $data['article_count'] = count($data['news']);
-                    
+
                     $this->WechatModel->sendMessage($data);
 
                 }else if(strpos($this->config->item('at'), $contents[0])!== false){
@@ -147,7 +167,70 @@ EOF;
                     $data['text']['content'] = sprintf($this->_unrecognized_msg, $contents[0]);
                     $this->WechatModel->sendMessage($data);
                 }
-            }
+                break;
+            case 2:
+                
+                break;
+            default :
+                $data = $this->_send_format['text'];
+                $data['touser'] = $msgXml['FromUserName'];
+                $data['fromuser'] = $msgXml['ToUserName'];
+                $data['text']['content'] = sprintf($this->_msg_to_large, $contents[0]);
+                $this->WechatModel->sendMessage($data);
+                break;
         }
+    }
+    
+    private function image($msgXml){
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = '抱歉，图片处理comming soon...';
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function voice($msgXml){
+        
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = '正在接入语音机器人...';
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function video($msgXml){
+        
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = '分享视频真的好吗？';
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function shortvideo($msgXml){
+        
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = 'Oh, I like it';
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function location($msgXml){
+        
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = '我可不想窥探你的隐私';
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function link($msgXml){
+        
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = '稍等，我点开看看';
+        $this->WechatModel->sendMessage($data);
     }
 }
