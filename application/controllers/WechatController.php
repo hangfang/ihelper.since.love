@@ -110,6 +110,7 @@ EOF;
     private function text($msgXml){
         
         $contents = $msgXml['MsgType'] === 'text' ? $msgXml['Content'] : trim($msgXml['Recognition'], '？');
+        $contents = trim(trim($contents, ','), ' ');
         $contents = count(explode(',', $contents)) === 2 ? explode(',', $contents) : explode(' ', $contents);
         
         if(empty($contents)){
