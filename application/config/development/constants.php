@@ -16,5 +16,5 @@ define('KUAIDI_100_API_URL', 'http://api.kuaidi100.com/api?id='. KUAIDI_100_APP_
 
 define('SINA_IP_LOOKUP_API_URL', 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip=%s');
 
-defind('BAIDU_WEATHER_API_URL', 'http://apis.baidu.com/apistore/weatherservice/cityid?cityid=%s');
+define('BAIDU_WEATHER_API_URL', 'http://apis.baidu.com/apistore/weatherservice/cityid?cityid=%s');
 define('BAIDU_WEATHER_API_KEY', 'babdf9f16f7b77baaa806eb302210ce9');
