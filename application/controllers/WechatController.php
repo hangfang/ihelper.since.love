@@ -173,9 +173,9 @@ EOF;
             case 2:
                 $expressCompanyName = array_search($contents[0], array_keys($this->config->item('express_list')));
                 if($expressCompanyName){
-                    $this->load->model('Kuaidi100Model');
+                    $this->load->model('KuaidiModel');
                     
-                    $rt = $this->KuaiDi100Model->query($this->config->item('express_list')[$expressCompanyName], $contents[1]);
+                    $rt = $this->KuaidiModel->query($this->config->item('express_list')[$expressCompanyName], $contents[1]);
                     
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
