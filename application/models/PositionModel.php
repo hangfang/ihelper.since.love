@@ -64,8 +64,8 @@ EOF;
             $data['touser'] = $msgXml['FromUserName'];
             $data['fromuser'] = $msgXml['ToUserName'];
             
-            $this->load->library('Friendlydate');
-            $data['text']['content'] = sprintf($this->_msg_around, $msgXml['Content'], $around_text, $this->Friendlydate->timeDiff($lastMsg['CreateTime']));
+            $this->load->library('friendlydate');
+            $data['text']['content'] = sprintf($this->_msg_around, $msgXml['Content'], $around_text, $this->friendlydate->timeDiff($lastMsg['CreateTime']));
             return $data;
         }
         
