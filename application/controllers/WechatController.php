@@ -237,7 +237,7 @@ EOF;
                         $_trace .= '  时间:'. date('m月d日 H:i:s', $_v['AcceptTime']) ."\n";
                         $_trace .= '  信息:'. $_v['AcceptStation'] ."\n";
                     }
-                    $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['LogisticCode'], $_trace ? $_trace : $rt['Reason']);
+                    $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['LogisticCode'], strlen($_trace)>10 ? $_trace : $rt['Reason']);
                     $this->WechatModel->sendMessage($data);
                     break;
                 }
