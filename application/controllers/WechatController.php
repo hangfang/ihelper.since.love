@@ -156,7 +156,7 @@ EOF;
                     $data = $this->BaiduModel->getWeather($weather[$contents[0]], $msgXml);
                     $this->WechatModel->sendMessage($data);
 
-                }else if(($wechat = include_config('wechat')) && strpos($wechat['daigou'], $contents[0])!== false){//图文广告
+                }else if(($wechat = include_config('wechat')) && in_array($contents[0], $wechat['daigou'])){//图文广告
                     $data = $this->_send_format['news'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
@@ -172,14 +172,14 @@ EOF;
 
                     $this->WechatModel->sendMessage($data);
 
-                }else if(strpos($wechat['at'], $contents[0])!== false){//关注微信号
+                }else if(in_array($contents[0], $wechat['at'])){//关注微信号
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
                     $data['text']['content'] = '搜索“'. WX_HK_ACCOUNT .'”吧'."\n".'期待您的关注n(*≧▽≦*)n';
                     $this->WechatModel->sendMessage($data);
 
-                }elseif(strpos($wechat['position'], $contents[0])!== false){//提示发送位置信息
+                }elseif(in_array($contents[0], $wechat['position'])){//提示发送位置信息
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
@@ -198,7 +198,7 @@ EOF;
                     
                     $data = $this->BaiduModel->getStock($stockid, $msgXml);
                     $this->WechatModel->sendMessage($data);
-                }elseif(strpos($wechat['around'], $contents[0]) !== false){//上一条是位置信息
+                }elseif(in_array($contents[0], $wechat['around'])){//上一条是位置信息
                     $lastMsg = $this->WechatModel->getLastMsg($msgXml, 'location');
                     if(empty($lastMsg)){
                         $data = $this->_send_format['text'];
