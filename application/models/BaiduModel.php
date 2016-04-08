@@ -78,7 +78,7 @@ EOF;
         return $data;
     }
     
-    public function getStock($stockid){
+    public function getStock($stockid, $msgXml){
         
         $data = array();
         $data['method'] = 'get';
