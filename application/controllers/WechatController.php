@@ -152,14 +152,14 @@ EOF;
 
         switch(count($contents)){
             case 1:
-                if($kuaidi100 = include_config('kuaidi100') && in_array($contents[0], array_keys($kuaidi100))){
+                if(($kuaidi100 = include_config('kuaidi100')) && in_array($contents[0], array_keys($kuaidi100))){
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
                     $data['text']['content'] = '咳，终于找到“'. $contents[0] .'”公司...';
                     $this->WechatModel->sendMessage($data);
 
-                }else if($weather = include_config('weather') && in_array($contents[0], array_keys($weather))){
+                }else if(($weather = include_config('weather')) && in_array($contents[0], array_keys($weather))){
                     $rt = $this->WeatherModel->getWeather($weather[$contents[0]]);
                     
                     if($rt['errNum'] === 0){
@@ -179,7 +179,7 @@ EOF;
                     $data['text']['content'] = '咦，你很关心“'. $contents[0] .'”地区？';
                     $this->WechatModel->sendMessage($data);
 
-                }else if($wechat = include_config('wechat') && strpos($wechat['daigou'], $contents[0])!== false){
+                }else if(($wechat = include_config('wechat')) && strpos($wechat['daigou'], $contents[0])!== false){
                     $data = $this->_send_format['news'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
@@ -218,7 +218,7 @@ EOF;
                 
                 break;
             case 2:
-                if($kuaidi100 = include_config('kuaidi100') && in_array($contents[0], array_keys($kuaidi100))){
+                if(($kuaidi100 = include_config('kuaidi100')) && in_array($contents[0], array_keys($kuaidi100))){
                     
                     $rt = $this->KuaidiModel->query($kuaidi100[$contents[0]], $contents[1]);
                     
