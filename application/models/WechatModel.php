@@ -196,7 +196,7 @@ EOF;
      */
     public function getLastMsg($msgXml, $MsgType=''){
         $this->db->where('FromUserName', $msgXml['FromUserName']);
-        $this->db->where('CreateTime > ', $msgXml['CreateTime']-300);//
+        $this->db->where('CreateTime > ', time()-300);//
         $MsgType && $this->db->where('MsgType', $MsgType);
         $this->db->order_by('CreateTime', 'desc');
         $this->db->limit(1, 0);
