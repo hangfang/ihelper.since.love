@@ -126,7 +126,7 @@ EOF;
             foreach($this->_receive_format[$msgXml['MsgType']] as $_v){
                 $msg[$_v] = $msgXml[$_v];
             }
-            
+            log_message('error', json_encode($msgXml));
             $suc = $this->WechatModel->saveMessage($msg);
             
             $msgtype = $msgXml['MsgType'];
