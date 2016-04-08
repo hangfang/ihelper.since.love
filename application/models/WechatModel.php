@@ -201,7 +201,7 @@ EOF;
         $this->db->limit(1, 0);
         $query = $this->db->get('wechat_receive_message');
         
-        return $query && $query->num()===1 ? $query->row() : array();
+        return $query && $query->num_rows()===1 ? $query->row() : array();
     }
     
     /**
