@@ -21,7 +21,7 @@ class PositionModel extends MY_Model{
     public function getLocation($lat, $lng){
         $data = array();
         $data['method'] = 'get';
-        $data['url'] = sprinf(TENCENT_MAP_APP_URL.'/geocoder/v1/?location=%s,%s&key=%s&get_poi=1', $lat, $lng, TENCENT_MAP_APP_KEY);
+        $data['url'] = sprintf(TENCENT_MAP_APP_URL.'/geocoder/v1/?location=%s,%s&key=%s&get_poi=1', $lat, $lng, TENCENT_MAP_APP_KEY);
         
         return $this->http($data);
     }
