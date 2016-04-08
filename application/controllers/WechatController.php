@@ -152,8 +152,8 @@ EOF;
 
         switch(count($contents)){
             case 1:
-                $this->config->kuaidi100 = include_config('kuaidi100');
-                $expressCompanyName = array_keys($this->config->kuaidi100);
+                $kuaidi100 = include_config('kuaidi100');
+                $expressCompanyName = array_keys($kuaidi100);
                 if(in_array($contents[0], $expressCompanyName)){
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
@@ -161,8 +161,8 @@ EOF;
                     $data['text']['content'] = '咳，终于找到“'. $contents[0] .'”公司...';
                     $this->WechatModel->sendMessage($data);
 
-                }else if($this->config->weather = include_config('weather') && in_array($contents[0], array_keys($this->config->weather))){
-                    $rt = $this->WeatherModel->getWeather($this->config->weather[$contents[0]]);
+                }else if($weather = include_config('weather') && in_array($contents[0], array_keys($weather))){
+                    $rt = $this->WeatherModel->getWeather($weather[$contents[0]]);
                     
                     if($rt['errNum'] === 0){
                         
@@ -181,7 +181,7 @@ EOF;
                     $data['text']['content'] = '咦，你很关心“'. $contents[0] .'”地区？';
                     $this->WechatModel->sendMessage($data);
 
-                }else if($this->config->wechat = include_config('wechat') && strpos($this->config->wechat['daigou'], $contents[0])!== false){
+                }else if($wechat = include_config('wechat') && strpos($wechat['daigou'], $contents[0])!== false){
                     $data = $this->_send_format['news'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
@@ -197,14 +197,14 @@ EOF;
 
                     $this->WechatModel->sendMessage($data);
 
-                }else if(strpos($this->config->wechat['at'], $contents[0])!== false){
+                }else if(strpos($wechat['at'], $contents[0])!== false){
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
                     $data['text']['content'] = '搜索“'. WX_HK_ACCOUNT .'”吧'."\n".'期待您的关注n(*≧▽≦*)n';
                     $this->WechatModel->sendMessage($data);
 
-                }elseif(strpos($this->config->wechat['position'], $contents[0])!== false){
+                }elseif(strpos($wechat['position'], $contents[0])!== false){
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
@@ -220,9 +220,9 @@ EOF;
                 
                 break;
             case 2:
-                if($this->config->kuaidi100 = include_config('kuaidi100') && in_array($contents[0], array_keys($this->config->kuaidi100))){
+                if($kuaidi100 = include_config('kuaidi100') && in_array($contents[0], array_keys($kuaidi100))){
                     
-                    $rt = $this->KuaidiModel->query($this->config->kuaidi100[$contents[0]], $contents[1]);
+                    $rt = $this->KuaidiModel->query($kuaidi100[$contents[0]], $contents[1]);
                     
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
