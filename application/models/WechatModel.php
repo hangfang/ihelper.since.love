@@ -198,7 +198,7 @@ EOF;
         $this->db->where('FromUserName', $msgXml['FromUserName']);
         $this->db->where('CreateTime > ', $msgXml['CreateTime']-300);//
         $this->db->order_by('CreateTime', 'desc');
-        $this->db->limit(1, 0);
+        $this->db->limit(1, 1);
         $query = $this->db->get('wechat_receive_message');
         
         return $query && $query->num_rows()===1 ? $query->row_array() : array();
