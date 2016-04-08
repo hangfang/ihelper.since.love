@@ -231,11 +231,11 @@ EOF;
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
                     
-                    $trace = '';
+                    $_trace = '';
                     foreach($rt['Traces'] as $_v){
                         
-                        $trace .= '  时间:'. $_v['AcceptTime'] ."\n";
-                        $trace .= '  信息:'. $_v['AcceptStation'] ."\n";
+                        $_trace .= '  时间:'. $_v['AcceptTime'] ."\n";
+                        $_trace .= '  信息:'. $_v['AcceptStation'] ."\n";
                     }
                     $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['LogisticCode'], $_trace);
                     $this->WechatModel->sendMessage($data);
