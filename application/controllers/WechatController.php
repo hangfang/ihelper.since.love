@@ -261,23 +261,24 @@ EOF;
     }
     
     public function location($msgXml){
-        
-            
-        $rt = $this->PositionModel->getLocation($msgXml['Location_X'], $msgXml['Location_Y']);
-
-        if($rt['status'] === 0){
-
-            $data = $this->_send_format['text'];
-            $data['touser'] = $msgXml['FromUserName'];
-            $data['fromuser'] = $msgXml['ToUserName'];
-            $data['text']['content'] = sprintf($this->_msg_position, $rt['result']['address']);
-            $this->WechatModel->sendMessage($data);
-
-        }
+//        
+//        //查询腾讯地图
+//        $rt = $this->PositionModel->getLocation($msgXml['Location_X'], $msgXml['Location_Y']);
+//
+//        if($rt['status'] === 0){
+//
+//            $data = $this->_send_format['text'];
+//            $data['touser'] = $msgXml['FromUserName'];
+//            $data['fromuser'] = $msgXml['ToUserName'];
+//            $data['text']['content'] = sprintf($this->_msg_position, $rt['result']['address']);
+//            $this->WechatModel->sendMessage($data);
+//
+//        }
         $data = $this->_send_format['text'];
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
-        $data['text']['content'] = $rt['message'];
+        $data['text']['content'] = $msgXml['Label'];
+        //$data['text']['content'] = $rt['message'];
         $this->WechatModel->sendMessage($data);
     }
     
