@@ -196,7 +196,16 @@ EOF;
                     
                     $data = $this->BaiduModel->getStock($stockid, $msgXml);
                     $this->WechatModel->sendMessage($data);
-                }elseif(($lastMsg = $this->WechatModel->getLastMsg($msgXml)) && $lastMsg['MsgType']==='location'){//上一条是位置信息
+                }elseif(strpos($wechat['around'], $contents[0]) !== false){//上一条是位置信息
+                    $lastMsg = $this->WechatModel->getLastMsg($msgXml, 'location');
+                    if(empty($lastMsg)){
+                        $data = $this->_send_format['text'];
+                        $data['touser'] = $msgXml['FromUserName'];
+                        $data['fromuser'] = $msgXml['ToUserName'];
+                        $data['text']['content'] = '请发送您的位置，以精准定位';
+                        $this->WechatModel->sendMessage($data);
+                    }
+                    
                     $data = $this->PositionModel->searchAround($lastMsg, $msgXml);
                     $this->WechatModel->sendMessage($data);
                 }else{

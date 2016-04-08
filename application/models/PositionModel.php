@@ -6,7 +6,7 @@ class PositionModel extends MY_Model{
 搜索周边：%s
 %s
 
-%s的位置
+注：以%s的位置计算
 EOF;
     
     public $_send_format = array(
