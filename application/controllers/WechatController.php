@@ -277,7 +277,7 @@ EOF;
         $data = $this->_send_format['text'];
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
-        $data['text']['content'] = $msgXml['Label'];
+        $data['text']['content'] = sprintf($this->_msg_position, $msgXml['Label']);
         //$data['text']['content'] = $rt['message'];
         $this->WechatModel->sendMessage($data);
     }
