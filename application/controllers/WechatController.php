@@ -49,7 +49,8 @@ class WechatController extends MY_Controller {
 1、发送“城市中文名”查询天气
 2、发送“快递公司名，单号”查物流
 3、发送“股票代码”查实时数据
-4、更多隐藏功能期待您的发掘…
+4、发送"酒店"、"美食"等，搜索周边
+5、更多隐藏功能期待您的发掘…
         
 感谢您的关注
 EOF;
@@ -61,7 +62,8 @@ EOF;
 1、发送“城市中文名”查询天气
 2、发送“快递公司名，单号”查物流
 3、发送“股票代码”查实时数据
-4、更多隐藏功能期待您的发掘…
+4、发送"酒店"、"美食"等，搜索周边
+5、更多隐藏功能期待您的发掘…
         
 感谢您的关注
 EOF;
@@ -300,7 +302,7 @@ EOF;
         $data = $this->_send_format['text'];
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
-        $data['text']['content'] = '稍等，我点开看看';
+        $data['text']['content'] = '等等，对，这链接有毒！';
         $this->WechatModel->sendMessage($data);
     }
 }
