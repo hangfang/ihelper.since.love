@@ -65,7 +65,8 @@ EOF;
 EOF;
        public $_msg_kuaidi = <<<EOF
 快递单号：%s
-物流信息：%s
+物流信息：
+    %s
 EOF;
 
        public $_msg_weather = <<<EOF
@@ -234,7 +235,7 @@ EOF;
                     $_trace = '';
                     foreach($rt['Traces'] as $_v){
                         
-                        $_trace .= '  时间:'. $_v['AcceptTime'] ."\n";
+                        $_trace .= '  时间:'. date('m月d日 H:i:s', $_v['AcceptTime']) ."\n";
                         $_trace .= '  信息:'. $_v['AcceptStation'] ."\n";
                     }
                     $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['LogisticCode'], $_trace);
