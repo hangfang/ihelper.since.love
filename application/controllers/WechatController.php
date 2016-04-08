@@ -65,8 +65,7 @@ EOF;
 EOF;
        public $_msg_kuaidi = <<<EOF
 快递单号：%s
-物流信息：
-    %s
+物流信息：%s
 EOF;
 
        public $_msg_weather = <<<EOF
@@ -232,7 +231,7 @@ EOF;
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
                     
-                    $_trace = '';
+                    $_trace = "\n   ";
                     foreach($rt['Traces'] as $_v){
                         
                         $_trace .= '  时间:'. date('m月d日 H:i:s', $_v['AcceptTime']) ."\n";
