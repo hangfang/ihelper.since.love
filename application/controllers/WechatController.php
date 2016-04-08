@@ -186,7 +186,7 @@ EOF;
                 break;
             case 2:
                 if(($kdniao = include_config('kdniao')) && in_array($contents[0], array_keys($kdniao))){
-                    $data = $this->KuaidiModel->kdniao($kdniao[$contents[0]], $contents[1]);
+                    $data = $this->KuaidiModel->kdniao($kdniao[$contents[0]], $contents[1], $msgXml);
                     $this->WechatModel->sendMessage($data);
                     break;
                 }
