@@ -29,8 +29,8 @@ EOF;
     public function getWeather($cityid, $msgXml){
         $data = array();
         $data['method'] = 'get';
-        $data['header'] = array('apikey: '. BAIDU_WEATHER_API_KEY);
-        $data['url'] = sprintf(BAIDU_API_URL, $cityid);
+        $data['header'] = array('apikey: '. BAIDU_API_KEY);
+        $data['url'] = sprintf(BAIDU_WEATHER_API_URL, $cityid);
         $rt = $this->http($data);
         
         if($rt['errNum'] === 0){
