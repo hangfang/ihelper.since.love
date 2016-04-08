@@ -201,7 +201,7 @@ EOF;
         $this->db->limit(1, 0);
         $query = $this->db->get('wechat_receive_message');
         
-        return $query && $query->num_rows()===1 ? $query->row() : array();
+        return $query && $query->num_rows()===1 ? $query->row_array() : array();
     }
     
     /**
@@ -211,6 +211,7 @@ EOF;
      */
     public function saveMessage($msg){
         
+        unset($msg['CreateTime']);
         if(!$this->db->insert('wechat_receive_message', $msg)){
             error_log('save wechat message error, sql:'. $this->db->last_query());
             return false;
