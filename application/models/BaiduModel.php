@@ -92,8 +92,10 @@ EOF;
             $data['touser'] = $msgXml['FromUserName'];
             $data['fromuser'] = $msgXml['ToUserName'];
 
-            $stock = $rt['retData']['stockinfo'];
-
+            $stock = array();
+            foreach($rt['retData']['stockinfo'] as $v){
+                $stock[] = $v;
+            }
             $data['text']['content'] = vsprintf($this->_msg_stock, $stock);
             return $data;
         }
