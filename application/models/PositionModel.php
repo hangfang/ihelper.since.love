@@ -63,7 +63,9 @@ EOF;
             $data = $this->_send_format['text'];
             $data['touser'] = $msgXml['FromUserName'];
             $data['fromuser'] = $msgXml['ToUserName'];
-            $data['text']['content'] = sprintf($this->_msg_around, $msgXml['Content'], $around_text);
+            
+            $this->load->library('FriendlyDate');
+            $data['text']['content'] = sprintf($this->_msg_around, $msgXml['Content'], $around_text, $this->FriendlyDate->timeDiff($lastMsg['CreateTime']));
             return $data;
         }
         
