@@ -72,7 +72,8 @@ EOF;
        
        public $_msg_position = <<<EOF
 OK，我记住了
-你在%s！     
+你在%s！
+试试搜索周边？如酒店、美食...
 EOF;
        
     public function __construct() {
@@ -142,18 +143,18 @@ EOF;
 
         switch(count($contents)){
             case 1:
-                if(($kdniao = include_config('kdniao')) && in_array($contents[0], array_keys($kdniao))){
+                if(($kdniao = include_config('kdniao')) && in_array($contents[0], array_keys($kdniao))){//快递公司
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
                     $data['text']['content'] = '咳，终于找到“'. $contents[0] .'”公司...';
                     $this->WechatModel->sendMessage($data);
 
-                }else if(($weather = include_config('weather')) && in_array($contents[0], array_keys($weather))){
+                }else if(($weather = include_config('weather')) && in_array($contents[0], array_keys($weather))){//天气
                     $data = $this->BaiduModel->getWeather($weather[$contents[0]], $msgXml);
                     $this->WechatModel->sendMessage($data);
 
-                }else if(($wechat = include_config('wechat')) && strpos($wechat['daigou'], $contents[0])!== false){
+                }else if(($wechat = include_config('wechat')) && strpos($wechat['daigou'], $contents[0])!== false){//图文广告
                     $data = $this->_send_format['news'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
@@ -169,20 +170,20 @@ EOF;
 
                     $this->WechatModel->sendMessage($data);
 
-                }else if(strpos($wechat['at'], $contents[0])!== false){
+                }else if(strpos($wechat['at'], $contents[0])!== false){//关注微信号
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
                     $data['text']['content'] = '搜索“'. WX_HK_ACCOUNT .'”吧'."\n".'期待您的关注n(*≧▽≦*)n';
                     $this->WechatModel->sendMessage($data);
 
-                }elseif(strpos($wechat['position'], $contents[0])!== false){
+                }elseif(strpos($wechat['position'], $contents[0])!== false){//提示发送位置信息
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
                     $data['text']['content'] = '爽快点，告诉我你的位置吧？';
                     $this->WechatModel->sendMessage($data);
-                }elseif(preg_match('/^[\d]{6}$/i', $contents[0]) === 1){
+                }elseif(preg_match('/^[\d]{6}$/i', $contents[0]) === 1){//股票代码
                     
                     if(preg_match('/^6[\d]{5}$/i', $contents[0]) === 1){
                         $stockid = 'sh'. $contents[0];//上海
@@ -194,6 +195,9 @@ EOF;
                     
                     
                     $data = $this->BaiduModel->getStock($stockid, $msgXml);
+                    $this->WechatModel->sendMessage($data);
+                }elseif(($lastMsg = $this->WechatModel->getLastMsg($msgXml)) && $lastMsg['MsgType']==='location'){//上一条是位置信息
+                    $data = $this->PositionModel->searchAround($lastMsg, $msgXml);
                     $this->WechatModel->sendMessage($data);
                 }else{
                     $data = $this->_send_format['text'];

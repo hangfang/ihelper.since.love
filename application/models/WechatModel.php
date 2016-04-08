@@ -188,6 +188,22 @@ EOF;
         
         return $this->jsapi_ticket = $jsapi_ticket;
     }
+    
+    /**
+     * @todo 查询上一条记录(5分钟之内)
+     * @param array $msgXml
+     * @return array
+     */
+    public function getLastMsg($msgXml){
+        $this->db->where('FromUserName', $msgXml['FromUserName']);
+        $this->db->where('CreateTime > ', $msgXml['CreateTime']-300);//
+        $this->db->order_by('CreateTime', 'desc');
+        $this->db->limit(1, 0);
+        $query = $this->db->get('wechat_receive_message');
+        
+        return $query && $query->num()===1 ? $query->row() : array();
+    }
+    
     /**
      * @todo 存储用户发过来的微信消息
      * @param array $msg
