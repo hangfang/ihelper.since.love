@@ -67,26 +67,12 @@ EOF;
 快递单号：%s
 物流信息：%s
 EOF;
-
-       public $_msg_weather = <<<EOF
-%s天气：
-    日期：%s
-    发布时间：%s
-    天气：%s
-    当前气温：%s℃
-    最高：%s℃
-    最低：%s℃
-    风向：%s
-    风力：%s
-    日出时间：%s
-    日落时间：%s        
-EOF;
        
     public function __construct() {
         parent::__construct();
         $this->load->model('KuaidiModel');
         $this->load->model('PositionModel');
-        $this->load->model('WeatherModel');
+        $this->load->model('BaiduModel');
         $this->load->model('WechatModel');
         $this->load->helper('include');
     }
@@ -157,23 +143,7 @@ EOF;
                     $this->WechatModel->sendMessage($data);
 
                 }else if(($weather = include_config('weather')) && in_array($contents[0], array_keys($weather))){
-                    $rt = $this->WeatherModel->getWeather($weather[$contents[0]]);
-                    
-                    if($rt['errNum'] === 0){
-                        
-                        $data = $this->_send_format['text'];
-                        $data['touser'] = $msgXml['FromUserName'];
-                        $data['fromuser'] = $msgXml['ToUserName'];
-                        
-                        $weather = $rt['retData'];
-
-                        $data['text']['content'] = sprintf($this->_msg_weather, $weather['city'], $weather['date'], $weather['time'], $weather['weather'], $weather['temp'], $weather['h_tmp'], $weather['l_tmp'], $weather['WD'], $weather['WS'], $weather['sunrise'], $weather['sunset']);
-                        $this->WechatModel->sendMessage($data);
-                    }
-                    $data = $this->_send_format['text'];
-                    $data['touser'] = $msgXml['FromUserName'];
-                    $data['fromuser'] = $msgXml['ToUserName'];
-                    $data['text']['content'] = '咦，你很关心“'. $contents[0] .'”地区？';
+                    $data = $this->BaiduModel->getWeather($weather[$contents[0]], $msgXml);
                     $this->WechatModel->sendMessage($data);
 
                 }else if(($wechat = include_config('wechat')) && strpos($wechat['daigou'], $contents[0])!== false){
@@ -216,28 +186,7 @@ EOF;
                 break;
             case 2:
                 if(($kdniao = include_config('kdniao')) && in_array($contents[0], array_keys($kdniao))){
-                    
-                    $rt = $this->KuaidiModel->kdniao($kdniao[$contents[0]], $contents[1]);
-                    
-                    if($rt['Success'] === false){
-                        
-                        $data = $this->_send_format['text'];
-                        $data['touser'] = $msgXml['FromUserName'];
-                        $data['fromuser'] = $msgXml['ToUserName'];
-                        $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['LogisticCode'], $rt['Reason']);
-                        $this->WechatModel->sendMessage($data);
-                    }
-                    $data = $this->_send_format['text'];
-                    $data['touser'] = $msgXml['FromUserName'];
-                    $data['fromuser'] = $msgXml['ToUserName'];
-                    
-                    $_trace = "\n";
-                    foreach($rt['Traces'] as $_v){
-                        
-                        $_trace .= '    时间:'. date('m月d日 H:i:s', strtotime($_v['AcceptTime'])) ."\n";
-                        $_trace .= '    信息:'. $_v['AcceptStation'] ."\n";
-                    }
-                    $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['LogisticCode'], strlen($_trace)>10 ? $_trace : $rt['Reason']);
+                    $data = $this->KuaidiModel->kdniao($kdniao[$contents[0]], $contents[1]);
                     $this->WechatModel->sendMessage($data);
                     break;
                 }

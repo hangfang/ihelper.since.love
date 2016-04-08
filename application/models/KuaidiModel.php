@@ -50,6 +50,27 @@ class KuaidiModel extends MY_Model{
         $data['data'] = $param;
         $data['url'] = KD_NIAO_API_URL;
         
-        return $this->http($data);
+        $rt = $this->http($data);
+        
+        if($rt['Success'] === false){
+                        
+            $data = $this->_send_format['text'];
+            $data['touser'] = $msgXml['FromUserName'];
+            $data['fromuser'] = $msgXml['ToUserName'];
+            $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['LogisticCode'], $rt['Reason']);
+            return $data;
+        }
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+
+        $_trace = "\n";
+        foreach($rt['Traces'] as $_v){
+
+            $_trace .= '    时间:'. date('m月d日 H:i:s', strtotime($_v['AcceptTime'])) ."\n";
+            $_trace .= '    信息:'. $_v['AcceptStation'] ."\n";
+        }
+        $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['LogisticCode'], strlen($_trace)>10 ? $_trace : $rt['Reason']);
+        return $data;
     }
 }
