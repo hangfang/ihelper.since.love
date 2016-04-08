@@ -28,3 +28,7 @@ define('BAIDU_API_KEY', 'babdf9f16f7b77baaa806eb302210ce9');
 define('KD_NIAO_APP_ID', '1256662');
 define('KD_NIAO_APP_KEY', '998e72f8-d8f2-4b56-9b55-4c3510d23275');
 define('KD_NIAO_API_URL', 'http://api.kdniao.cc/Ebusiness/EbusinessOrderHandle.aspx');
+
+/*腾讯地图*/
+define('TENCENT_MAP_APP_KEY', 'J7CBZ-YV43X-PVS4E-ZGYVP-KF2T3-A3BQZ');
+define('TENCENT_MAP_APP_URL', 'http://apis.map.qq.com/ws');

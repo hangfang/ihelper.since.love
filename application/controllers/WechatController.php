@@ -253,27 +253,21 @@ EOF;
     public function location($msgXml){
         
             
-//        $rt = $this->PositionModel->getPosition();
-//
-//        if($rt['ret'] !== 1){
-//
-//            $data = $this->_send_format['text'];
-//            $data['touser'] = $msgXml['FromUserName'];
-//            $data['fromuser'] = $msgXml['ToUserName'];
-//            $data['text']['content'] = '你在哪个角落呢？';
-//            $this->WechatModel->sendMessage($data);
-//
-//        }
-//        $data = $this->_send_format['text'];
-//        $data['touser'] = $msgXml['FromUserName'];
-//        $data['fromuser'] = $msgXml['ToUserName'];
-//        $data['text']['content'] = '哈哈，你在'.$rt['country'].'-'.$rt['province'].'-'.$rt['city'].'？';
-//        $this->WechatModel->sendMessage($data);
+        $rt = $this->PositionModel->getLocation($msgXml['Location_X'], $msgXml['Location_Y']);
 
+        if($rt['status'] === 0){
+
+            $data = $this->_send_format['text'];
+            $data['touser'] = $msgXml['FromUserName'];
+            $data['fromuser'] = $msgXml['ToUserName'];
+            $data['text']['content'] = '哈哈，你被发现了！\n你在'.$rt['result']['address'];
+            $this->WechatModel->sendMessage($data);
+
+        }
         $data = $this->_send_format['text'];
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
-        $data['text']['content'] = '我可不想窥探你的隐私';
+        $data['text']['content'] = $rt['message'];
         $this->WechatModel->sendMessage($data);
     }
     
