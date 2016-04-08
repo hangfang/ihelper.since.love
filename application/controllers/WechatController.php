@@ -70,6 +70,11 @@ EOF;
 物流信息：%s
 EOF;
        
+       public $_msg_position = <<<EOF
+OK，我记住了
+你在%s！     
+EOF;
+       
     public function __construct() {
         parent::__construct();
         $this->load->model('KuaidiModel');
@@ -260,7 +265,7 @@ EOF;
             $data = $this->_send_format['text'];
             $data['touser'] = $msgXml['FromUserName'];
             $data['fromuser'] = $msgXml['ToUserName'];
-            $data['text']['content'] = '哈哈，你被发现了！'."\n".'你在'.$rt['result']['address'];
+            $data['text']['content'] = sprintf($this->_msg_position, $rt['result']['address']);
             $this->WechatModel->sendMessage($data);
 
         }
