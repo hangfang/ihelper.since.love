@@ -152,9 +152,7 @@ EOF;
 
         switch(count($contents)){
             case 1:
-                $kuaidi100 = include_config('kuaidi100');
-                $expressCompanyName = array_keys($kuaidi100);
-                if(in_array($contents[0], $expressCompanyName)){
+                if($kuaidi100 = include_config('kuaidi100') && in_array($contents[0], array_keys($kuaidi100))){
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
