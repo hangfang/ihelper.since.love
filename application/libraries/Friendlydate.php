@@ -17,7 +17,7 @@
  * @author    liu21st <liu21st@gmail.com>
  * @version   $Id: Date.class.php 2662 2012-01-26 06:32:50Z liu21st $
  */
-class FriendlyDate {
+class Friendlydate {
 
     /**
      * 日期的时间戳
