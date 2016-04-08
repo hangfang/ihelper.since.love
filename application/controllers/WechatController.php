@@ -224,7 +224,7 @@ EOF;
                         $data = $this->_send_format['text'];
                         $data['touser'] = $msgXml['FromUserName'];
                         $data['fromuser'] = $msgXml['ToUserName'];
-                        $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['nu'], $rt['Reason']);
+                        $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['LogisticCode'], $rt['Reason']);
                         $this->WechatModel->sendMessage($data);
                     }
                     $data = $this->_send_format['text'];
@@ -237,7 +237,7 @@ EOF;
                         $trace .= '  时间:'. $_v['AcceptTime'] ."\n";
                         $trace .= '  信息:'. $_v['AcceptStation'] ."\n";
                     }
-                    $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['nu'], $_trace);
+                    $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['LogisticCode'], $_trace);
                     $this->WechatModel->sendMessage($data);
                     break;
                 }
