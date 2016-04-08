@@ -44,7 +44,7 @@ EOF;
         
         $data = array();
         $data['method'] = 'get';
-        $data['url'] = sprintf(TENCENT_MAP_APP_URL.'/place/v1/search?boundary=nearby(%s,%s,1000)&keyword=%s&page_size=5&page_index=1&orderby=_distance&key=%s', $lastMsg['Location_X'], $lastMsg['Location_Y'], $msgXml['Content'], TENCENT_MAP_APP_KEY);
+        $data['url'] = sprintf(TENCENT_MAP_APP_URL.'/place/v1/search?boundary=nearby(%s,%s,1000)&keyword=%s&page_size=10&page_index=1&orderby=_distance&key=%s', $lastMsg['Location_X'], $lastMsg['Location_Y'], $msgXml['Content'], TENCENT_MAP_APP_KEY);
         
         $rt = $this->http($data);
         
@@ -56,6 +56,7 @@ EOF;
                     
     名称：{$v['title']}
     地址：{$v['address']}
+    电话：{$v['tel']}
     距离：{$v['_distance']}米
 
 EOF;
