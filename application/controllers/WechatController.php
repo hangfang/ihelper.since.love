@@ -50,7 +50,7 @@ class WechatController extends MY_Controller {
 2、输入“快递公司名称，单号”查询物流
 3、其他功能期待您的发掘(⊙o⊙)…
         
-再次感谢您的关注
+感谢您的关注
 EOF;
         
         public $_msg_to_large = <<<EOF
@@ -61,14 +61,11 @@ EOF;
 2、输入“快递公司名称，单号”查询物流
 3、其他功能期待您的发掘(⊙o⊙)…
         
-再次感谢您的关注
+感谢您的关注
 EOF;
        public $_msg_kuaidi = <<<EOF
 快递单号：%s
-物流信息：%s    
-
-公司电话：%s
-公司网址：%s
+物流信息：%s
 EOF;
 
        public $_msg_weather = <<<EOF
@@ -222,10 +219,25 @@ EOF;
                     
                     $rt = $this->KuaidiModel->kdniao($kdniao[$contents[0]], $contents[1]);
                     
+                    if($rt['Success'] === false){
+                        
+                        $data = $this->_send_format['text'];
+                        $data['touser'] = $msgXml['FromUserName'];
+                        $data['fromuser'] = $msgXml['ToUserName'];
+                        $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['nu'], $rt['Reason']);
+                        $this->WechatModel->sendMessage($data);
+                    }
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
-                    $data['text']['content'] = $rt['status'] > 0 ? $rt['message'] : sprintf($this->_msg_kuaidi, $rt['nu'], $rt['message'], $rt['comcontact'], $rt['comurl']);
+                    
+                    $trace = '';
+                    foreach($rt['Traces'] as $_v){
+                        
+                        $trace .= '  时间:'. $_v['AcceptTime'] ."\n";
+                        $trace .= '  信息:'. $_v['AcceptStation'] ."\n";
+                    }
+                    $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['nu'], $_trace);
                     $this->WechatModel->sendMessage($data);
                     break;
                 }
