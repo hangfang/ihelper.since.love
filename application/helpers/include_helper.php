@@ -1,7 +1,7 @@
 <?php
 
-if(!function_exists('get_config')){
-    function get_config($file_name){
+if(!function_exists('include_config')){
+    function include_config($file_name){
         
         $config = array();
         $file_path = APPPATH.'config'.DIRECTORY_SEPARATOR.ENVIRONMENT.DIRECTORY_SEPARATOR.$file_name.'.php';
