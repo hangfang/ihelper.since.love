@@ -152,7 +152,7 @@ EOF;
 
         switch(count($contents)){
             case 1:
-                if(($kuaidi100 = include_config('kuaidi100')) && in_array($contents[0], array_keys($kuaidi100))){
+                if(($kdniao = include_config('kdniao')) && in_array($contents[0], array_keys($kdniao))){
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
@@ -218,9 +218,9 @@ EOF;
                 
                 break;
             case 2:
-                if(($kuaidi100 = include_config('kuaidi100')) && in_array($contents[0], array_keys($kuaidi100))){
+                if(($kdniao = include_config('kdniao')) && in_array($contents[0], array_keys($kdniao))){
                     
-                    $rt = $this->KuaidiModel->query($kuaidi100[$contents[0]], $contents[1]);
+                    $rt = $this->KuaidiModel->kdniao($kdniao[$contents[0]], $contents[1]);
                     
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];

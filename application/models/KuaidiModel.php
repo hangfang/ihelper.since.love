@@ -26,10 +26,30 @@ class KuaidiModel extends MY_Model{
      * condition	无意义，请忽略
      * ischeck	无意义，请忽略
      */
-    public function query($com, $nu){
+    public function kuaidi100($com, $nu){
         $data = array();
         $data['method'] = 'get';
         $data['url'] = sprintf(KUAIDI_100_API_URL, $com, $nu, 0, 1, 'asc');
+        return $this->http($data);
+    }
+    
+    public function kdniao($com, $nu){
+        $queryData = array();
+        $queryData['ShipperCode'] = $com;
+        $queryData['LogisticCode'] = $nu;
+        
+        $param = array();
+        $param['RequestData'] = json_encode($queryData);
+        $param['EBusinessID'] = KD_NIAO_APP_ID;
+        $param['RequestType'] = 1002;
+        $param['DataSign'] = base64_encode(md5($param['RequestData'].KD_NIAO_APP_KEY));
+        $param['DataType'] = 2;
+        
+        
+        $data = array();
+        $data['data'] = $param;
+        $data['url'] = KD_NIAO_API_URL;
+        
         return $this->http($data);
     }
 }

@@ -25,3 +25,4 @@ define('BAIDU_WEATHER_API_KEY', 'babdf9f16f7b77baaa806eb302210ce9');
 /*快递鸟*/
 define('KD_NIAO_APP_ID', '1256662');
 define('KD_NIAO_APP_KEY', '998e72f8-d8f2-4b56-9b55-4c3510d23275');
+define('KD_NIAO_API_URL', 'http://api.kdniao.cc/Ebusiness/EbusinessOrderHandle.aspx');
