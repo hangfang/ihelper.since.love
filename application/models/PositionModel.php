@@ -53,6 +53,7 @@ EOF;
             
             foreach($rt['data'] as $v){
                 $tmp = <<<EOF
+                    
     名称：{$v['title']}
     地址：{$v['address']}
     距离：{$v['_distance']}米
