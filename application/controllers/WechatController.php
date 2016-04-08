@@ -126,7 +126,7 @@ EOF;
             foreach($this->_receive_format[$msgXml['MsgType']] as $_v){
                 $msg[$_v] = $msgXml[$_v];
             }
-            log_message('error', json_encode($msgXml));
+
             $suc = $this->WechatModel->saveMessage($msg);
             
             $msgtype = $msgXml['MsgType'];
@@ -151,7 +151,7 @@ EOF;
 
         switch(count($contents)){
             case 1:
-                $this->load->config('kuaidi100', true);
+                $this->config->load('kuaidi100', true);
                 $expressCompanyName = array_keys($this->config['kuaidi100']);
                 if(in_array($contents[0], $expressCompanyName)){
                     $data = $this->_send_format['text'];
@@ -160,7 +160,7 @@ EOF;
                     $data['text']['content'] = '咳，终于找到“'. $contents[0] .'”公司...';
                     $this->WechatModel->sendMessage($data);
 
-                }else if($this->load->config('weather', true) && in_array($contents[0], array_keys($this->config['weather']))){
+                }else if($this->config->load('weather', true) && in_array($contents[0], array_keys($this->config['weather']))){
                     $rt = $this->WeatherModel->getWeather($this->config['weather'][$contents[0]]);
                     
                     if($rt['errNum'] === 0){
@@ -180,7 +180,7 @@ EOF;
                     $data['text']['content'] = '咦，你很关心“'. $contents[0] .'”地区？';
                     $this->WechatModel->sendMessage($data);
 
-                }else if($this->load->config('wechat', true) && strpos($this->config['wechat']['daigou'], $contents[0])!== false){
+                }else if($this->config->load('wechat', true) && strpos($this->config['wechat']['daigou'], $contents[0])!== false){
                     $data = $this->_send_format['news'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
@@ -219,7 +219,7 @@ EOF;
                 
                 break;
             case 2:
-                if($this->load->config('kuaidi100') && in_array($contents[0], array_keys($this->config['kuaidi100']))){
+                if($this->config->load('kuaidi100') && in_array($contents[0], array_keys($this->config['kuaidi100']))){
                     
                     $rt = $this->KuaidiModel->query($this->config['express_list'][$contents[0]], $contents[1]);
                     
