@@ -231,7 +231,7 @@ EOF;
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
                     
-                    $_trace = "\n   ";
+                    $_trace = "\n";
                     foreach($rt['Traces'] as $_v){
                         
                         $_trace .= '  时间:'. date('m月d日 H:i:s', $_v['AcceptTime']) ."\n";
