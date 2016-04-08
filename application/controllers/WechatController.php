@@ -175,6 +175,19 @@ EOF;
                     $data['fromuser'] = $msgXml['ToUserName'];
                     $data['text']['content'] = '爽快点，告诉我你的位置吧？';
                     $this->WechatModel->sendMessage($data);
+                }elseif(preg_match('/^[a-z]{4}|[\d]{6}$/i', $contents[0]) === 1){
+                    
+                    if(preg_match('/^6[\d]{5}$/i', $contents[0]) === 1){
+                        $stockid = 'sh'. $contents[0];
+                    }elseif(preg_match('/^0[\d]{5}|3[\d]{5}$/i', $contents[0]) === 1){
+                        $stockid = 'sz'. $contents[0];
+                    }else{
+                        $stockid = $contents[0];
+                    }
+                    
+                    
+                    $data = $this->BaiduModel->getStock($stockid, $msgXml);
+                    $this->WechatModel->sendMessage($data);
                 }else{
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];

@@ -17,6 +17,33 @@ class BaiduModel extends MY_Model{
     日落时间：%s        
 EOF;
     
+    public $_msg_stock = <<<EOF
+%s:
+    股票代码: %s
+    日期: %s
+    时间: %s
+    开盘价: %s
+    收盘价: %s
+    当前价格: %s
+    最高价: %s
+    最低价: %s
+    买一: %s  %s
+    买二: %s  %s
+    买三: %s  %s
+    买四: %s  %s
+    买五: %s  %s
+    卖一: %s  %s
+    卖二: %s  %s
+    卖三: %s  %s
+    卖四: %s  %s
+    卖五: %s  %s
+    分时图: %s
+    日K线: %s
+    周K线: %s
+    月K线: %s
+    
+仅供参考，非投资依据。
+EOF;
     public $_send_format = array(
             'text' => array('touser'=>'', 'msgtype'=>'text', 'text'=>array('content'=>'')),
             'image' => array('touser'=>'', 'msgtype'=>'image', 'image'=>array('media_id'=>'')),
@@ -48,6 +75,32 @@ EOF;
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
         $data['text']['content'] = '咦，你很关心“'. $contents[0] .'”地区？';
+        return $data;
+    }
+    
+    public function getStock($stockid){
+        
+        $data = array();
+        $data['method'] = 'get';
+        $data['header'] = array('apikey: '. BAIDU_API_KEY);
+        $data['url'] = sprintf(BAIDU_STOCK_API_URL, $stockid);
+        $rt = $this->http($data);
+        
+        if($rt['errNum'] === 0){
+                        
+            $data = $this->_send_format['text'];
+            $data['touser'] = $msgXml['FromUserName'];
+            $data['fromuser'] = $msgXml['ToUserName'];
+
+            $stock = $rt['retData']['stockinfo'];
+
+            $data['text']['content'] = vsprintf($this->_msg_stock, $stock);
+            return $data;
+        }
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = '糟糕，未查到“'. $stockid .'”';
         return $data;
     }
 }

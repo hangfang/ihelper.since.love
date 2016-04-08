@@ -20,6 +20,8 @@ define('SINA_IP_LOOKUP_API_URL', 'http://int.dpool.sina.com.cn/iplookup/iplookup
 
 /*天气查询*/
 define('BAIDU_WEATHER_API_URL', 'http://apis.baidu.com/apistore/weatherservice/cityid?cityid=%s');
+/*股票查询*/
+define('BAIDU_STOCK_API_URL', 'http://apis.baidu.com/apistore/stockservice/stock?stockid=%s&list=1');
 define('BAIDU_API_KEY', 'babdf9f16f7b77baaa806eb302210ce9');
 
 /*快递鸟*/
