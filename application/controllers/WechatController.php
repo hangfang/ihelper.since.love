@@ -76,7 +76,7 @@ EOF;
     日期：%s
     发布时间：%s
     天气：%s
-    当前气温：%s
+    当前气温：%s℃
     最高：%s℃
     最低：%s℃
     风向：%s
@@ -170,7 +170,7 @@ EOF;
                         
                         $weather = $rt['retData'];
 
-                        $data['text']['content'] = sprintf($this->_msg_weather, $weather['city'], $weather['date'], $weather['time'], $weather['weather'], $weather['temp'], $weather['l_tmp'], $weather['h_tmp'], $weather['WD'], $weather['WS'], $weather['sunrise'], $weather['sunset']);
+                        $data['text']['content'] = sprintf($this->_msg_weather, $weather['city'], $weather['date'], $weather['time'], $weather['weather'], $weather['temp'], $weather['h_tmp'], $weather['l_tmp'], $weather['WD'], $weather['WS'], $weather['sunrise'], $weather['sunset']);
                         $this->WechatModel->sendMessage($data);
                     }
                     $data = $this->_send_format['text'];
