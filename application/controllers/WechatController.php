@@ -127,7 +127,7 @@ EOF;
     
     private function text($msgXml){
         
-        $contents = $msgXml['MsgType'] === 'text' ? $msgXml['Content'] : trim($msgXml['Recognition'], '？');
+        $contents = $msgXml['Content'];
         
         $contents = trim(str_replace(array('，', ','), array(' ', ' '), $contents));
         $contents = explode(' ', $contents);
@@ -229,7 +229,12 @@ EOF;
     }
     
     public function voice($msgXml){
+        $msgXml['Content'] = trim($msgXml['Recognition'], '？');
+        if(strlen($msgXml['Content'])>0){
+            $this->text($msgXml);
+        }
         
+        //
         $data = $this->_send_format['text'];
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
