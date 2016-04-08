@@ -175,12 +175,12 @@ EOF;
                     $data['fromuser'] = $msgXml['ToUserName'];
                     $data['text']['content'] = '爽快点，告诉我你的位置吧？';
                     $this->WechatModel->sendMessage($data);
-                }elseif(preg_match('/^[a-z]{4}|[\d]{6}$/i', $contents[0]) === 1){
+                }elseif(preg_match('/^[\d]{6}$/i', $contents[0]) === 1){
                     
                     if(preg_match('/^6[\d]{5}$/i', $contents[0]) === 1){
-                        $stockid = 'sh'. $contents[0];
+                        $stockid = 'sh'. $contents[0];//上海
                     }elseif(preg_match('/^0[\d]{5}|3[\d]{5}$/i', $contents[0]) === 1){
-                        $stockid = 'sz'. $contents[0];
+                        $stockid = 'sz'. $contents[0];//深圳
                     }else{
                         $stockid = $contents[0];
                     }
