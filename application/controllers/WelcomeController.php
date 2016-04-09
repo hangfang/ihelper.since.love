@@ -34,10 +34,9 @@ class WelcomeController extends MY_Controller{
         $Imagick->add_text('since.love',10,20);
         $Imagick->add_watermark('sonce.love',10,50);
         $Imagick->save_to('x.png');
-        unset($Imagick);
 
         /* Output the image*/
 		header("Content-Type: image/png");
-		echo dirname(BASEPATH)."/upload/images/x.png"
+		$Imagick->getImagesBlob();
 	}
 }
