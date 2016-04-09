@@ -31,6 +31,7 @@ class WechatController extends MY_Controller {
             'shortvideo' => array('ToUserName', 'FromUserName', 'CreateTime', 'MsgType', 'MediaId', 'ThumbMediaId', 'MsgId'),
             'location' => array('ToUserName', 'FromUserName', 'CreateTime', 'MsgType', 'Location_X', 'Location_Y', 'Scale', 'Label', 'MsgId'),
             'link' => array('ToUserName', 'FromUserName', 'CreateTime', 'MsgType', 'Title', 'Description', 'Url', 'MsgId'),
+            'event' => array('ToUserName', 'FromUserName', 'CreateTime', 'MsgType', 'Event', 'EventKey', 'Latitude', 'Longitude', 'Precision', 'Ticket', 'MsgId'),
         );
     
     public $_send_format = array(
@@ -42,37 +43,62 @@ class WechatController extends MY_Controller {
             'news' => array('touser'=>'', 'msgtype'=>'news', 'news'=>array('articles'=>array('title'=>'', 'description'=>'', 'url'=>'', 'picurl'=>''))),
         );
     
-        public $_unrecognized_msg = <<<EOF
+    public $_unrecognized_msg = <<<EOF
 咦，您是说“%s”吗？
-可是小i还小，未能理解ㄒoㄒ
+可小i尚小，未能处理ㄒoㄒ
 
-1、发送“城市中文名”查询天气
-2、发送“快递公司名，单号”查物流
-3、发送“股票代码”查实时数据
-4、发送"酒店"、"美食"等，搜索周边
-5、更多隐藏功能期待您的发掘…
+1、发送如“北京”查询天气
+2、发送如“申通，12345”查物流
+3、发送如“600000”查实时数据
+4、发送如“美容”等，搜索周边
+5、更多隐藏功能由您发掘…
         
-感谢您的关注
+感谢关注
 EOF;
         
-        public $_msg_to_large = <<<EOF
-额，信息量太大？
-请说重点吧(*≧▽≦*)
+    public $_msg_to_large = <<<EOF
+额，信息量太大
+请说重点(*≧▽≦*)
 
-1、发送“城市中文名”查询天气
-2、发送“快递公司名，单号”查物流
-3、发送“股票代码”查实时数据
-4、发送"酒店"、"美食"等，搜索周边
-5、更多隐藏功能期待您的发掘…
+1、发送如“北京”查询天气
+2、发送如“申通，12345”查物流
+3、发送如“600000”查实时数据
+4、发送如“美容”等，搜索周边
+5、更多隐藏功能由您发掘…
         
-感谢您的关注
+感谢关注
 EOF;
-       public $_msg_kuaidi = <<<EOF
+
+    public $_msg_welcome_back = <<<EOF
+热烈欢迎老伙伴回归！
+
+1、发送如“北京”查询天气
+2、发送如“申通，12345”查物流
+3、发送如“600000”查实时数据
+4、发送如“美容”等，搜索周边
+5、更多隐藏功能由您发掘…
+        
+感谢关注
+EOF;
+
+    public $_msg_welcome_newbeing = <<<EOF
+撒花欢迎新朋友到来！
+
+1、发送如“北京”查询天气
+2、发送如“申通，12345”查物流
+3、发送如“600000”查实时数据
+4、发送如“美容”等，搜索周边
+5、更多隐藏功能由您发掘…
+        
+感谢关注
+EOF;
+
+    public $_msg_kuaidi = <<<EOF
 快递单号：%s
 物流信息：%s
 EOF;
        
-       public $_msg_position = <<<EOF
+    public $_msg_position = <<<EOF
 OK，我记住了
 你在%s！
 试试搜索周边？如酒店、美食...
@@ -118,7 +144,7 @@ EOF;
             
             $msg = array();
             foreach($this->_receive_format[$msgXml['MsgType']] as $_v){
-                $msg[$_v] = $msgXml[$_v];
+                isset($msgXml[$_v]) && $msg[$_v] = $msgXml[$_v];
             }
 
             $suc = $this->WechatModel->saveMessage($msg);
@@ -307,6 +333,74 @@ EOF;
     }
 
     private function event($msgXml){
-        
+        $this->$msgXml['Event']($msgXml);
+    }
+
+    /**
+    * @todo 订阅的事件推送
+    */
+    private function subscribe($msgXml){
+        $rt = $this->WechatModel->subscribe($msgXml['FromUserName']);
+
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = $rt==='new' ? $this->_msg_welcome_newbeing : $this->_msg_welcome_back;
+        $this->WechatModel->sendMessage($data);
+    }
+
+    /**
+    * @todo 取消订阅的事件推送
+    */
+    private function unsubscribe($msgXml){
+        $rt = $this->WechatModel->unsubscribe($msgXml['FromUserName']);
+    }
+
+    /**
+    * @todo 扫描二维码的事件推送
+    */
+    private function scan($msgXml){
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = '扫描结果：'. $msgXml['EventKey'];
+        $this->WechatModel->sendMessage($data);
+    }
+
+    /**
+    * @todo 地理位置上报的事件推送
+    */
+    private function location($msgXml){
+        //$rt = $this->WechatModel->location($msgXml);
+
+        $data = $this->_send_format['text'];
+        $data['touser'] = ADMIN_WECHAT_OPENID;
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = $msgXml['FromUserName'] .'上报位置';
+        $this->WechatModel->sendMessage($data);
+    }
+
+    /**
+    * @todo 点击菜单拉取消息的事件推送
+    */
+    private function click($msgXml){
+
+        $data = $this->_send_format['text'];
+        $data['touser'] = ADMIN_WECHAT_OPENID;
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = $msgXml['FromUserName'] .'点击菜单';
+        $this->WechatModel->sendMessage($data);
+    }
+
+    /**
+    * @todo 点击菜单跳转链接时的事件推送
+    */
+    private function view($msgXml){
+
+        $data = $this->_send_format['text'];
+        $data['touser'] = ADMIN_WECHAT_OPENID;
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = $msgXml['FromUserName'] .'菜单跳转';
+        $this->WechatModel->sendMessage($data);
     }
 }

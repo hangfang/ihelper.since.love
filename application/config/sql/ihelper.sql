@@ -18,12 +18,12 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for wechat_receive_message
 -- ----------------------------
-DROP TABLE IF EXISTS `wechat_receive_message`;
 CREATE TABLE `wechat_receive_message` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Content` varchar(255) NOT NULL DEFAULT '',
   `CreateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Description` varchar(255) NOT NULL DEFAULT '',
+  `Event` varchar(255) NOT NULL DEFAULT '',
   `EventKey` varchar(255) NOT NULL DEFAULT '',
   `Format` varchar(255) NOT NULL DEFAULT '',
   `FromUserName` varchar(255) NOT NULL DEFAULT '',
@@ -87,3 +87,14 @@ CREATE TABLE `wechat_token` (
   `insert_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `wechat_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `insert_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `openid` varchar(255) NOT NULL DEFAULT '',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `update_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `openid` (`openid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

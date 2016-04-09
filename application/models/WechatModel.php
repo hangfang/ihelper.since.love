@@ -306,4 +306,55 @@ EOF;
         echo $msg;
         exit;
     }
+
+    public function subscribe($openid){
+        if($this->getUser()){
+            $this->db->set('status', 0);
+            $this->db->where('openid', $openid);
+            $query = $this->db->update('wechat_user');
+
+            if($query === false){
+                log_message('error', 'resubscribe error, sql: '. $this->db->last_query());
+                return false;
+            }
+
+            return 'old';
+        }
+
+        $query = $this->db->insert('wechat_user', array('openid'=>$openid, 
+            'status'=>0, 'update_time'=>'now()'));
+
+        if($query === false){
+            log_message('error', 'save subscribe error, sql: '. $this->db->last_query());
+            return false;
+        }
+
+        return 'new';
+    }
+
+    public function unsubscribe($openid){
+        if($this->getUser()){
+            $this->db->set('status', 1);
+            $this->db->where('openid', $openid);
+            $query = $this->db->update('wechat_user');
+
+            if($query === false){
+                log_message('error', 'unsubscribe error, sql: '. $this->db->last_query());
+                return false;
+            }
+
+            return true;
+        }
+
+        log_message('error', 'openid not found error, sql: '. $this->db->last_query());
+
+        return false;
+    }
+
+    public function getUser($openid){
+        $this->db->where('openid', $openid);
+        $query = $this->db->get('wechat_user');
+
+        return $query && $query->num_rows()===1 ? $query->row_array() : array();
+    }
 }
