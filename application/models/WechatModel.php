@@ -310,7 +310,7 @@ EOF;
     public function subscribe($openid){
         if($this->getUser($openid)){
             $this->db->set('status', 0);
-            $this->db->set('update_time', time());
+            $this->db->set('update_time', date('Y-m-d H:i:s'));
             $this->db->where('openid', $openid);
             $query = $this->db->update('wechat_user');
 
@@ -323,7 +323,7 @@ EOF;
         }
 
         $query = $this->db->insert('wechat_user', array('openid'=>$openid, 
-            'status'=>0, 'update_time'=>time()));
+            'status'=>0, 'update_time'=>date('Y-m-d H:i:s')));
 
         if($query === false){
             log_message('error', 'save subscribe error, sql: '. $this->db->last_query());
@@ -336,7 +336,7 @@ EOF;
     public function unsubscribe($openid){
         if($this->getUser($openid)){
             $this->db->set('status', 1);
-            $this->db->set('update_time', time());
+            $this->db->set('update_time', date('Y-m-d H:i:s'));
             $this->db->where('openid', $openid);
             $query = $this->db->update('wechat_user');
 
