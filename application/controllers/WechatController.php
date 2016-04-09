@@ -149,7 +149,7 @@ EOF;
                         empty($msgXml[$_v]) && $msg[$_v] = $msgXml[$_v] = '';
                     }
                 }
-                isset($msgXml[$_v]) && $msg[$_v] = $msgXml[$_v];
+                $msg[$_v] = isset($msgXml[$_v]) ? $msgXml[$_v] : '';
             }
 
             $suc = $this->WechatModel->saveMessage($msg);
