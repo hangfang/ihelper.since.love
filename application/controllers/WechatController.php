@@ -373,7 +373,7 @@ EOF;
     }
 
     /**
-    * @todo 地理位置上报的事件推送
+    * @todo 地理位置上报的事件推送（订阅号不支持）
     */
     private function eventLocation($msgXml){
         //$rt = $this->WechatModel->location($msgXml);
