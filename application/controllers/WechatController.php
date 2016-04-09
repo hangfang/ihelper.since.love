@@ -103,13 +103,13 @@ EOF;
         /**
          * 微信消息结构
          * <xml>
-                <ToUserName><![CDATA[%s]]></ToUserName>
-                <FromUserName><![CDATA[%s]]></FromUserName>
-                <CreateTime>%s</CreateTime>
-                <MsgType><![CDATA[%s]]></MsgType>
-                <Content><![CDATA[%s]]></Content>
-                <FuncFlag>0</FuncFlag>
-            </xml>
+         *       <ToUserName><![CDATA[%s]]></ToUserName>
+         *       <FromUserName><![CDATA[%s]]></FromUserName>
+         *       <CreateTime>%s</CreateTime>
+         *       <MsgType><![CDATA[%s]]></MsgType>
+         *       <Content><![CDATA[%s]]></Content>
+         *       <FuncFlag>0</FuncFlag>
+         *   </xml>
          */
       	//extract xml data
 		if (!empty($data)){
@@ -243,7 +243,7 @@ EOF;
         $this->WechatModel->sendMessage($data);
     }
     
-    public function voice($msgXml){
+    private function voice($msgXml){
         $msgXml['Content'] = trim($msgXml['Recognition'], '？');
         if(strlen($msgXml['Content'])>0){
             $this->text($msgXml);
@@ -257,7 +257,7 @@ EOF;
         $this->WechatModel->sendMessage($data);
     }
     
-    public function video($msgXml){
+    private function video($msgXml){
         
         $data = $this->_send_format['text'];
         $data['touser'] = $msgXml['FromUserName'];
@@ -266,7 +266,7 @@ EOF;
         $this->WechatModel->sendMessage($data);
     }
     
-    public function shortvideo($msgXml){
+    private function shortvideo($msgXml){
         
         $data = $this->_send_format['text'];
         $data['touser'] = $msgXml['FromUserName'];
@@ -275,7 +275,7 @@ EOF;
         $this->WechatModel->sendMessage($data);
     }
     
-    public function location($msgXml){
+    private function location($msgXml){
 //        
 //        //查询腾讯地图
 //        $rt = $this->PositionModel->getLocation($msgXml['Location_X'], $msgXml['Location_Y']);
@@ -297,12 +297,16 @@ EOF;
         $this->WechatModel->sendMessage($data);
     }
     
-    public function link($msgXml){
+    private function link($msgXml){
         
         $data = $this->_send_format['text'];
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
         $data['text']['content'] = '等等，对，这链接有毒！';
         $this->WechatModel->sendMessage($data);
+    }
+
+    private function event($msgXml){
+        
     }
 }
