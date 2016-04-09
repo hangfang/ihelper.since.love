@@ -275,7 +275,7 @@ EOF;
     }
     
     private function voice($msgXml){
-        $msgXml['Content'] = trim($msgXml['Recognition'], '？');
+        $msgXml['Content'] = trim($msgXml['Recognition'], '？！');
         if(strlen($msgXml['Content'])>0){
             $this->text($msgXml);
         }
