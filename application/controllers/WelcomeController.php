@@ -26,7 +26,7 @@ class WelcomeController extends MY_Controller{
 
 	public function image(){
 		/* Read the image */
-		$im = new Imagick(BASEPATH."/upload/images/test.png");
+		$im = new Imagick(dirname(BASEPATH)."/upload/images/test.png");
 
 		/* Thumbnail the image */
 		$im->thumbnailImage(200, null);
