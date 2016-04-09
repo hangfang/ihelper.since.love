@@ -149,7 +149,7 @@ EOF;
 
             $suc = $this->WechatModel->saveMessage($msg);
             
-            $msgtype = $msgXml['MsgType'];
+            $msgtype = $msgXml['MsgType']==='event' ? $msgXml['MsgType'].Ucfirst(strtolower($msgXml['Event'])) : $msgXml['MsgType'];
             $this->$msgtype($msgXml);
         }
     }
@@ -339,7 +339,7 @@ EOF;
     /**
     * @todo 订阅的事件推送
     */
-    private function subscribe($msgXml){
+    private function eventSubscribe($msgXml){
         $rt = $this->WechatModel->subscribe($msgXml['FromUserName']);
 
         $data = $this->_send_format['text'];
@@ -352,14 +352,14 @@ EOF;
     /**
     * @todo 取消订阅的事件推送
     */
-    private function unsubscribe($msgXml){
+    private function eventUnsubscribe($msgXml){
         $rt = $this->WechatModel->unsubscribe($msgXml['FromUserName']);
     }
 
     /**
     * @todo 扫描二维码的事件推送
     */
-    private function scan($msgXml){
+    private function eventScan($msgXml){
         $data = $this->_send_format['text'];
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
@@ -370,7 +370,7 @@ EOF;
     /**
     * @todo 地理位置上报的事件推送
     */
-    private function location($msgXml){
+    private function eventLocation($msgXml){
         //$rt = $this->WechatModel->location($msgXml);
 
         $data = $this->_send_format['text'];
@@ -383,7 +383,7 @@ EOF;
     /**
     * @todo 点击菜单拉取消息的事件推送
     */
-    private function click($msgXml){
+    private function eventClick($msgXml){
 
         $data = $this->_send_format['text'];
         $data['touser'] = ADMIN_WECHAT_OPENID;
@@ -395,7 +395,7 @@ EOF;
     /**
     * @todo 点击菜单跳转链接时的事件推送
     */
-    private function view($msgXml){
+    private function eventView($msgXml){
 
         $data = $this->_send_format['text'];
         $data['touser'] = ADMIN_WECHAT_OPENID;
