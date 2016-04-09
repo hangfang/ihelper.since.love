@@ -308,7 +308,7 @@ EOF;
     }
 
     public function subscribe($openid){
-        if($this->getUser()){
+        if($this->getUser($openid)){
             $this->db->set('status', 0);
             $this->db->where('openid', $openid);
             $query = $this->db->update('wechat_user');
@@ -333,7 +333,7 @@ EOF;
     }
 
     public function unsubscribe($openid){
-        if($this->getUser()){
+        if($this->getUser($openid)){
             $this->db->set('status', 1);
             $this->db->where('openid', $openid);
             $query = $this->db->update('wechat_user');
