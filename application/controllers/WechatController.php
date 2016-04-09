@@ -379,7 +379,7 @@ EOF;
         //$rt = $this->WechatModel->location($msgXml);
 
         $data = $this->_send_format['text'];
-        $data['touser'] = WX_ADMIN_OPENID;
+        $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
         $data['text']['content'] = $msgXml['FromUserName'] .'上报位置';
         $this->WechatModel->sendMessage($data);
@@ -391,7 +391,7 @@ EOF;
     private function eventClick($msgXml){
 
         $data = $this->_send_format['text'];
-        $data['touser'] = WX_ADMIN_OPENID;
+        $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
         $data['text']['content'] = $msgXml['FromUserName'] .'点击菜单';
         $this->WechatModel->sendMessage($data);
@@ -403,7 +403,7 @@ EOF;
     private function eventView($msgXml){
 
         $data = $this->_send_format['text'];
-        $data['touser'] = WX_ADMIN_OPENID;
+        $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
         $data['text']['content'] = $msgXml['FromUserName'] .'菜单跳转';
         $this->WechatModel->sendMessage($data);
