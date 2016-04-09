@@ -145,7 +145,7 @@ EOF;
             $msg = array();
             foreach($this->_receive_format[$msgXml['MsgType']] as $_v){
                 if($msgXml['MsgType']==='event'){
-                    if(in_array($_v, array('Latitude', 'Longitude', 'Precision')){
+                    if(in_array($_v, array('Latitude', 'Longitude', 'Precision'))){
                         empty($msgXml[$_v]) && $msg[$_v] = $msgXml[$_v] = '';
                     }
                 }
