@@ -26,9 +26,8 @@ class WelcomeController extends MY_Controller{
 
 	public function image(){
 		/* Read the image */
-		$im = new Imagick();
 
-		$Imagick=new class_imagick();
+		$Imagick=new Imagick();
         $Imagick->open(dirname(BASEPATH)."/upload/images/test.png");
         $Imagick->resize_to(100,100,'scale_fill');
         $Imagick->add_text('since.love',10,20);
