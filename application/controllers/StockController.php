@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class StockController extends MY_Controller {
 
     public $_msg_stock = <<<EOF
-<p class="weui_media_desc">%s:</p>
+<p class="weui_media_desc blue">%s</p>
 <p class="weui_media_desc">股票代码: %s</p>
 <p class="weui_media_desc">日期: %s</p>
 <p class="weui_media_desc">时间: %s</p>
@@ -33,7 +33,7 @@ class StockController extends MY_Controller {
 <p class="weui_media_desc">周K线: <img src="%s"/></p>
 <p class="weui_media_desc">月K线: <img src="%s"/></p>
 
-仅供参考，非投资依据。
+<p class="weui_media_desc blue">仅供参考，非投资依据。</p>
 EOF;
 
     public function __construct() {
