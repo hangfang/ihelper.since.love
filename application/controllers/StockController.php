@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class StockController extends MY_Controller {
 
-public $_msg_stock = <<<EOF
+    public $_msg_stock = <<<EOF
 <p class="weui_media_desc">%s:</p>
 <p class="weui_media_desc">股票代码: %s</p>
 <p class="weui_media_desc">日期: %s</p>
@@ -36,53 +36,53 @@ public $_msg_stock = <<<EOF
 仅供参考，非投资依据。
 EOF;
 
-public function __construct() {
-parent::__construct();
-}
+    public function __construct() {
+        parent::__construct();
+    }
 
-public function index(){
-$data = array();
-$data['title'] = '股票查询';
+    public function index(){
+        $data = array();
+        $data['title'] = '股票查询';
 
-if($this->input->is_ajax_request()){
-$stockid = $this->input->post('stockid');
+        if($this->input->is_ajax_request()){
+            $stockid = $this->input->post('stockid');
 
-if(!$stockid){
-$this->json($this->error['stock_lack_of_stockid_error']);
-}
+            if(!$stockid){
+                $this->json($this->error['stock_lack_of_stockid_error']);
+            }
 
-if(preg_match('/^6[\d]{5}$/i', $stockid) === 1){
-$stockid = 'sh'. $stockid;//上海
-}elseif(preg_match('/^0[\d]{5}|3[\d]{5}$/i', $stockid) === 1){
-$stockid = 'sz'. $stockid;//深圳
-}else{
-$stockid = $stockid;
-}
+            if(preg_match('/^6[\d]{5}$/i', $stockid) === 1){
+                $stockid = 'sh'. $stockid;//上海
+            }elseif(preg_match('/^0[\d]{5}|3[\d]{5}$/i', $stockid) === 1){
+                $stockid = 'sz'. $stockid;//深圳
+            }else{
+                $stockid = $stockid;
+            }
 
-$this->load->model('BaiduModel');
-$rt = $this->BaiduModel->getStock($stockid);
+            $this->load->model('BaiduModel');
+            $rt = $this->BaiduModel->getStock($stockid);
 
-if(isset($rt['errNum']) && $rt['errNum']-0 > 0){
-$data = array();
-$data['rtn'] = 1;
-$data['errmsg'] = $rt['errMsg'];
+            if(isset($rt['errNum']) && $rt['errNum']-0 > 0){
+                $data = array();
+                $data['rtn'] = 1;
+                $data['errmsg'] = $rt['errMsg'];
 
-$this->json($data);
-return false;
-}
+                $this->json($data);
+                return false;
+            }
 
-$stockInfo = $rt['retData']['stockinfo'][0];
-$msg = sprintf($this->_msg_stock, $stockInfo['name'], $stockInfo['code'], $stockInfo['date'], $stockInfo['time'], $stockInfo['OpenningPrice'], $stockInfo['closingPrice'], $stockInfo['currentPrice'], $stockInfo['hPrice'], $stockInfo['lPrice'], $stockInfo['competitivePrice'], $stockInfo['auctionPrice'], number_format($stockInfo['totalNumber']/1000000, 1), number_format($stockInfo['turnover']/100000000, 2), number_format($stockInfo['increase']-0, 2).'%', $stockInfo['buyOne'], $stockInfo['buyOnePrice'], $stockInfo['buyTwo'], $stockInfo['buyTwoPrice'], $stockInfo['buyThree'], $stockInfo['buyThreePrice'], $stockInfo['buyFour'], $stockInfo['buyFourPrice'], $stockInfo['buyFive'], $stockInfo['buyFivePrice'], $stockInfo['sellOne'], $stockInfo['sellOnePrice'], $stockInfo['sellTwo'], $stockInfo['sellTwoPrice'], $stockInfo['sellThree'], $stockInfo['sellThreePrice'], $stockInfo['sellFour'], $stockInfo['sellFourPrice'], $stockInfo['sellFive'], $stockInfo['sellFivePrice'], $stockInfo['minurl'], $stockInfo['dayurl'], $stockInfo['weekurl'], $stockInfo['monthurl']);
+            $stockInfo = $rt['retData']['stockinfo'][0];
+            $msg = sprintf($this->_msg_stock, $stockInfo['name'], $stockInfo['code'], $stockInfo['date'], $stockInfo['time'], $stockInfo['OpenningPrice'], $stockInfo['closingPrice'], $stockInfo['currentPrice'], $stockInfo['hPrice'], $stockInfo['lPrice'], $stockInfo['competitivePrice'], $stockInfo['auctionPrice'], number_format($stockInfo['totalNumber']/1000000, 1), number_format($stockInfo['turnover']/100000000, 2), number_format($stockInfo['increase']-0, 2).'%', $stockInfo['buyOne'], $stockInfo['buyOnePrice'], $stockInfo['buyTwo'], $stockInfo['buyTwoPrice'], $stockInfo['buyThree'], $stockInfo['buyThreePrice'], $stockInfo['buyFour'], $stockInfo['buyFourPrice'], $stockInfo['buyFive'], $stockInfo['buyFivePrice'], $stockInfo['sellOne'], $stockInfo['sellOnePrice'], $stockInfo['sellTwo'], $stockInfo['sellTwoPrice'], $stockInfo['sellThree'], $stockInfo['sellThreePrice'], $stockInfo['sellFour'], $stockInfo['sellFourPrice'], $stockInfo['sellFive'], $stockInfo['sellFivePrice'], $stockInfo['minurl'], $stockInfo['dayurl'], $stockInfo['weekurl'], $stockInfo['monthurl']);
 
-$data = array();
-$data['rtn'] = 0;
-$data['msg'] = $msg;
+            $data = array();
+            $data['rtn'] = 0;
+            $data['msg'] = $msg;
 
-$this->json($data);
-return true;
-}
+            $this->json($data);
+            return true;
+        }
 
-$this->layout->setLayout('weui');
-$this->layout->view('Stock/index', $data);
-}
+        $this->layout->setLayout('weui');
+        $this->layout->view('Stock/index', $data);
+    }
 }
