@@ -43,7 +43,7 @@ class MY_Model extends CI_Model{
 
         if($result === false){
             return array(
-                'errcode' => 1,
+                'rtn' => 1,
                 'errmsg' => 'request interface fatal'
             );
         }
@@ -54,7 +54,7 @@ class MY_Model extends CI_Model{
 
         if(!$return){
             $return = array();
-            $return['errcode'] = 2;
+            $return['rtn'] = 2;
             $return['errmsg'] = '返回数据非json格式';
             return $return;
         }

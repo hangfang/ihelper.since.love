@@ -113,8 +113,13 @@ EOF;
         $this->load->helper('include');
     }
     
-	public function index()
-	{
+    public function example(){
+        $data = array();
+        $data['title'] = 'WeUI';
+        $this->layout->view('Wechat/example', $data);
+    }
+    
+    public function index(){
         
         $data = array();
         $data['title'] = '微信jsapi测试';
@@ -122,7 +127,7 @@ EOF;
         
         $data = array_merge($data, $sigObj);
         $this->layout->view('Wechat/index', $data);
-	}
+    }
     
     public function message(){
         $data = file_get_contents('php://input');

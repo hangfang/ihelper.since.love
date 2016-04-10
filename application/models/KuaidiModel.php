@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class KuaidiModel extends MY_Model{
     
-    public function kdniao($com, $nu, $msgXml){
+    public function kdniao($com, $nu, $msgXml=array()){
         $queryData = array();
         $queryData['ShipperCode'] = $com;
         $queryData['LogisticCode'] = $nu;
@@ -21,6 +21,10 @@ class KuaidiModel extends MY_Model{
         $data['url'] = KD_NIAO_API_URL;
         
         $rt = $this->http($data);
+        
+        if(empty($msgXml)){
+            return $rt;
+        }
         
         if($rt['Success'] === false){
                         

@@ -58,15 +58,19 @@ EOF;
             'news' => array('touser'=>'', 'msgtype'=>'news', 'news'=>array('articles'=>array('title'=>'', 'description'=>'', 'url'=>'', 'picurl'=>''))),
         );
     
-    public function getWeather($cityid, $msgXml){
+    public function getWeather($cityid, $msgXml=array()){
         $data = array();
         $data['method'] = 'get';
         $data['header'] = array('apikey: '. BAIDU_API_KEY);
         $data['url'] = sprintf(BAIDU_WEATHER_API_URL, $cityid);
         $rt = $this->http($data);
         
+        if(empty($msgXml)){
+            return $rt;
+        }
+        
         if($rt['errNum'] === 0){
-                        
+
             $data = $this->_send_format['text'];
             $data['touser'] = $msgXml['FromUserName'];
             $data['fromuser'] = $msgXml['ToUserName'];
@@ -83,13 +87,17 @@ EOF;
         return $data;
     }
     
-    public function getStock($stockid, $msgXml){
+    public function getStock($stockid, $msgXml=array()){
         
         $data = array();
         $data['method'] = 'get';
         $data['header'] = array('apikey: '. BAIDU_API_KEY);
         $data['url'] = sprintf(BAIDU_STOCK_API_URL, $stockid);
         $rt = $this->http($data);
+        
+        if(empty($msgXml)){
+            return $rt;
+        }
         
         if($rt['errNum'] === 0){
                         

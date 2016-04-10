@@ -6,15 +6,15 @@ class Layout
     var $obj; 
     var $layout; 
     
-    function Layout($layout = "common") 
-    { 
+    function Layout($layout = array("common")) 
+    {
         $this->obj =& get_instance(); 
-        $this->layout = '_layouts/' . $layout; 
+        $this->layout = '_layouts/' . $layout[0]; 
     } 
   
     function setLayout($layout) 
     { 
-      $this->layout = $layout; 
+      $this->layout = '_layouts/' .$layout; 
     } 
     
     function view($view, $data=null, $return=false) 
