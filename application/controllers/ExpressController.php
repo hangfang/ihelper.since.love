@@ -26,7 +26,7 @@ class ExpressController extends MY_Controller {
             $this->load->model('KuaidiModel');
             $rt = $this->KuaidiModel->kdniao($com, $nu);
 
-            if(strlen($rt['Reason']) > 0){
+            if(isset($rt['Reason']) && strlen($rt['Reason']) > 0){
                 $data = array();
                 $data['rtn'] = 1;
                 $data['errmsg'] = $rt['Reason'];
@@ -38,8 +38,7 @@ class ExpressController extends MY_Controller {
             
             $_trace = "";
             foreach($rt['Traces'] as $_v){
-                $_trace .= '    时间:'. date('m月d日 H:i:s', strtotime($_v['AcceptTime'])) ."\n";
-                $_trace .= '    信息:'. $_v['AcceptStation'] ."\n";
+                $_trace .= '<p class="weui_media_desc">时间:'. date('m月d日 H:i:s', strtotime($_v['AcceptTime'])) ." ". $_v['AcceptStation'] .'</p>';
             }
 
             $data = array();

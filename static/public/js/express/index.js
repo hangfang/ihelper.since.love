@@ -1,18 +1,23 @@
 $(function(){
+    $('.selectpicker').selectpicker({
+        'selectedText': 'cat',
+        'multiple': false
+    });
+
     $('form').submit(function(e){
 
         if($('#com').val().length === 0){
-            $('#com').parents('.form-group').removeClass('has-success').addClass('has-error').end().next('span').removeClass('glyphicon-ok hide').addClass('glyphicon-remove');
+            $('#com').parents('.form-group').removeClass('has-success').addClass('has-error').end().next('span').removeClass('glyphicon-ok').addClass('glyphicon-remove').show();
             return false;
         }else{
-            $('#com').parents('.form-group').removeClass('has-error').addClass('has-success').end().next('span').removeClass('glyphicon-remove hide').addClass('glyphicon-ok');
+            $('#com').parents('.form-group').removeClass('has-error').addClass('has-success').end().next('span').removeClass('glyphicon-remove').addClass('glyphicon-ok').show();
         }
         
         if($('#nu').val().length === 0){
-            $('#nu').parents('.form-group').removeClass('has-success').addClass('has-error').end().next('span').removeClass('glyphicon-ok hide').addClass('glyphicon-remove');
+            $('#nu').parents('.form-group').removeClass('has-success').addClass('has-error').end().next('span').removeClass('glyphicon-ok').addClass('glyphicon-remove').show();
             return false;
         }else{
-            $('#nu').parents('.form-group').removeClass('has-error').addClass('has-success').end().next('span').removeClass('glyphicon-remove hide').addClass('glyphicon-ok');
+            $('#nu').parents('.form-group').removeClass('has-error').addClass('has-success').end().next('span').removeClass('glyphicon-remove').addClass('glyphicon-ok').show();
         }
         
         var data = $(this).serialize();
@@ -32,7 +37,8 @@ $(function(){
                     return false;
                 }
                 
-                
+                $('#express_result').find('.weui_media_text').html(data.msg).end().show();
+                return true;
             }
         });
         
