@@ -1,7 +1,6 @@
 $(function(){
     $('.selectpicker').selectpicker({
-        'selectedText': 'cat',
-        'multiple': false
+        'selectedText': 'cat'
     });
 
     $('form').submit(function(e){
