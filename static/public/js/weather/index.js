@@ -1,8 +1,8 @@
 $(function(){
     $('#cityid').selectpicker({
-        'selectedText': 'cat'
+        'mobile': true
     });
- 
+
     $('form').submit(function(e){
 
         if($('#cityid').val().length === 0){

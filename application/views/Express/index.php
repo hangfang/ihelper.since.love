@@ -9,7 +9,7 @@
             <div class="form-group has-success has-feedback">
                 <label class="control-label col-sm-3" for="com">快递公司</label>
                 <div class="col-sm-9">
-                    <select name="com" id="com" class="selectpicker show-tick form-control" data-live-search="true" autocomplete="on">
+                    <select name="com" id="com" class="show-tick form-control" data-live-search="true" autocomplete="on">
                     <?php
                         foreach($expressList as $_k=>$_v){
                             echo <<<EOF

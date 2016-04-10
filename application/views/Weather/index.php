@@ -9,7 +9,7 @@
             <div class="form-group has-success has-feedback">
                 <label class="control-label col-sm-3" for="cityid">城市名称</label>
                 <div class="col-sm-9">
-                    <select name="cityid" id="cityid" class="selectpicker show-tick form-control" data-live-search="true" autocomplete="on">
+                    <select name="cityid" id="cityid" class="show-tick form-control" data-live-search="true" autocomplete="on">
                     <?php
                         foreach($cityList as $_k=>$_v){
                             echo <<<EOF

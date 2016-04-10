@@ -1,6 +1,6 @@
 $(function(){
-    $('.selectpicker').selectpicker({
-        'selectedText': 'cat'
+    $('#com').selectpicker({
+        'mobile': true
     });
     
     $('#nu').blur(function(e){
