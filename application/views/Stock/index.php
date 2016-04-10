@@ -14,7 +14,7 @@
                     <span id="nu_success" class="sr-only" style="display: none;">(success)</span>
                 </div>
             </div>
-            <div class="form-group" style="width: 50px; margin: 0 auto; display: none;">
+            <div class="form-group" style="width: 50px; margin: 0 auto;">
                 <div>
                     <button class="form-control btn btn-default" type="submit" id="submit">查询</button>
                 </div>
