@@ -1,3 +1,6 @@
+
+<link media="all" rel="stylesheet" href="/static/public/css/photo/main.css" type="text/css" />
+<link media="all" rel="stylesheet" href="/static/public/css/photo/bar.style.css" type="text/css" />
 <div class="header">web图片处理-简约版</div>
 <div class="wrapper">
     <div class="left">

@@ -19,7 +19,23 @@
 </head>
 <body>
     <div class="container" id="container">
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="<?php if($this->uri->segment(2)==='index' && $this->uri->segment(1)==='welcome'){echo 'active';}?>"><a href="javascript:void(0)">首页</a></li>
+            <li role="presentation" class=""><a href="/weather/">查询天气</a></li>
+            <li role="presentation" class=""><a href="/express/">查询物流</a></li>
+            <li role="presentation" class=""><a href="/stock/">查询股票</a></li>
+            <li role="presentation" class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                图像处理 <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+               <li role="presentation" class=""><a href="/photo/">web图片处理-简约版</a></li>
+               <li role="presentation" class=""><a href="/photo/pro">web图片处理-专业版</a></li>
+              </ul>
+            </li>
+      </ul>
         <?php echo $content_for_layout?>
     </div>
 </body>
 </html>
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=55520872" charset="UTF-8"></script>	

@@ -51,3 +51,4 @@
     </div>
 </body>
 </html>
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=55520872" charset="UTF-8"></script>

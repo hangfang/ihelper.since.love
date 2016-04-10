@@ -10,4 +10,11 @@ class PhotoController extends MY_Controller {
         $this->layout->setLayout('photo');
         $this->layout->view('Photo/index', $data);
     }
+    
+    public function pro(){
+        $data = array();
+        $data['title'] = 'web图像处理—专业版';
+        $this->layout->setLayout('photo');
+        $this->layout->view('Photo/pro', $data);
+    }
 }
