@@ -38,7 +38,7 @@ class ExpressController extends MY_Controller {
             
             $_trace = "";
             foreach($rt['Traces'] as $_v){
-                $_trace .= '<p class="weui_media_desc">时间:'. date('m月d日 H:i:s', strtotime($_v['AcceptTime'])) ." ". $_v['AcceptStation'] .'</p>';
+                $_trace .= '<p class="weui_media_desc">'. date('m月d日 H:i:s', strtotime($_v['AcceptTime'])) ." ". $_v['AcceptStation'] .'</p>';
             }
 
             $data = array();

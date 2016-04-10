@@ -9,7 +9,7 @@
             <div class="form-group has-success has-feedback">
                 <label class="control-label col-sm-3" for="com">快递公司</label>
                 <div class="col-sm-9">
-                    <select name="com" id="com" class="selectpicker show-tick form-control" data-live-search="true" aria-describedby="com_success">
+                    <select name="com" id="com" class="selectpicker show-tick form-control" data-live-search="true" aria-describedby="com_success" autocomplete="on">
                     <?php
                         foreach($expressList as $_k=>$_v){
                             echo <<<EOF
@@ -23,7 +23,7 @@ EOF;
             <div class="form-group has-success has-feedback">
                 <label class="control-label col-sm-3" for="nu">快递单号</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="nu" name="nu" aria-describedby="nu_success">
+                    <input type="text" class="form-control" id="nu" name="nu" aria-describedby="nu_success" autocomplete="on">
                     <span class="glyphicon glyphicon-ok form-control-feedback hide" aria-hidden="true"></span>
                     <span id="nu_success" class="sr-only" style="display: none;">(success)</span>
                 </div>
