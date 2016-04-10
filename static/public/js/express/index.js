@@ -2,7 +2,11 @@ $(function(){
     $('.selectpicker').selectpicker({
         'selectedText': 'cat'
     });
-
+    
+    $('#nu').blur(function(e){
+        $('#submit').click();
+    });
+    
     $('form').submit(function(e){
 
         if($('#com').val().length === 0){
