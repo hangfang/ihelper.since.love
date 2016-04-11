@@ -8,13 +8,13 @@ class AppController extends MY_Controller {
         $this->load->model('WechatModel');
     }
     
-    public function index(){
+    public function location(){
         
         $data = array();
         $data['title'] = '微信app测试';
         $sigObj = $this->WechatModel->getJsApiSigObj();
         
         $data = array_merge($data, $sigObj);
-        $this->layout->view('Wechat/index', $data);
+        $this->layout->view('App/location', $data);
     }
 }
