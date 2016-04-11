@@ -32,8 +32,7 @@ EOF;
             return $rt;
         }
         $this->load->helper('include');
-        $kdniao = include_config('kdniao');
-        array_flip($kdniao);
+        $kdniao = array_flip(include_config('kdniao'));
 
         if($rt['Success'] === false){
                         
