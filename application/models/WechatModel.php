@@ -226,14 +226,14 @@ EOF;
     public function getLastSendMsg($msgXml, $where=array(), $like=array()){
         $this->db->where('touser', $msgXml['ToUserName']);
         foreach($where as $_k=>$_v){
-            if(is_array($_v)){
-                $this->db->like($_k, $_v['value'], isset($_v['side'])?$_v['side']:'both', isset($_v['escape'])?$_v['escape']:NULL);
-                continue;
-            }
             $this->db->where($_k, $_v);
         }
         
         foreach($like as $_k=>$_v){
+            if(is_array($_v)){
+                $this->db->like($_k, $_v['value'], isset($_v['side'])?$_v['side']:'both', isset($_v['escape'])?$_v['escape']:NULL);
+                continue;
+            }
             $this->db->like($_k, $_v);
         }
         $this->db->order_by('CreateTime', 'desc');
