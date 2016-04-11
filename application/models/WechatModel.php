@@ -224,7 +224,7 @@ EOF;
      * @return array
      */
     public function getLastSendMsg($msgXml, $where=array(), $like=array()){
-        $this->db->where('touser', $msgXml['ToUserName']);
+        $this->db->where('touser', $msgXml['FromUserName']);
         foreach($where as $_k=>$_v){
             $this->db->where($_k, $_v);
         }
