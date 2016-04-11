@@ -230,7 +230,7 @@ EOF;
                     $data = $this->BaiduModel->getStock($stockid, $msgXml);
                     $this->WechatModel->sendMessage($data);
                 }elseif(in_array($contents[0], $wechat['around'])){//上一条是位置信息
-                    $lastMsg = $this->WechatModel->getLastReceiveMsg($msgXml, array('MsgType'=>'location', 'CreateTime >'=>time()-300));
+                    $lastMsg = $this->WechatModel->getLastReceiveMsg($msgXml, array('MsgType'=>'location', 'CreateTime >'=>date('Y-m-d H:i:s', time()-300)));
                     if(empty($lastMsg)){
                         $data = $this->_send_format['text'];
                         $data['touser'] = $msgXml['FromUserName'];
