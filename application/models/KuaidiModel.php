@@ -31,16 +31,16 @@ EOF;
         if(empty($msgXml)){
             return $rt;
         }
-        $this->load->helper('include');
-        $kuaidi = array_flip(include_config('kuaidi'));
-        var_dump($kuaidi, $kuaidi[$rt['ShipperCode']],$rt['ShipperCode']);exit;
+        $this->load->helper('kdniao');
+        $kdniao = array_flip(include_config('kdniao'));
+        var_dump($kuaidi, $kdniao[$rt['ShipperCode']],$rt['ShipperCode']);exit;
         if($rt['Success'] === false){
                         
             $data = $this->_send_format['text'];
             $data['touser'] = $msgXml['FromUserName'];
             $data['fromuser'] = $msgXml['ToUserName'];
             
-            $data['text']['content'] = sprintf($this->_msg_kuaidi, $kuaidi[$rt['ShipperCode']], $rt['LogisticCode'], $rt['Reason']);
+            $data['text']['content'] = sprintf($this->_msg_kuaidi, $kdniao[$rt['ShipperCode']], $rt['LogisticCode'], $rt['Reason']);
             return $data;
         }
         $data = $this->_send_format['text'];
@@ -53,7 +53,7 @@ EOF;
             $_trace .= '    时间:'. date('m月d日 H:i:s', strtotime($_v['AcceptTime'])) ."\n";
             $_trace .= '    信息:'. $_v['AcceptStation'] ."\n";
         }
-        $data['text']['content'] = sprintf($this->_msg_kuaidi, $kuaidi[$rt['ShipperCode']], $rt['LogisticCode'], strlen($_trace)>10 ? $_trace : $rt['Reason']);
+        $data['text']['content'] = sprintf($this->_msg_kuaidi, $kdniao[$rt['ShipperCode']], $rt['LogisticCode'], strlen($_trace)>10 ? $_trace : $rt['Reason']);
         return $data;
     }
 }
