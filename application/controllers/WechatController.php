@@ -100,7 +100,7 @@ OK，我记住了
 EOF;
     
         public $_msg_position_expired = <<<EOF
-Sorry，我们只有您%s的位置
+您的位置信息已很久远[%s]
 为精确搜索周边，请重新发送位置
 EOF;
        
