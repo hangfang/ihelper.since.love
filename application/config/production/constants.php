@@ -11,7 +11,7 @@ define('WX_TOKEN', 'fanghang2015ieg926400');
 define('WX_ENCODING_AES_KEY', 'QC5CPFmTl06C7j3UYK4YuOdYaz4lBZTJjOywAbDnZwX');
 
 define('WX_HK_ACCOUNT', 'WangLin-ling');
-define('WX_JSAPI_DEBUG', true);
+define('WX_JSAPI_DEBUG', false);
 
 /*快递100*/
 define('KUAIDI_100_APP_ID', 'b653f3a448ef4540');
