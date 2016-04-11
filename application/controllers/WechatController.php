@@ -280,7 +280,7 @@ EOF;
                         $this->WechatModel->sendMessage($data);
                         break;
                     }
-                }else
+                }else{
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];
