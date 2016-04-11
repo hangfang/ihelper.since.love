@@ -230,7 +230,7 @@ EOF;
         }
         
         foreach($like as $_k=>$_v){
-            if(is_array($_v)){var_dump($_v);
+            if(is_array($_v)){var_dump(isset($_v['side'])?$_v['side']:'both',isset($_v['escape'])?$_v['escape']:NULL);
                 $this->db->like($_k, $_v['value'], isset($_v['side'])?$_v['side']:'both', isset($_v['escape'])?$_v['escape']:NULL);
             }else{
                 $this->db->like($_k, $_v);
