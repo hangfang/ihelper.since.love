@@ -249,8 +249,8 @@ EOF;
                         $com_nu = explode('物流信息', $lastMessage['content']);
                         $com_nu = explode("\n", $com_nu[0]);
                         
-                        list($tmp, $com) = explode(':', $com_nu[0]);
-                        list($tmp, $nu) = explode(':', $com_nu[1]);
+                        list($tmp, $com) = explode('：', $com_nu[0]);
+                        list($tmp, $nu) = explode('：', $com_nu[1]);
                         $data = $this->KuaidiModel->kdniao($kdniao[$com], $nu, $msgXml);
                         $this->WechatModel->sendMessage($data);
                         break;
