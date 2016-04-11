@@ -3,6 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class KuaidiModel extends MY_Model{
     
+    public $_msg_kuaidi = <<<EOF
+公司名称：%s
+快递单号：%s
+物流信息：%s
+EOF;
+    
     public function kdniao($com, $nu, $msgXml=array()){
         $queryData = array();
         $queryData['ShipperCode'] = $com;
@@ -25,13 +31,16 @@ class KuaidiModel extends MY_Model{
         if(empty($msgXml)){
             return $rt;
         }
+        $this->load->helper('include');
+        $kuaidi = array_flip(include_config('kuaidi'));
         
         if($rt['Success'] === false){
                         
             $data = $this->_send_format['text'];
             $data['touser'] = $msgXml['FromUserName'];
             $data['fromuser'] = $msgXml['ToUserName'];
-            $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['LogisticCode'], $rt['Reason']);
+            
+            $data['text']['content'] = sprintf($this->_msg_kuaidi, $kuaidi[$rt['ShipperCode']], $rt['LogisticCode'], $rt['Reason']);
             return $data;
         }
         $data = $this->_send_format['text'];
@@ -44,7 +53,7 @@ class KuaidiModel extends MY_Model{
             $_trace .= '    时间:'. date('m月d日 H:i:s', strtotime($_v['AcceptTime'])) ."\n";
             $_trace .= '    信息:'. $_v['AcceptStation'] ."\n";
         }
-        $data['text']['content'] = sprintf($this->_msg_kuaidi, $rt['LogisticCode'], strlen($_trace)>10 ? $_trace : $rt['Reason']);
+        $data['text']['content'] = sprintf($this->_msg_kuaidi, $kuaidi[$rt['ShipperCode']], $rt['LogisticCode'], strlen($_trace)>10 ? $_trace : $rt['Reason']);
         return $data;
     }
 }

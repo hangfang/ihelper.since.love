@@ -92,11 +92,6 @@ EOF;
         
 感谢关注
 EOF;
-
-    public $_msg_kuaidi = <<<EOF
-快递单号：%s
-物流信息：%s
-EOF;
        
     public $_msg_position = <<<EOF
 OK，我记住了
@@ -235,7 +230,7 @@ EOF;
                     $data = $this->BaiduModel->getStock($stockid, $msgXml);
                     $this->WechatModel->sendMessage($data);
                 }elseif(in_array($contents[0], $wechat['around'])){//上一条是位置信息
-                    $lastMsg = $this->WechatModel->getLastMsg($msgXml, 'location');
+                    $lastMsg = $this->WechatModel->getLastReceiveMsg($msgXml, array('MsgType'=>'location', 'CreateTime >'=>time()-300));
                     if(empty($lastMsg)){
                         $data = $this->_send_format['text'];
                         $data['touser'] = $msgXml['FromUserName'];
@@ -246,6 +241,18 @@ EOF;
                     
                     $data = $this->PositionModel->searchAround($lastMsg, $msgXml);
                     $this->WechatModel->sendMessage($data);
+                }elseif($contents[0]==='快递'){
+                    $lastMessage = $this->WechatModel->getLastReceiveMsg($msgXml, array('MsgType'=>'text'), array(array('value'=>'公司名称', 'side'=>'right')));
+                    if(!empty($lastMessage)){
+                        
+                        $com_nu = explode('物流信息', $lastMessage['content']);
+                        $com_nu = explode("\n", $com_nu[0]);
+                        var_dump($com_nu);exit;
+                        $data = $this->KuaidiModel->kdniao($kdniao[$contents[0]], $contents[1], $msgXml);
+                        $this->WechatModel->sendMessage($data);
+                        break;
+                    }
+                    
                 }else{
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];

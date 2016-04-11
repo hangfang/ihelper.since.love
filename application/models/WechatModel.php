@@ -190,17 +190,55 @@ EOF;
     }
     
     /**
-     * @todo 查询上一条记录(5分钟之内)
+     * @todo 查询上一条接收记录(5分钟之内)
      * @param array $msgXml
+     * @param array $where
+     * @param array $like
      * @return array
      */
-    public function getLastMsg($msgXml, $MsgType=''){
+    public function getLastReceiveMsg($msgXml, $where=array(), $like=array()){
         $this->db->where('FromUserName', $msgXml['FromUserName']);
-        $this->db->where('CreateTime > ', time()-300);//
-        $MsgType && $this->db->where('MsgType', $MsgType);
+        foreach($where as $_k=>$_v){
+            $this->db->where($_k, $_v);
+        }
+        
+        foreach($like as $_k=>$_v){
+            if(is_array($_v)){
+                $this->db->like($_k, $_v['value'], isset($_v['side'])?$_v['side']:'both', isset($_v['escape'])?$_v['escape']:NULL);
+                continue;
+            }
+            $this->db->like($_k, $_v);
+        }
         $this->db->order_by('CreateTime', 'desc');
         $this->db->limit(1, 0);
         $query = $this->db->get('wechat_receive_message');
+
+        return $query && $query->num_rows()===1 ? $query->row_array() : array();
+    }
+    
+       /**
+     * @todo 查询上一条回复记录
+     * @param array $msgXml
+     * @param array $where
+     * @param array $like
+     * @return array
+     */
+    public function getLastSendMsg($msgXml, $where=array(), $like=array()){
+        $this->db->where('touser', $msgXml['ToUserName']);
+        foreach($where as $_k=>$_v){
+            if(is_array($_v)){
+                $this->db->like($_k, $_v['value'], isset($_v['side'])?$_v['side']:'both', isset($_v['escape'])?$_v['escape']:NULL);
+                continue;
+            }
+            $this->db->where($_k, $_v);
+        }
+        
+        foreach($like as $_k=>$_v){
+            $this->db->like($_k, $_v);
+        }
+        $this->db->order_by('CreateTime', 'desc');
+        $this->db->limit(1, 0);
+        $query = $this->db->get('wechat_send_message');
 
         return $query && $query->num_rows()===1 ? $query->row_array() : array();
     }
