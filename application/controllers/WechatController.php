@@ -275,8 +275,8 @@ EOF;
                         
                         $city = explode("\n", $lastMessage['content']);
                         
-                        preg_match_all('/\((.+)\)/', $city[0], $match);var_dump($city, $match);exit;
-                        $data = $this->BaiduModel->getWeather($weather[$match[1]], $msgXml);
+                        preg_match_all('/\((.+)\)/', $city[0], $match);
+                        $data = $this->BaiduModel->getWeather($weather[$match[1][0]], $msgXml);
                         $this->WechatModel->sendMessage($data);
                         break;
                     }
