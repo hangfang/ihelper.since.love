@@ -95,8 +95,13 @@ EOF;
        
     public $_msg_position = <<<EOF
 OK，我记住了
-你在%s！
+您在%s！
 试试搜索周边？如酒店、美食...
+EOF;
+    
+        public $_msg_position_expired = <<<EOF
+Sorry，%s得到您的位置信息
+请重新发送位置信息，以精准定位
 EOF;
        
     public function __construct() {
@@ -230,12 +235,19 @@ EOF;
                     $data = $this->BaiduModel->getStock($stockid, $msgXml);
                     $this->WechatModel->sendMessage($data);
                 }elseif(in_array($contents[0], $wechat['around'])){//上一条是位置信息
-                    $lastMsg = $this->WechatModel->getLastReceiveMsg($msgXml, array('MsgType'=>'location', 'CreateTime >'=>date('Y-m-d H:i:s', time()-300)));
+                    $lastMsg = $this->WechatModel->getLastReceiveMsg($msgXml, array('MsgType'=>'location'));
                     if(empty($lastMsg)){
                         $data = $this->_send_format['text'];
                         $data['touser'] = $msgXml['FromUserName'];
                         $data['fromuser'] = $msgXml['ToUserName'];
                         $data['text']['content'] = '请发送您的位置，以精准定位';
+                        $this->WechatModel->sendMessage($data);
+                    }elseif(time()-$lastMsg['CreateTime'] > 300){
+                        $this->load->library('friendlydate');
+                        $data = $this->_send_format['text'];
+                        $data['touser'] = $msgXml['FromUserName'];
+                        $data['fromuser'] = $msgXml['ToUserName'];
+                        $data['text']['content'] = sprintf($this->_msg_position_expired, $this->friendlydate->timeDiff($lastMsg['CreateTime']));
                         $this->WechatModel->sendMessage($data);
                     }
                     
