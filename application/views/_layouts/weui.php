@@ -16,6 +16,7 @@
 <!--     最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/static/weui/css/weui.css"/>
+    <link rel="stylesheet" href="/static/weui/css/common.css"/>
 </head>
 <body>
     <div class="container" id="container">
