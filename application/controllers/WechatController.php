@@ -268,7 +268,19 @@ EOF;
                         break;
                     }
                     
-                }else{
+                }elseif($contents[0]==='天气'){
+                    $lastMessage = $this->WechatModel->getLastSendMsg($msgXml, array('msgtype'=>'text'), array('content'=>array('value'=>'天气', 'side'=>'after')));
+                    
+                    if(!empty($lastMessage)){
+                        
+                        $city = explode("\n", $lastMessage['content']);
+                        
+                        preg_match_all('/(\(.+\))/', $city[0], $match);
+                        $data = $this->BaiduModel->getWeather($weather[$match[1]], $msgXml);
+                        $this->WechatModel->sendMessage($data);
+                        break;
+                    }
+                }else
                     $data = $this->_send_format['text'];
                     $data['touser'] = $msgXml['FromUserName'];
                     $data['fromuser'] = $msgXml['ToUserName'];

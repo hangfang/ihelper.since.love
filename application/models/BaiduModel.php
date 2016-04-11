@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class BaiduModel extends MY_Model{
     
     public $_msg_weather = <<<EOF
-%s天气：
+天气(%s)
     日期：%s
     发布时间：%s
     天气：%s
