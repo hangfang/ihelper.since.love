@@ -100,8 +100,8 @@ OK，我记住了
 EOF;
     
         public $_msg_position_expired = <<<EOF
-Sorry，%s得到您的位置信息
-请重新发送位置信息，以精准定位
+您%s的位置已不准确
+请重新发送位置->精准定位
 EOF;
        
     public function __construct() {
