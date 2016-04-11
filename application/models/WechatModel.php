@@ -81,6 +81,7 @@ EOF;
 EOF;
     
     public function __construct(){
+        parent::__construct();
         $this->access_token = $this->getAccessToken();
         $this->jsapi_ticket = $this->getJsApiTicket();
     }
