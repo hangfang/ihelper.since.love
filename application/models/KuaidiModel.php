@@ -32,8 +32,9 @@ EOF;
             return $rt;
         }
         $this->load->helper('kdniao');
-        $kdniao = array_flip(include_config('kdniao'));
-        var_dump($kdniao, $kdniao[$rt['ShipperCode']],$rt['ShipperCode']);exit;
+        $kdniao = include_config('kdniao');
+        array_flip($kdniao);
+
         if($rt['Success'] === false){
                         
             $data = $this->_send_format['text'];
