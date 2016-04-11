@@ -114,20 +114,8 @@ EOF;
         $this->load->helper('include');
     }
     
-    public function example(){
-        $data = array();
-        $data['title'] = 'WeUI';
-        $this->layout->view('Wechat/example', $data);
-    }
-    
     public function index(){
-        
-        $data = array();
-        $data['title'] = '微信jsapi测试';
-        $sigObj = $this->WechatModel->getJsApiSigObj();
-        
-        $data = array_merge($data, $sigObj);
-        $this->layout->view('Wechat/index', $data);
+        header('location: /app/index');
     }
     
     public function message(){

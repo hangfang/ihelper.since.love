@@ -1,4 +1,5 @@
 </div>
+<link rel="stylesheet" href="/static/public/css/app/index.css"/>
 <script type="text/html" id="tpl_home">
 <div class="hd">
     <h1 class="page_title">WeUI</h1>

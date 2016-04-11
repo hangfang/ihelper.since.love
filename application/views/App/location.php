@@ -25,7 +25,18 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-
+    
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">测试按钮</h3>
+        </div>
+        <div class="panel-body">
+            <ul class='list-inline'>
+                <li><a href="javascript:void(0)" class='btn btn-primary' id='select_pic'>选图</a></li>
+            </ul>
+        </div>
+    </div>
+    
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">友情链接</h3>
@@ -45,42 +56,30 @@
         timestamp: <?php echo $timestamp; ?>, // 必填，生成签名的时间戳
         nonceStr: '<?php echo $nonceStr; ?>', // 必填，生成签名的随机串
         signature: '<?php echo $signature; ?>', // 必填，签名，见附录1
-        jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        jsApiList: ['getLocation','chooseImage','previewImage', 'uploadImage','downloadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
 
     wx.ready(function () {
-        wx.getLocation({
-            type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-            success: function (res) {
-                var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-                var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-                var speed = res.speed; // 速度，以米/每秒计
-                var accuracy = res.accuracy; // 位置精度
-                alert(latitude);
-            }
-        });
-        
-        wx.onSearchBeacons({
-           complete:function(argv){
-                
-                alert(argv.length);
-            }
+        $('#select_pic').click(function(e){
+            alert('start')
+            wx.chooseImage({
+                 count: 1, // 默认9
+                 sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                 sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                 success: function (res) {
+                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                     $('<img src="'+localIds+'"/>').appendTo($('body'));
+                 }
+             }); 
         });
         // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
     });
 
-//    wx.error(function(res){
-//        //console.log(res);
-//        // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
-//
-//    });
-//    
-//    wx.checkJsApi({
-//        jsApiList: ['chooseImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
-//        success: function(res) {
-//            // 以键值对的形式返回，可用的api值true，不可用为false
-//            // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
-//            console.log(res);
-//        }
-//    });
+    wx.error(function(res){
+        //console.log(res);
+        // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+
+    });
+    
+    
 </script>
