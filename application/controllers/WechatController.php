@@ -243,6 +243,7 @@ EOF;
                     $this->WechatModel->sendMessage($data);
                 }elseif($contents[0]==='快递'){
                     $lastMessage = $this->WechatModel->getLastReceiveMsg($msgXml, array('MsgType'=>'text'), array(array('value'=>'公司名称', 'side'=>'right')));
+                    var_dump($lastMessage);exit;
                     if(!empty($lastMessage)){
                         
                         $com_nu = explode('物流信息', $lastMessage['content']);

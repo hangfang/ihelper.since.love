@@ -33,7 +33,7 @@ EOF;
         }
         $this->load->helper('include');
         $kuaidi = array_flip(include_config('kuaidi'));
-        
+        var_dump($kuaidi, $kuaidi[$rt['ShipperCode']],$rt['ShipperCode']);exit;
         if($rt['Success'] === false){
                         
             $data = $this->_send_format['text'];
