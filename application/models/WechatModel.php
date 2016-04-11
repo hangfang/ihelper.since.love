@@ -212,7 +212,7 @@ EOF;
         $this->db->order_by('CreateTime', 'desc');
         $this->db->limit(1, 0);
         $query = $this->db->get('wechat_receive_message');
-
+$this->db->last_query();exit;
         return $query && $query->num_rows()===1 ? $query->row_array() : array();
     }
     
