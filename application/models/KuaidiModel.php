@@ -31,7 +31,7 @@ EOF;
         if(empty($msgXml)){
             return $rt;
         }
-        $this->load->helper('kdniao');
+        $this->load->helper('include');
         $kdniao = include_config('kdniao');
         array_flip($kdniao);
 
