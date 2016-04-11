@@ -243,13 +243,15 @@ EOF;
                     $this->WechatModel->sendMessage($data);
                 }elseif($contents[0]==='快递'){
                     $lastMessage = $this->WechatModel->getLastSendMsg($msgXml, array('msgtype'=>'text'), array('content'=>array('value'=>'公司名称', 'side'=>'after')));
-                    var_dump($lastMessage);exit;
+                    
                     if(!empty($lastMessage)){
                         
                         $com_nu = explode('物流信息', $lastMessage['content']);
                         $com_nu = explode("\n", $com_nu[0]);
-                        var_dump($com_nu);exit;
-                        $data = $this->KuaidiModel->kdniao($kdniao[$contents[0]], $contents[1], $msgXml);
+                        
+                        list($tmp, $com) = explode(':', $com_nu[0]);
+                        list($tmp, $nu) = explode(':', $com_nu[1]);
+                        $data = $this->KuaidiModel->kdniao($kdniao[$com], $nu, $msgXml);
                         $this->WechatModel->sendMessage($data);
                         break;
                     }
