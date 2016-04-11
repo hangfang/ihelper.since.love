@@ -95,7 +95,7 @@ EOF;
      */
     public function getAccessToken(){
         $this->db->select('token');
-        $this->db->where('insert_time > ', time()-2*3600);
+        $this->db->where('insert_time > ', date('Y-m-d H:i:s', time()-2*3600));
         $this->db->order_by('insert_time', 'desc');
         $this->db->limit(1, 0);
         $query = $this->db->get('wechat_token');
@@ -157,7 +157,7 @@ EOF;
     
     public function getJsApiTicket(){
         $this->db->select('jsapi_ticket');
-        $this->db->where('insert_time > ', time()-2*3600);
+        $this->db->where('insert_time > ', date('Y-m-d H:i:s', time()-2*3600));
         $this->db->order_by('insert_time', 'desc');
         $this->db->limit(1, 0);
         $query = $this->db->get('wechat_token');
