@@ -44,7 +44,7 @@
             <audio preload="none" class="bd-12"></audio>
             <!--<a href="javascript:;" class="weui_btn weui_btn_primary">点击展现searchBar</a>-->
             <div class="weui_search_bar" id="search_bar">
-                <form class="weui_search_outer">
+                <div class="weui_search_outer">
                     <div class="weui_search_inner">
                         <i class="weui_icon_search"></i>
                         <input type="search" class="weui_search_input" id="search_input" placeholder="搜索" required="">
@@ -54,7 +54,7 @@
                         <i class="weui_icon_search"></i>
                         <span>搜索</span>
                     </label>
-                </form>
+                </div>
                 <a href="javascript:" class="weui_search_cancel" id="search_cancel">取消</a>
             </div>
             <div class="weui_cells weui_cells_access search_show" id="search_show" style="display: none;">
