@@ -76,6 +76,10 @@ $(function(){
             var data = {name: name, page: music.page, size: music.size};
             music.getMusic(data);
         }
+    }).on('click touchend', function(e){
+        if($(e).parents('#search_show').length > 0){
+            $('#search_show').hide();
+        }
     });
     
     music.audio = audiojs.createAll({
