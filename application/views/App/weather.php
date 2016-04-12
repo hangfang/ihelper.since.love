@@ -40,4 +40,4 @@ EOF;
     </div>
 </div>
 
-<script src="/static/public/js/baidu/weather.js?d=20160110"></script>
+<script src="/static/public/js/app/weather.js?d=20160110"></script>

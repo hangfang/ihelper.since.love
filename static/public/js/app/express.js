@@ -26,7 +26,7 @@ $(function(){
         var data = $(this).serialize();
         $('#loadingToast').show();
         $.ajax({
-            url : '/express/index',
+            url : '/app/express',
             data : data,
             type : 'post',
             dataType : 'json',

@@ -15,7 +15,7 @@ $(function(){
         var data = $(this).serialize();
         $('#loadingToast').show();
         $.ajax({
-            url : '/weather/index',
+            url : '/app/weather',
             data : data,
             type : 'post',
             dataType : 'json',

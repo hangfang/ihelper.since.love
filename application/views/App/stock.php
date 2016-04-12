@@ -32,4 +32,4 @@
     </div>
 </div>
 
-<script src="/static/public/js/baidu/stock.js?d=20160110"></script>
+<script src="/static/public/js/app/stock.js?d=20160110"></script>

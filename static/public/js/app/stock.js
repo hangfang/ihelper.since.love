@@ -15,7 +15,7 @@ $(function(){
         var data = $(this).serialize();
         $('#loadingToast').show();
         $.ajax({
-            url : '/stock/index',
+            url : '/app/stock',
             data : data,
             type : 'post',
             dataType : 'json',

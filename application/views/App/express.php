@@ -48,4 +48,4 @@ EOF;
     </div>
 </div>
 
-<script src="/static/public/js/baidu/express.js?d=20160110"></script>
+<script src="/static/public/js/app/express.js?d=20160110"></script>
