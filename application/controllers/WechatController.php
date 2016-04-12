@@ -231,7 +231,7 @@ EOF;
                         $data['fromuser'] = $msgXml['ToUserName'];
                         $data['text']['content'] = '请发送您的位置，以精准定位';
                         $this->WechatModel->sendMessage($data);
-                    }elseif(time()-$lastMsg['CreateTime'] > 300){
+                    }elseif(time()-strtotime($lastMsg['CreateTime']) > 300){
                         $this->load->library('friendlydate');
                         $data = $this->_send_format['text'];
                         $data['touser'] = $msgXml['FromUserName'];
