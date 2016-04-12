@@ -31,6 +31,7 @@ $(function(){
         var filename = $(this).attr('filename');
         var hash = $(this).attr('hash');
         
+        $('#loadingToast').show();
         var data = {hash: hash};
         $.ajax({
             url: '/app/getMusicPlayInfo',
@@ -38,7 +39,7 @@ $(function(){
             dataType: 'json',
             type: 'get',
             success: function(data, textStatus, xhr){
-                
+                $('#loadingToast').hide();
                 if(data.rtn > 0){
                     $('#toast').find('.weui_toast_content').html(data.errmsg).end().show();
                     setTimeout(function(){;
@@ -76,7 +77,7 @@ $(function(){
             var data = {name: name, page: music.page, size: music.size};
             music.getMusic(data);
         }
-    }).on('click touchend', function(e){
+    }).on('click', function(e){
         if($(e).parents('#search_show').length > 0){
             $('#search_show').hide();
         }
@@ -104,7 +105,10 @@ $(function(){
     }
 
     // Load in a track on click
-    $('#play_list').click(function(e) {
+    $('#play_list').on('touchend click', function(e) {
+        if($('#play_list li').length === 0){
+            return false;
+        }
         if(music.delay > 0){
             $('#toast').find('.weui_toast_content').html('心好累，请勿操作太快。').end().show();
             setTimeout(function(){;
@@ -122,8 +126,14 @@ $(function(){
         });
         
         e.preventDefault();
-        $(e.target).addClass('playing').siblings().removeClass('playing');
-        music.audio.load($('a', e.target).attr('data-src'));
+        if(e.target.nodeName.toLowerCase()==='li'){
+            $(e.target).addClass('playing').siblings().removeClass('playing');
+            music.audio.load($(e.target).find('a').attr('data-src'));
+            music.audio.play();
+            return true;
+        }
+        $(e.target).parents('li').addClass('playing').siblings().removeClass('playing');
+        music.audio.load($(e.target).attr('data-src'));
         music.audio.play();
     });
     // Keyboard shortcuts

@@ -16,6 +16,11 @@
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/static/public/css/common.css"/>
+    <?php if($environment==='production'){ ?>
+    <script>
+        window.onerror = function(){return true;};
+    </script>
+    <?php }?>
 </head>
 <body>
     <div class="container" id="container">
