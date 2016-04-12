@@ -16,6 +16,8 @@
     <div class="container" id="container">
         <?php echo $content_for_layout?>
     </div>
+    
+    <!-- start-已完成-start -->
     <div id="toast" style="display: none;">
         <div class="weui_mask_transparent"></div>
         <div class="weui_toast">
@@ -23,6 +25,8 @@
             <p class="weui_toast_content">已完成</p>
         </div>
     </div>
+    <!-- end--已完成--end -->
+    <!-- start-加载中-start -->
     <div id="loadingToast" class="weui_loading_toast" style="display: none;">
         <div class="weui_mask_transparent"></div>
         <div class="weui_toast">
@@ -43,6 +47,52 @@
             <p class="weui_toast_content">数据加载中</p>
         </div>
     </div>
+    <!-- end--加载中--end -->
+    <!-- start-确认弹框-start -->
+    <div class="weui_dialog_confirm" id="dialog1" style="display:none;">
+        <div class="weui_mask"></div>
+        <div class="weui_dialog">
+            <div class="weui_dialog_hd"><strong class="weui_dialog_title">弹窗标题</strong></div>
+            <div class="weui_dialog_bd">自定义弹窗内容，居左对齐显示，告知需要确认的信息等</div>
+            <div class="weui_dialog_ft">
+                <a href="javascript:;" class="weui_btn_dialog default">取消</a>
+                <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+            </div>
+        </div>
+    </div>
+    <!-- end--确认弹框--end -->
+    <!-- start-提示弹框-start -->
+    <div class="weui_dialog_alert" id="dialog2" style="display: none;">
+        <div class="weui_mask"></div>
+        <div class="weui_dialog">
+            <div class="weui_dialog_hd"><strong class="weui_dialog_title">弹窗标题</strong></div>
+            <div class="weui_dialog_bd">弹窗内容，告知当前页面信息等</div>
+            <div class="weui_dialog_ft">
+                <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+            </div>
+        </div>
+    </div>
+    <!-- end--提示弹框--end -->
+    <!-- start-操作成功-start -->
+    <div class="msg" id="msg" style="display:none;">
+        <div class="weui_msg">
+            <div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
+            <div class="weui_text_area">
+                <h2 class="weui_msg_title">操作成功</h2>
+                <p class="weui_msg_desc">内容详情，可根据实际需要安排</p>
+            </div>
+            <div class="weui_opr_area">
+                <p class="weui_btn_area">
+                    <a href="javascript:;" class="weui_btn weui_btn_primary">确定</a>
+                    <a href="javascript:;" class="weui_btn weui_btn_default">取消</a>
+                </p>
+            </div>
+            <div class="weui_extra_area">
+                <a href="">查看详情</a>
+            </div>
+        </div>
+    </div>
+    <!-- end--操作成功--end -->
 </body>
 </html>
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=55520872" charset="UTF-8"></script>
