@@ -12,7 +12,16 @@
                 <li><a href="javascript:void(0)" class='btn btn-primary' id='play_voice'>播放录音</a></li>
                 <li><a href="javascript:void(0)" class='btn btn-primary' id='pause_voice'>暂停播放</a></li>
                 <li><a href="javascript:void(0)" class='btn btn-primary' id='stop_voice'>停止播放</a></li>
-            </ul>
+                <li><a href="javascript:void(0)" class='btn btn-primary' id='translate_voice'>翻译录音</a></li>
+                <li><a href="javascript:void(0)" class='btn btn-primary' id='hide_menu_item'>隐藏功能按钮</a></li>
+                <li><a href="javascript:void(0)" class='btn btn-primary' id='show_all_base_menu_item'>显示所有功能按钮</a></li>
+                <li><a href="javascript:void(0)" class='btn btn-primary' id='hide_all_base_menu_item'>隐藏所有功能按钮</a></li>
+                <li><a href="javascript:void(0)" class='btn btn-primary' id='show_option_menu'>显示右上角菜单按钮</a></li>
+                <li><a href="javascript:void(0)" class='btn btn-primary' id='hide_option_menu'>隐藏右上角菜单按钮</a></li>
+                <li><a href="javascript:void(0)" class='btn btn-primary' id='scan_qrcode'>扫一扫</a></li>
+                <li><a href="javascript:void(0)" class='btn btn-primary' id='get_network'>网络状态</a></li>
+                <li><a href="javascript:void(0)" class='btn btn-primary' id='get_position'>查看位置</a></li>
+                <li><a href="javascript:void(0)" class='btn btn-primary' id='close_web'>关闭网页</a></li>
         </div>
     </div>
     
@@ -35,7 +44,7 @@
         timestamp: <?php echo $timestamp; ?>, // 必填，生成签名的时间戳
         nonceStr: '<?php echo $nonceStr; ?>', // 必填，生成签名的随机串
         signature: '<?php echo $signature; ?>', // 必填，签名，见附录1
-        jsApiList: ['chooseImage','startRecord','stopRecord','playVoice','pauseVoice','stopVoice'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        jsApiList: ['chooseImage','startRecord','stopRecord','playVoice','pauseVoice','stopVoice','hideMenuItems','showAllNonBaseMenuItem','hideAllNonBaseMenuItem','showOptionMenu','hideOptionMenu','scanQRCode','closeWindow', 'getNetworkType', 'openLocation', 'getLocation','translateVoice'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
 
 
@@ -93,6 +102,81 @@
             }
         });
         
+        $('#hide_menu_item').click(function(e){
+            wx.hideMenuItems({
+                menuList: ['menuItem:favorite'] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+            });
+        });
+        
+        $('#show_all_base_menu_item').click(function(e){
+            wx.showAllNonBaseMenuItem();
+        });
+        
+        $('#hide_all_base_menu_item').click(function(e){
+            wx.hideAllNonBaseMenuItem();
+        });
+        
+        $('#show_option_menu').click(function(e){
+            wx.showOptionMenu();
+        });
+        
+        $('#hide_option_menu').click(function(e){
+            wx.hideOptionMenu();
+        });
+        
+        $('#scan_qrcode').click(function(e){
+            wx.scanQRCode({
+                needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                success: function (res) {
+                    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                }
+            });
+        });
+        
+        $('#close_web').click(function(e){
+            wx.closeWindow();
+        });
+        
+        $('#get_network').click(function(e){
+           wx.getNetworkType({
+                success: function (res) {
+                    var networkType = res.networkType; // 返回网络类型2g，3g，4g，wifi
+                }
+            }); 
+        });
+        
+        $('#get_position').click(function(e){
+            wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function (res) {
+                    var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                    var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                    var speed = res.speed; // 速度，以米/每秒计
+                    var accuracy = res.accuracy; // 位置精度
+                    
+                    
+                    wx.openLocation({
+                        latitude: latitude, // 纬度，浮点数，范围为90 ~ -90
+                        longitude: longitude, // 经度，浮点数，范围为180 ~ -180。
+                        name: '', // 位置名
+                        address: '', // 地址详情说明
+                        scale: 28, // 地图缩放级别,整形值,范围从1~28。默认为最大
+                        infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+                    });
+                }
+            });
+        });
+        
+        $('#translate_voice').click(function(e){
+           wx.translateVoice({
+                localId: wx.localId, // 需要识别的音频的本地Id，由录音相关接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {
+                    alert(res.translateResult); // 语音识别的结果
+                }
+             });
+        });
         // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
     });
 
