@@ -17,16 +17,16 @@ class AppController extends MY_Controller {
 <p class="weui_media_desc">成交量: %s万手</p>
 <p class="weui_media_desc">成交额: %s亿</p>
 <p class="weui_media_desc">涨幅: %s</p>
-<p class="weui_media_desc">买一: %s股  %s元</p>
-<p class="weui_media_desc">买二: %s股  %s元</p>
-<p class="weui_media_desc">买三: %s股  %s元</p>
-<p class="weui_media_desc">买四: %s股  %s元</p>
-<p class="weui_media_desc">买五: %s股  %s元</p>
-<p class="weui_media_desc">卖一: %s股  %s元</p>
-<p class="weui_media_desc">卖二: %s股  %s元</p>
-<p class="weui_media_desc">卖三: %s股  %s元</p>
-<p class="weui_media_desc">卖四: %s股  %s元</p>
-<p class="weui_media_desc">卖五: %s股  %s元</p>
+<p class="weui_media_desc">买一: %s手  %s元</p>
+<p class="weui_media_desc">买二: %s手  %s元</p>
+<p class="weui_media_desc">买三: %s手  %s元</p>
+<p class="weui_media_desc">买四: %s手  %s元</p>
+<p class="weui_media_desc">买五: %s手  %s元</p>
+<p class="weui_media_desc">卖一: %s手  %s元</p>
+<p class="weui_media_desc">卖二: %s手  %s元</p>
+<p class="weui_media_desc">卖三: %s手  %s元</p>
+<p class="weui_media_desc">卖四: %s手  %s元</p>
+<p class="weui_media_desc">卖五: %s手  %s元</p>
 <p class="weui_media_desc">分时图: <img src="%s"/></p>
 <p class="weui_media_desc">日K线: <img src="%s"/></p>
 <p class="weui_media_desc">周K线: <img src="%s"/></p>
@@ -102,6 +102,35 @@ EOF;
         $this->layout->view('App/express', $data);
     }
     
+    public function getMusicPlayInfo(){
+        
+        $data = array();
+        $data['hash'] = $this->input->get('hash');
+
+        if(!$data['hash']){
+            $this->json($this->error['music_lack_of_hash_error']);
+        }
+
+        $this->load->model('BaiduModel');
+        $rt = $this->BaiduModel->getMusicPlayInfo($data);
+
+        if(isset($rt['code']) && $rt['code']-0 > 0){
+            $data = array();
+            $data['rtn'] = $rt['code'];
+            $data['errmsg'] = $rt['msg'];
+
+            $this->json($data);
+            return false;
+        }
+
+        $data = array();
+        $data['rtn'] = 0;
+        $data['msg'] = $rt['data'];
+
+        $this->json($data);
+        return true;
+    }
+    
     public function index(){
         
         $data = array();
@@ -122,6 +151,55 @@ EOF;
         $data = array_merge($data, $sigObj);
         $this->layout->setLayout('weui');
         $this->layout->view('App/location', $data);
+    }
+    
+    public function music(){
+        
+        $data = array();
+        $data['title'] = '在线音乐';
+        
+        if($this->input->is_ajax_request()){
+            $data = array();
+            $data['s'] = $this->input->get('name');
+            $data['s'] = $data['s'] ? $data['s'] : '';
+            
+            $data['page'] = $this->input->get('page');
+            $data['page'] = $data['page'] ? $data['page'] : 1;
+            
+            $data['size'] = $this->input->get('size');
+            $data['size'] = $data['size'] ? $data['size'] : 10;
+            
+            if(!$data['s']){
+                $this->json($this->error['music_lack_of_name_error']);
+            }
+            
+            $this->load->model('BaiduModel');
+            $rt = $this->BaiduModel->getMusic($data);
+
+            if(isset($rt['code']) && $rt['code']-0 > 0){
+                $data = array();
+                $data['rtn'] = $rt['code'];
+                $data['errmsg'] = $rt['msg'];
+                
+                $this->json($data);
+                return false;
+            }
+            
+            $music = $rt['data'];
+
+            $data = array();
+            $data['rtn'] = 0;
+            $data['msg'] = $music;
+            
+            $this->json($data);
+            return true;
+        }
+        
+        $sigObj = $this->WechatModel->getJsApiSigObj();
+
+        $data = array_merge($data, $sigObj);
+        $this->layout->setLayout('weui');
+        $this->layout->view('App/music', $data);
     }
     
     public function photo(){
@@ -171,7 +249,7 @@ EOF;
             }
 
             $stockInfo = $rt['retData']['stockinfo'][0];
-            $msg = sprintf($this->_msg_stock, $stockInfo['name'], $stockInfo['code'], $stockInfo['date'], $stockInfo['time'], $stockInfo['OpenningPrice'], $stockInfo['closingPrice'], $stockInfo['currentPrice'], $stockInfo['hPrice'], $stockInfo['lPrice'], $stockInfo['competitivePrice'], $stockInfo['auctionPrice'], number_format($stockInfo['totalNumber']/1000000, 1), number_format($stockInfo['turnover']/100000000, 2), number_format($stockInfo['increase']-0, 2).'%', $stockInfo['buyOne'], $stockInfo['buyOnePrice'], $stockInfo['buyTwo'], $stockInfo['buyTwoPrice'], $stockInfo['buyThree'], $stockInfo['buyThreePrice'], $stockInfo['buyFour'], $stockInfo['buyFourPrice'], $stockInfo['buyFive'], $stockInfo['buyFivePrice'], $stockInfo['sellOne'], $stockInfo['sellOnePrice'], $stockInfo['sellTwo'], $stockInfo['sellTwoPrice'], $stockInfo['sellThree'], $stockInfo['sellThreePrice'], $stockInfo['sellFour'], $stockInfo['sellFourPrice'], $stockInfo['sellFive'], $stockInfo['sellFivePrice'], $stockInfo['minurl'], $stockInfo['dayurl'], $stockInfo['weekurl'], $stockInfo['monthurl']);
+            $msg = sprintf($this->_msg_stock, $stockInfo['name'], $stockInfo['code'], $stockInfo['date'], $stockInfo['time'], $stockInfo['OpenningPrice'], $stockInfo['closingPrice'], $stockInfo['currentPrice'], $stockInfo['hPrice'], $stockInfo['lPrice'], $stockInfo['competitivePrice'], $stockInfo['auctionPrice'], number_format($stockInfo['totalNumber']/1000000, 1), number_format($stockInfo['turnover']/100000000, 2), number_format($stockInfo['increase']-0, 2).'%', number_format($stockInfo['buyOne']/100, 0), $stockInfo['buyOnePrice'], number_format($stockInfo['buyTwo']/100, 0), $stockInfo['buyTwoPrice'], number_format($stockInfo['buyThree']/100, 0), $stockInfo['buyThreePrice'], number_format($stockInfo['buyFour']/100, 0), $stockInfo['buyFourPrice'], number_format($stockInfo['buyFive']/100, 0), $stockInfo['buyFivePrice'], number_format($stockInfo['sellOne']/100, 0), $stockInfo['sellOnePrice'], number_format($stockInfo['sellTwo']/100, 0), $stockInfo['sellTwoPrice'], number_format($stockInfo['sellThree']/100, 0), $stockInfo['sellThreePrice'], number_format($stockInfo['sellFour']/100, 0), $stockInfo['sellFourPrice'], number_format($stockInfo['sellFive']/100, 0), $stockInfo['sellFivePrice'], $stockInfo['minurl'], $stockInfo['dayurl'], $stockInfo['weekurl'], $stockInfo['monthurl']);
 
             $data = array();
             $data['rtn'] = 0;
@@ -193,7 +271,7 @@ EOF;
             $cityid = $this->input->post('cityid');
             
             if(!$cityid){
-                $this->json($this->error['weatherlack_of_cityid_error']);
+                $this->json($this->error['weather_lack_of_cityid_error']);
             }
             
             $this->load->model('BaiduModel');

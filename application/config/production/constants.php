@@ -11,7 +11,7 @@ define('WX_TOKEN', 'fanghang2015ieg926400');
 define('WX_ENCODING_AES_KEY', 'QC5CPFmTl06C7j3UYK4YuOdYaz4lBZTJjOywAbDnZwX');
 
 define('WX_HK_ACCOUNT', 'WangLin-ling');
-define('WX_JSAPI_DEBUG', 'false');
+define('WX_JSAPI_DEBUG', 'true');
 
 /*快递100*/
 define('KUAIDI_100_APP_ID', 'b653f3a448ef4540');
@@ -34,3 +34,9 @@ define('KD_NIAO_API_URL', 'http://api.kdniao.cc/Ebusiness/EbusinessOrderHandle.a
 /*腾讯地图*/
 define('TENCENT_MAP_APP_KEY', 'J7CBZ-YV43X-PVS4E-ZGYVP-KF2T3-A3BQZ');
 define('TENCENT_MAP_APP_URL', 'http://apis.map.qq.com/ws');
+
+/*百度音乐*/
+define('BAIDU_MUSIC_SEARCH_API_URL', 'http://apis.baidu.com/geekery/music/query');
+define('BAIDU_MUSIC_PLAYINFO_API_URL', 'http://apis.baidu.com/geekery/music/playinfo');
+define('BAIDU_MUSIC_SINGER_API_URL', 'http://apis.baidu.com/geekery/music/singer');
+define('BAIDU_MUSIC_KRC_API_URL', 'http://apis.baidu.com/geekery/music/krc');

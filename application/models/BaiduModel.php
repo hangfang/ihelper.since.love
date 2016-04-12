@@ -58,33 +58,34 @@ EOF;
             'news' => array('touser'=>'', 'msgtype'=>'news', 'news'=>array('articles'=>array('title'=>'', 'description'=>'', 'url'=>'', 'picurl'=>''))),
         );
     
-    public function getWeather($cityid, $msgXml=array()){
+    public function getMusic($param, $msgXml=array()){
         $data = array();
         $data['method'] = 'get';
         $data['header'] = array('apikey: '. BAIDU_API_KEY);
-        $data['url'] = sprintf(BAIDU_WEATHER_API_URL, $cityid);
+        $data['url'] = sprintf(BAIDU_MUSIC_SEARCH_API_URL);
+        $data['data'] = $param;
         $rt = $this->http($data);
         
         if(empty($msgXml)){
             return $rt;
         }
         
-        if($rt['errNum'] === 0){
-
-            $data = $this->_send_format['text'];
-            $data['touser'] = $msgXml['FromUserName'];
-            $data['fromuser'] = $msgXml['ToUserName'];
-
-            $weather = $rt['retData'];
-
-            $data['text']['content'] = sprintf($this->_msg_weather, $weather['city'], $weather['date'], $weather['time'], $weather['weather'], $weather['temp'], $weather['h_tmp'], $weather['l_tmp'], $weather['WD'], $weather['WS'], $weather['sunrise'], $weather['sunset']);
-            return $data;
+        return $rt;
+    }
+    
+    public function getMusicPlayInfo($param, $msgXml=array()){
+        $data = array();
+        $data['method'] = 'get';
+        $data['header'] = array('apikey: '. BAIDU_API_KEY);
+        $data['url'] = sprintf(BAIDU_MUSIC_PLAYINFO_API_URL);
+        $data['data'] = $param;
+        $rt = $this->http($data);
+        
+        if(empty($msgXml)){
+            return $rt;
         }
-        $data = $this->_send_format['text'];
-        $data['touser'] = $msgXml['FromUserName'];
-        $data['fromuser'] = $msgXml['ToUserName'];
-        $data['text']['content'] = '咦，你很关心“'. $contents[0] .'”地区？';
-        return $data;
+        
+        return $rt;
     }
     
     public function getStock($stockid, $msgXml=array()){
@@ -113,6 +114,35 @@ EOF;
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
         $data['text']['content'] = '糟糕，未查到“'. $stockid .'”';
+        return $data;
+    }
+    
+    public function getWeather($cityid, $msgXml=array()){
+        $data = array();
+        $data['method'] = 'get';
+        $data['header'] = array('apikey: '. BAIDU_API_KEY);
+        $data['url'] = sprintf(BAIDU_WEATHER_API_URL, $cityid);
+        $rt = $this->http($data);
+        
+        if(empty($msgXml)){
+            return $rt;
+        }
+        
+        if($rt['errNum'] === 0){
+
+            $data = $this->_send_format['text'];
+            $data['touser'] = $msgXml['FromUserName'];
+            $data['fromuser'] = $msgXml['ToUserName'];
+
+            $weather = $rt['retData'];
+
+            $data['text']['content'] = sprintf($this->_msg_weather, $weather['city'], $weather['date'], $weather['time'], $weather['weather'], $weather['temp'], $weather['h_tmp'], $weather['l_tmp'], $weather['WD'], $weather['WS'], $weather['sunrise'], $weather['sunset']);
+            return $data;
+        }
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = '咦，你很关心“'. $contents[0] .'”地区？';
         return $data;
     }
 }
