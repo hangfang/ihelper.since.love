@@ -1,5 +1,6 @@
 $(function(){
     $('#container').on('focus', '#search_input', function (e) {
+        $('#search_show').show();
         var $weuiSearchBar = $('#search_bar');
         $weuiSearchBar.addClass('weui_search_focusing');
     }).on('blur', '#search_input', function (e) {
@@ -12,7 +13,7 @@ $(function(){
         }
     }).on('input', '#search_input', function (e) {
 
-        var name = $(this).val();
+        var name = $('#search_input').val();
         var $searchShow = $("#search_show");
         if (name.length>0) {
             var data = {name: name, page: music.page, size: music.size};
@@ -26,8 +27,9 @@ $(function(){
     }).on('click touchend', '#search_clear', function (e) {
         $("#search_show").hide();
         $('#search_input').val('');
-    }).on('click', '.weui_cell', function(e){
+    }).on('click touched', '.weui_cell', function(e){
         var _this = this;
+        $(this).addClass('add').siblings().removeClass('add');
         var filename = $(this).attr('filename');
         var hash = $(this).attr('hash');
         
@@ -74,11 +76,11 @@ $(function(){
         }
         
         if(music.touchstart-music.touchend > 200){
-            var data = {name: name, page: music.page, size: music.size};
+            var data = {name: $('#search_input').val(), page: music.page, size: music.size};
             music.getMusic(data);
         }
     }).on('click', function(e){
-        if($(e).parents('#search_show').length > 0){
+        if($(e.target).parents('#search_show').length == 0 && $(e.target).parents('#search_bar').length ===0){
             $('#search_show').hide();
         }
     });
@@ -160,12 +162,14 @@ music.getMusic = function(data){
     if(music.xhr){
         music.xhr.abort();
     }
+    $('#loadingToast').show();
     music.xhr = $.ajax({
         url: '/app/music',
         data: data,
         dataType: 'json',
         type: 'get',
         success : function(data, textStatus, xhr){
+            $('#loadingToast').hide();
             if(data.rtn > 0){
                 $('#toast').find('.weui_toast_content').html(data.errmsg).end().show();
                 setTimeout(function(){;
@@ -174,8 +178,8 @@ music.getMusic = function(data){
                 return false;
             }
 
-            var tmp = data.msg.data;
-            music.page = tmp.current_page+1;
+            var tmp = data.msg;
+            music.page = tmp.current_page-0+1;
             music.total_rows = tmp.total_rows;
             music.total_page = tmp.total_page;
 
