@@ -161,6 +161,7 @@ $(function(){
 music.getMusic = function(data){
     if(music.xhr){
         music.xhr.abort();
+        $('#loadingToast').hide();
     }
     $('#loadingToast').show();
     music.xhr = $.ajax({
