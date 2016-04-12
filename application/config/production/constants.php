@@ -40,3 +40,11 @@ define('BAIDU_MUSIC_SEARCH_API_URL', 'http://apis.baidu.com/geekery/music/query'
 define('BAIDU_MUSIC_PLAYINFO_API_URL', 'http://apis.baidu.com/geekery/music/playinfo');
 define('BAIDU_MUSIC_SINGER_API_URL', 'http://apis.baidu.com/geekery/music/singer');
 define('BAIDU_MUSIC_KRC_API_URL', 'http://apis.baidu.com/geekery/music/krc');
+
+/*网易音乐*/
+define('MUSIC_163_SEARCH_API_URL', 'http://music.163.com/api/search/suggest/web');
+define('MUSIC_163_ARTIST_API_URL', 'http://music.163.com/api/artist');
+define('MUSIC_163_ALBUM_API_URL', 'http://music.163.com/api/album');
+define('MUSIC_163_SONG_DETAIL_API_URL', 'http://music.163.com/api/song/detail');
+define('MUSIC_163_MV_DETAIL_API_URL', 'http://music.163.com/api/mv/detail');
+define('MUSIC_163_SONG_LYRIC_API_URL', 'http://music.163.com/api/song/lyric');
