@@ -1,5 +1,4 @@
 </div>
-<link rel="stylesheet" href="/static/public/css/app/index.css"/>
 <script type="text/html" id="tpl_home">
     <div class="hd">
         <h1 class="page_title">WeUI</h1>
@@ -101,6 +100,69 @@
                 </div>
                 <p class="weui_grid_label">
                     SearchBar
+                </p>
+            </a>
+            
+            <a href="#/input" class="weui_grid">
+                <div class="weui_grid_icon">
+                    <i class="icon icon_input"></i>
+                </div>
+                <p class="weui_grid_label">
+                    Input
+                </p>
+            </a>
+            
+            <a href="#/textarea" class="weui_grid">
+                <div class="weui_grid_icon">
+                    <i class="icon icon_textarea"></i>
+                </div>
+                <p class="weui_grid_label">
+                    TextArea
+                </p>
+            </a>
+            
+            <a href="#/radio" class="weui_grid">
+                <div class="weui_grid_icon">
+                    <i class="icon icon_radio"></i>
+                </div>
+                <p class="weui_grid_label">
+                    Radio
+                </p>
+            </a>
+            
+            <a href="#/checkbox" class="weui_grid">
+                <div class="weui_grid_icon">
+                    <i class="icon icon_checkbox"></i>
+                </div>
+                <p class="weui_grid_label">
+                    Checkbox
+                </p>
+            </a>
+            
+            <a href="#/select" class="weui_grid">
+                <div class="weui_grid_icon">
+                    <i class="icon icon_select"></i>
+                </div>
+                <p class="weui_grid_label">
+                    Select
+                </p>
+            </a>
+            
+            <a href="#/switch" class="weui_grid">
+                <div class="weui_grid_icon">
+                    <i class="icon icon_switch"></i>
+                </div>
+                <p class="weui_grid_label">
+                    Switch
+                </p>
+            </a>
+            
+            <a href="#/uploader" class="weui_grid">
+                <div class="weui_grid_icon">
+                    <i class="icon icon_uploader"></i>
+                </div>
+                <p class="weui_grid_label">
+                    Uploader
                 </p>
             </a>
         </div>
@@ -823,6 +885,209 @@
     </div>
 </div>
 </script>
+
+<script type="text/html" id="tpl_input">
+    <div class="hd">
+        <h1 class="page_title">Input</h1>
+    </div>
+    <div class="bd">
+        <div class="weui_cells_title">Input</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">QQ</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="tel" placeholder="请输入QQ号">
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="tpl_textarea">
+    <div class="hd">
+        <h1 class="page_title">TextArea</h1>
+    </div>
+    <div class="bd">
+        <div class="weui_cells_title">意见反馈</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea class="weui_textarea" placeholder="请输入意见反馈" rows="3"></textarea>
+                    <div class="weui_textarea_counter"><span>0</span>/200</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="tpl_radio">
+    <div class="hd">
+        <h1 class="page_title">Radio</h1>
+    </div>
+    <div class="bd">
+        <div class="weui_cells_title">单选列表项</div>
+        <div class="weui_cells weui_cells_radio">
+            <label class="weui_cell weui_check_label" for="x11">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p>cell standard</p>
+                </div>
+                <div class="weui_cell_ft">
+                    <input type="radio" class="weui_check" name="radio1" id="x11">
+                    <span class="weui_icon_checked"></span>
+                </div>
+            </label>
+            <label class="weui_cell weui_check_label" for="x12">
+
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p>cell standard</p>
+                </div>
+                <div class="weui_cell_ft">
+                    <input type="radio" name="radio1" class="weui_check" id="x12" checked="checked">
+                    <span class="weui_icon_checked"></span>
+                </div>
+            </label>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="tpl_checkbox">
+    <div class="hd">
+        <h1 class="page_title">Checkbox</h1>
+    </div>
+    <div class="bd">
+        <div class="weui_cells_title">复选列表项</div>
+        <div class="weui_cells weui_cells_checkbox">
+            <label class="weui_cell weui_check_label" for="s11">
+                <div class="weui_cell_hd">
+                    <input type="checkbox" class="weui_check" name="checkbox1" id="s11" checked="checked">
+                    <i class="weui_icon_checked"></i>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p>standard is dealt for u.</p>
+                </div>
+            </label>
+            <label class="weui_cell weui_check_label" for="s12">
+                <div class="weui_cell_hd">
+                    <input type="checkbox" name="checkbox1" class="weui_check" id="s12">
+                    <i class="weui_icon_checked"></i>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p>standard is dealicient for u.</p>
+                </div>
+            </label>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="tpl_select">
+    <div class="hd">
+        <h1 class="page_title">Select</h1>
+    </div>
+    <div class="bd">
+        <div class="weui_cells_title">选择</div>
+        <div class="weui_cells">
+            <div class="weui_cell weui_cell_select weui_select_before">
+                <div class="weui_cell_hd">
+                    <select class="weui_select" name="select2">
+                        <option value="1">+86</option>
+                        <option value="2">+80</option>
+                        <option value="3">+84</option>
+                        <option value="4">+87</option>
+                    </select>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="tel" placeholder="请输入号码">
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">选择</div>
+        <div class="weui_cells">
+            <div class="weui_cell weui_cell_select">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select class="weui_select" name="select1">
+                        <option selected="" value="1">微信号</option>
+                        <option value="2">QQ号</option>
+                        <option value="3">Email</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui_cell weui_cell_select weui_select_after">
+                <div class="weui_cell_hd">
+                    国家/地区
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select class="weui_select" name="select2">
+                        <option value="1">中国</option>
+                        <option value="2">美国</option>
+                        <option value="3">英国</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="tpl_switch">
+    <div class="hd">
+        <h1 class="page_title">Switch</h1>
+    </div>
+    <div class="bd">
+        <div class="weui_cells_title">开关</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell weui_cell_switch">
+                <div class="weui_cell_hd weui_cell_primary">声音</div>
+                <div class="weui_cell_ft">
+                    <input class="weui_switch" type="checkbox">
+                </div>
+            </div>
+            <div class="weui_cell weui_cell_switch">
+                <div class="weui_cell_hd weui_cell_primary">振动</div>
+                <div class="weui_cell_ft">
+                    <input class="weui_switch" type="checkbox" checked>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="tpl_uploader">
+    <div class="hd">
+        <h1 class="page_title">Uploader</h1>
+    </div>
+    <div class="bd">
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="weui_uploader">
+                        <div class="weui_uploader_hd weui_cell">
+                            <div class="weui_cell_bd weui_cell_primary">图片上传</div>
+                            <div class="weui_cell_ft">0/2</div>
+                        </div>
+                        <div class="weui_uploader_bd">
+                            <ul class="weui_uploader_files">
+                                <li class="weui_uploader_file" style="background-image:url(/static/weui/images/upload_0.jpg)"></li>
+                                <li class="weui_uploader_file weui_uploader_status" style="background-image:url(/static/weui/images/upload_0.jpg)">
+                                    <div class="weui_uploader_status_content">
+                                        <i class="weui_icon_warn"></i>
+                                    </div>
+                                </li>
+                                <li class="weui_uploader_file weui_uploader_status" style="background-image:url(/static/weui/images/upload_1.jpg)">
+                                    <div class="weui_uploader_status_content">50%</div>
+                                </li>
+                            </ul>
+                            <div class="weui_uploader_input_wrp">
+                                <input class="weui_uploader_input" type="file" accept="image/*" multiple="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
 <script src="/static/weui/js/zepto.min.js"></script>
 <script src="/static/weui/js/router.min.js"></script>
 <script src="/static/public/js/app/index.js"></script>

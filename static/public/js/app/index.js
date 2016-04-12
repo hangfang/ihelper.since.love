@@ -236,7 +236,71 @@ $(function () {
             });
         }
     };
-
+    
+    // input
+    var input = {
+        url: '/input',
+        className: 'input',
+        render: function () {
+            return $('#tpl_input').html();
+        }
+    };
+    
+    // textarea
+    var textarea = {
+        url: '/textarea',
+        className: 'textarea',
+        render: function () {
+            return $('#tpl_textarea').html();
+        }
+    };
+    
+    // radio
+    var radio = {
+        url: '/radio',
+        className: 'radio',
+        render: function () {
+            return $('#tpl_radio').html();
+        }
+    };
+    
+    // checkbox
+    var checkbox = {
+        url: '/checkbox',
+        className: 'checkbox',
+        render: function () {
+            return $('#tpl_checkbox').html();
+        }
+    };
+    
+    // select
+    var select = {
+        url: '/select',
+        className: 'select',
+        render: function () {
+            return $('#tpl_select').html();
+        }
+    };
+    
+    // switcher
+    var switcher = {
+        url: '/switch',
+        className: 'switch',
+        render: function () {
+            return $('#tpl_switch').html();
+        }
+    };
+    
+    // uploader
+    var uploader = {
+        url: '/uploader',
+        className: 'uploader',
+        render: function () {
+            return $('#tpl_uploader').html();
+        }
+    };
+    
+    
     router.push(home)
         .push(button)
         .push(cell)
@@ -252,6 +316,13 @@ $(function () {
         .push(navbar)
         .push(tabbar)
         .push(searchbar)
+        .push(input)
+        .push(textarea)
+        .push(radio)
+        .push(checkbox)
+        .push(select)
+        .push(switcher)
+        .push(uploader)
         .setDefault('/')
         .init();
 
