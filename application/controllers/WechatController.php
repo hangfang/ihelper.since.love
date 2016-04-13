@@ -183,12 +183,10 @@ EOF;
                 }else{
                     $this->unrecognize($msg, $msgXml);
                 }
-                break;
             case 2:
                 if(($kdniao = include_config('kdniao')) && in_array($contents[0], array_keys($kdniao))){
                     $this->getExpress($kdniao[$contents[0]], $contents[1], $msgXml);
                 }
-                break;
             default :
                 $this->complexedMessage($msgXml);
                 break;
