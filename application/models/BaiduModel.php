@@ -167,10 +167,10 @@ EOF;
             $girls = array();
             foreach($rt['newslist'] as $_v){
                 $tmp = array();
-                $tmp['Title'] = $_v['title'];
-                $tmp['Description'] = $_v['description'];
-                $tmp['PicUrl'] = $_v['picUrl'];
-                $tmp['Url'] = $_v['url'];
+                $tmp['title'] = $_v['title'];
+                $tmp['description'] = $_v['description'];
+                $tmp['picurl'] = $_v['picUrl'];
+                $tmp['url'] = $_v['url'];
                 $girls[] = $tmp;
             }
             
@@ -205,10 +205,10 @@ EOF;
             $news = array();
             foreach($rt['newslist'] as $_k=>$_v){
                 $tmp = array();
-                $tmp['Title'] = $_v['title'];
-                $tmp['Description'] = $_v['description'];
-                $tmp['PicUrl'] = $_v['picUrl'];
-                $tmp['Url'] = $_v['url'];
+                $tmp['title'] = $_v['title'];
+                $tmp['description'] = $_v['description'];
+                $tmp['picurl'] = $_v['picUrl'];
+                $tmp['url'] = $_v['url'];
                 $news[] = $tmp;
             }
             $data['articles'] = $news;
