@@ -1,1 +1,1 @@
-<script type="text/javascript" src="http://www.qq.com/404/search_children.js" charset="utf-8" homePageUrl="<?php echo $homePage;?>" homePageName="回到我的主页"></script>
+<script type="text/javascript" src="http://www.qq.com/404/search_children.js" charset="utf-8" homePageUrl="<?php echo $base_url;?>" homePageName="回到我的主页"></script>
