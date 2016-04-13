@@ -182,7 +182,7 @@ EOF;
                     $this->getRecentWeather($msgXml);
                 }elseif(in_array($contents[0], $wechat['girl'])){
                     $this->getGirls($msgXml);
-                }elseif(in_array($contents[0], $wechat['lottery'])){
+                }elseif(in_array($contents[0], array_keys($wechat['lottery']))){
                     $this->getLottery($wechat['lottery'][$contents[0]], $msgXml);
                 }else{
                     $this->getNews($contents[0], $msgXml);
