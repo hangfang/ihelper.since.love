@@ -243,7 +243,7 @@ EOF;
         }
         
         if($rt['errNum'] === 0){
-            $tmp = $data['retData']['data'];
+            $tmp = $data['retData']['data'][0];
             
             $data = $this->_send_format['text'];
             $data['touser'] = $msgXml['FromUserName'];
