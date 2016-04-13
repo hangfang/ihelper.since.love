@@ -48,3 +48,9 @@ define('MUSIC_163_ALBUM_API_URL', 'http://music.163.com/api/album');
 define('MUSIC_163_SONG_DETAIL_API_URL', 'http://music.163.com/api/song/detail');
 define('MUSIC_163_MV_DETAIL_API_URL', 'http://music.163.com/api/mv/detail');
 define('MUSIC_163_SONG_LYRIC_API_URL', 'http://music.163.com/api/song/lyric');
+
+/*百度美女*/
+define('BAIDU_GIRLS_API_URL', 'http://apis.baidu.com/txapi/mvtp/meinv?num=8');
+
+/*百度新闻*/
+define('BAIDU_NEWS_API_URL', 'http://apis.baidu.com/txapi/weixin/wxhot?num=8&rand=1&word=%s&page=1');
