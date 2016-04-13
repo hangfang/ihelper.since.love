@@ -1,9 +1,9 @@
 $(function(){
     $('#stockid').blur(function(e){
-        $('#submit').click();
+        $('#submit_stock').click();
     });
     
-    $('form').submit(function(e){
+    $('#form_stock').submit(function(e){
 
         if($('#stockid').val().length === 0){
             $('#stockid').parents('.form-group').removeClass('has-success').addClass('has-error').end().next('span').removeClass('glyphicon-ok').addClass('glyphicon-remove').show();

@@ -4,10 +4,10 @@ $(function(){
     });
     
     $('#nu').blur(function(e){
-        $('#submit').click();
+        $('#submit_express').click();
     });
     
-    $('form').submit(function(e){
+    $('#form_express').submit(function(e){
 
         if($('#com').val().length === 0){
             $('#com').parents('.form-group').removeClass('has-success').addClass('has-error').end().next('span').removeClass('glyphicon-ok').addClass('glyphicon-remove').show();

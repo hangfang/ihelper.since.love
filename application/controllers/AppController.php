@@ -54,6 +54,17 @@ EOF;
         $this->load->model('WechatModel');
     }
     
+    public function demo(){
+        
+        $data = array();
+        $data['title'] = '页面样例';
+        $sigObj = $this->WechatModel->getJsApiSigObj();
+        
+        $data = array_merge($data, $sigObj);
+        $this->layout->setLayout('weui');
+        $this->layout->view('App/demo', $data);
+    }
+    
     public function express(){
         $data = array();
         $data['title'] = '物流查询';
@@ -134,10 +145,17 @@ EOF;
     public function index(){
         
         $data = array();
-        $data['title'] = '微信jsapi测试';
+        $data['title'] = 'App首页';
         $sigObj = $this->WechatModel->getJsApiSigObj();
         
         $data = array_merge($data, $sigObj);
+        
+        $this->load->helper('include');
+        $data['cityList'] = include_config('weather');
+        
+        $this->load->helper('include');
+        $data['expressList'] = include_config('kdniao');
+        
         $this->layout->setLayout('weui');
         $this->layout->view('App/index', $data);
     }

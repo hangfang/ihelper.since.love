@@ -93,6 +93,39 @@
         </div>
     </div>
     <!-- end--操作成功--end -->
+    <div id="tabbar" class="tabbar">
+        <div class="weui_tab">
+            <div class="weui_tab_bd">
+
+            </div>
+            <div class="weui_tabbar">
+                <a href="/" class="weui_tabbar_item weui_bar_item_on">
+                    <div class="weui_tabbar_icon">
+                        <img src="/static/weui/images/icon_nav_button.png" alt="">
+                    </div>
+                    <p class="weui_tabbar_label">微信</p>
+                </a>
+                <a href="javascript:;" class="weui_tabbar_item">
+                    <div class="weui_tabbar_icon">
+                        <img src="/static/weui/images/icon_nav_msg.png" alt="">
+                    </div>
+                    <p class="weui_tabbar_label">通讯录</p>
+                </a>
+                <a href="javascript:;" class="weui_tabbar_item">
+                    <div class="weui_tabbar_icon">
+                        <img src="/static/weui/images/icon_nav_article.png" alt="">
+                    </div>
+                    <p class="weui_tabbar_label">发现</p>
+                </a>
+                <a href="javascript:;" class="weui_tabbar_item">
+                    <div class="weui_tabbar_icon">
+                        <img src="/static/weui/images/icon_nav_cell.png" alt="">
+                    </div>
+                    <p class="weui_tabbar_label">我</p>
+                </a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=55520872" charset="UTF-8"></script>

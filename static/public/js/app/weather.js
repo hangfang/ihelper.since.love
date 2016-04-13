@@ -3,7 +3,7 @@ $(function(){
         'mobile': true
     });
 
-    $('form').submit(function(e){
+    $('#form_weather').submit(function(e){
 
         if($('#cityid').val().length === 0){
             $('#cityid').parents('.form-group').removeClass('has-success').addClass('has-error').end().next('span').removeClass('glyphicon-ok').addClass('glyphicon-remove').show();
@@ -11,7 +11,7 @@ $(function(){
         }else{
             $('#cityid').parents('.form-group').removeClass('has-error').addClass('has-success').end().next('span').removeClass('glyphicon-remove').addClass('glyphicon-ok').show();
         }
-        
+
         var data = $(this).serialize();
         $('#loadingToast').show();
         $.ajax({

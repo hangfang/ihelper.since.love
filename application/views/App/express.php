@@ -5,7 +5,7 @@
         <h1 class="page_title">物流查询</h1>
     </div>
     <div class="bd">
-        <form class="form-horizontal" action="/app/express" method="post" target="_self">
+        <form class="form-horizontal" action="/app/express" method="post" target="_self" id="form_express">
             <div class="form-group has-success has-feedback">
                 <label class="control-label col-sm-3" for="com">快递公司</label>
                 <div class="col-sm-9">
@@ -32,7 +32,7 @@ EOF;
             </div>
             <div class="form-group" style="width: 50px; margin: 0 auto;">
                 <div>
-                    <button class="form-control btn btn-default" type="submit" id="submit">查询</button>
+                    <button class="form-control btn btn-default" type="submit" id="submit_express">查询</button>
                 </div>
             </div>
         </form>

@@ -10,6 +10,7 @@ body {
 
 .container {
 	height: 100%;
+        margin-bottom: 55px;
 	overflow-y: auto;
 	-webkit-overflow-scrolling: touch
 }
@@ -124,7 +125,9 @@ body {
 }
 
 .tabbar {
-	height: 100%
+        width: 100%;
+        position: fixed;
+        bottom: 0px;
 }
 
 .search_show {
@@ -314,3 +317,7 @@ body {
 	-webkit-animation: b .25s forwards;
 	animation: b .25s forwards
 }
+/*---start-自定义样式-start---*/
+.weui_tabbar a:hover {text-decoration: none;}
+.weui_tabbar_item {-webkit-filter: grayscale(100%);-moz-filter: grayscale(100%);-ms-filter: grayscale(100%);-o-filter: grayscale(100%);}
+.weui_bar_item_on {-webkit-filter: none;-moz-filter: none;-ms-filter: none;-o-filter: none;}

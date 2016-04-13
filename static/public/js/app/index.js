@@ -5,8 +5,7 @@ $(function () {
         enterTimeout: 250,
         leaveTimeout: 250
     });
-
-    // grid
+    
     var home = {
         url: '/',
         className: 'home',
@@ -14,205 +13,184 @@ $(function () {
             return $('#tpl_home').html();
         }
     };
-
-    // button
-    var button = {
-        url: '/button',
-        className: 'button',
+    
+    // express
+    var express = {
+        url: '/express',
+        className: 'express',
         render: function () {
-            return $('#tpl_button').html();
-        }
-    };
-
-    // cell
-    var cell = {
-        url: '/cell',
-        className: 'cell',
-        render: function () {
-            return $('#tpl_cell').html();
-        }
-    };
-
-    // toast
-    var toast = {
-        url: '/toast',
-        className: 'toast',
-        render: function () {
-            return $('#tpl_toast').html();
+            return $('#tpl_express').html();
         },
-        bind: function () {
-            $('#container').on('click', '#showToast', function () {
-                $('#toast').show();
-                setTimeout(function () {
-                    $('#toast').hide();
-                }, 2000);
-            }).on('click', '#showLoadingToast', function () {
+        bind: function(){
+            /*---start-快递查询-start---*/
+            $('#com').selectpicker({
+                'mobile': true
+            });
+
+            $('#container').on('blur', '#nu', function(e){
+                $('#submit_express').click();
+            });
+
+            $('#container').on('submit', '#form_express', function(e){
+
+                if($('#com').val().length === 0){
+                    $('#com').parents('.form-group').removeClass('has-success').addClass('has-error').end().next('span').removeClass('glyphicon-ok').addClass('glyphicon-remove').show();
+                    return false;
+                }else{
+                    $('#com').parents('.form-group').removeClass('has-error').addClass('has-success').end().next('span').removeClass('glyphicon-remove').addClass('glyphicon-ok').show();
+                }
+
+                if($('#nu').val().length === 0){
+                    $('#nu').parents('.form-group').removeClass('has-success').addClass('has-error').end().next('span').removeClass('glyphicon-ok').addClass('glyphicon-remove').show();
+                    return false;
+                }else{
+                    $('#nu').parents('.form-group').removeClass('has-error').addClass('has-success').end().next('span').removeClass('glyphicon-remove').addClass('glyphicon-ok').show();
+                }
+
+                var data = $(this).serialize();
                 $('#loadingToast').show();
-                setTimeout(function () {
-                    $('#loadingToast').hide();
-                }, 2000);
+                $.ajax({
+                    url : '/app/express',
+                    data : data,
+                    type : 'post',
+                    dataType : 'json',
+                    success : function(data, textStatus, xhr){
+                        $('#loadingToast').hide();
+                        if(data.rtn > 0){
+                            $('#toast').find('.weui_toast_content').html(data.errmsg).end().show();
+                            setTimeout(function(){;
+                                $('#toast').hide();
+                            }, 2000);
+                            return false;
+                        }
+
+                        $('#express_result').find('.weui_media_text').html(data.msg).end().show();
+                        return true;
+                    }
+                });
+
+                return false;
             });
+            /*---end--快递查询--end---*/
         }
     };
 
-    // dialog
-    var dialog = {
-        url: '/dialog',
-        className: 'dialog',
+    // weather
+    var weather = {
+        url: '/weather',
+        className: 'weather',
         render: function () {
-            return $('#tpl_dialog').html();
+            return $('#tpl_weather').html();
         },
-        bind: function () {
-            $('#container').on('click', '#showDialog1', function () {
-                $('#dialog1').show().on('click', '.weui_btn_dialog', function () {
-                    $('#dialog1').off('click').hide();
-                });
-            }).on('click', '#showDialog2', function () {
-                $('#dialog2').show().on('click', '.weui_btn_dialog', function () {
-                    $('#dialog2').off('click').hide();
-                });
+        bind: function(){
+            /*---start-天气查询-start---*/
+            $('#cityid').selectpicker({
+                'mobile': true
             });
 
-        }
-    };
+            $('#container').on('submit', '#form_weather', function(e){
 
-    // progress
-    var progress = {
-        url: '/progress',
-        className: 'progress',
-        render: function () {
-            return $('#tpl_progress').html();
-        },
-        bind: function () {
-            $('#container').on('click', '#btnStartProgress', function () {
-                if ($(this).hasClass('weui_btn_disabled')) {
-                    return;
+                if($('#cityid').val().length === 0){
+                    $('#cityid').parents('.form-group').removeClass('has-success').addClass('has-error').end().next('span').removeClass('glyphicon-ok').addClass('glyphicon-remove').show();
+                    return false;
+                }else{
+                    $('#cityid').parents('.form-group').removeClass('has-error').addClass('has-success').end().next('span').removeClass('glyphicon-remove').addClass('glyphicon-ok').show();
                 }
 
-                $(this).addClass('weui_btn_disabled');
+                var data = $(this).serialize();
+                $('#loadingToast').show();
+                $.ajax({
+                    url : '/app/weather',
+                    data : data,
+                    type : 'post',
+                    dataType : 'json',
+                    success : function(data, textStatus, xhr){
+                        $('#loadingToast').hide();
+                        if(data.rtn > 0){
+                            $('#toast').find('.weui_toast_content').html(data.errmsg).end().show();
+                            setTimeout(function(){;
+                                $('#toast').hide();
+                            }, 2000);
+                            return false;
+                        }
 
-                var progress = 0;
-                var $progress = $('.js_progress');
+                        $('#weather_result').find('.weui_media_text').html(data.msg).end().show();
+                        return true;
+                    }
+                });
 
-                function next() {
-                    $progress.css({width: progress + '%'});
-                    progress = ++progress % 100;
-                    setTimeout(next, 30);
+                return false;
+            });
+            /*---end--天气查询--end---*/
+        }
+    };
+
+    // stock
+    var stock = {
+        url: '/stock',
+        className: 'stock',
+        render: function () {
+            return $('#tpl_stock').html();
+        },
+        bind: function(){
+            /*---start-股票查询-start---*/
+            $('#container').on('blur', '#stockid', function(e){
+                $('#submit_stock').click();
+            });
+
+            $('#container').on('submit', '#form_stock', function(e){
+
+                if($('#stockid').val().length === 0){
+                    $('#stockid').parents('.form-group').removeClass('has-success').addClass('has-error').end().next('span').removeClass('glyphicon-ok').addClass('glyphicon-remove').show();
+                    return false;
+                }else{
+                    $('#stockid').parents('.form-group').removeClass('has-error').addClass('has-success').end().next('span').removeClass('glyphicon-remove').addClass('glyphicon-ok').show();
                 }
 
-                next();
+                var data = $(this).serialize();
+                $('#loadingToast').show();
+                $.ajax({
+                    url : '/app/stock',
+                    data : data,
+                    type : 'post',
+                    dataType : 'json',
+                    success : function(data, textStatus, xhr){
+                        $('#loadingToast').hide();
+                        if(data.rtn > 0){
+                            $('#toast').find('.weui_toast_content').html(data.errmsg).end().show();
+                            setTimeout(function(){;
+                                $('#toast').hide();
+                            }, 2000);
+                            return false;
+                        }
+
+                        $('#stock_result').find('.weui_media_text').html(data.msg).end().show();
+                        return true;
+                    }
+                });
+
+                return false;
             });
+            /*---end--股票查询--end---*/
         }
     };
 
-    // msg
-    var msg = {
-        url: '/msg',
-        className: 'msg',
+    // music
+    var music = {
+        page: 1,
+        size: 5,
+        url: '/music',
+        className: 'music',
         render: function () {
-            return $('#tpl_msg').html();
-        }
-    };
-
-    // article
-    var article = {
-        url: '/article',
-        className: 'article',
-        render: function () {
-            return $('#tpl_article').html();
-        }
-    };
-
-    // actionsheet
-    var actionsheet = {
-        url: '/actionsheet',
-        className: 'actionsheet',
-        render: function () {
-            return $('#tpl_actionsheet').html();
+            return $('#tpl_music').html();
         },
         bind: function () {
-            $('#container').on('click', '#showActionSheet', function () {
-                var mask = $('#mask');
-                var weuiActionsheet = $('#weui_actionsheet');
-                weuiActionsheet.addClass('weui_actionsheet_toggle');
-                mask.show().addClass('weui_fade_toggle').one('click', function () {
-                    hideActionSheet(weuiActionsheet, mask);
-                });
-                $('#actionsheet_cancel').one('click', function () {
-                    hideActionSheet(weuiActionsheet, mask);
-                });
-                weuiActionsheet.unbind('transitionend').unbind('webkitTransitionEnd');
-
-                function hideActionSheet(weuiActionsheet, mask) {
-                    weuiActionsheet.removeClass('weui_actionsheet_toggle');
-                    mask.removeClass('weui_fade_toggle');
-                    weuiActionsheet.on('transitionend', function () {
-                        mask.hide();
-                    }).on('webkitTransitionEnd', function () {
-                        mask.hide();
-                    })
-                }
-            });
-        }
-    };
-
-    // icons
-    var icons = {
-        url: '/icons',
-        className: 'icons',
-        render: function () {
-            return $('#tpl_icons').html();
-        }
-    };
-
-    // panel
-    var panel = {
-        url: '/panel',
-        className: 'panel',
-        render: function () {
-            return $('#tpl_panel').html();
-        }
-    };
-
-    // tab
-    var tab = {
-        url: '/tab',
-        className: 'tab',
-        render: function () {
-            return $('#tpl_tab').html();
-        }
-    };
-
-    // navbar
-    var navbar = {
-        url: '/navbar',
-        className: 'navbar',
-        render: function () {
-            return $('#tpl_navbar').html();
-        }
-    };
-
-    // tabbar
-    var tabbar = {
-        url: '/tabbar',
-        className: 'tabbar',
-        render: function () {
-            return $('#tpl_tabbar').html();
-        }
-    };
-
-    // searchbar
-    var searchbar = {
-        url: '/searchbar',
-        className: 'searchbar',
-        render: function () {
-            return $('#tpl_searchbar').html();
-        },
-        bind: function () {
-            $('#container').on('focus', '#search_input', function () {
+            /*---start-在线音乐-start---*/
+            $('#container').on('focus', '#search_input', function (e) {
+                $('#search_show').show();
                 var $weuiSearchBar = $('#search_bar');
                 $weuiSearchBar.addClass('weui_search_focusing');
-            }).on('blur', '#search_input', function () {
+            }).on('blur', '#search_input', function (e) {
                 var $weuiSearchBar = $('#search_bar');
                 $weuiSearchBar.removeClass('weui_search_focusing');
                 if ($(this).val()) {
@@ -220,109 +198,198 @@ $(function () {
                 } else {
                     $('#search_text').show();
                 }
-            }).on('input', '#search_input', function () {
+            }).on('input', '#search_input', function (e) {
+
+                var name = $('#search_input').val();
                 var $searchShow = $("#search_show");
-                if ($(this).val()) {
-                    $searchShow.show();
+                if (name.length>0) {
+                    var data = {name: name, page: music.page, size: music.size};
+                    music.getMusic(data);
                 } else {
                     $searchShow.hide();
                 }
-            }).on('touchend', '#search_cancel', function () {
+            }).on('click touchend', '#search_cancel', function (e) {
                 $("#search_show").hide();
                 $('#search_input').val('');
-            }).on('touchend', '#search_clear', function () {
+            }).on('click touchend', '#search_clear', function (e) {
                 $("#search_show").hide();
                 $('#search_input').val('');
+            }).on('click touched', '.weui_cell', function(e){
+                var _this = this;
+                $(this).addClass('add').siblings().removeClass('add');
+                var filename = $(this).attr('filename');
+                var hash = $(this).attr('hash');
+
+                $('#loadingToast').show();
+                var data = {hash: hash};
+                $.ajax({
+                    url: '/app/getMusicPlayInfo',
+                    data: data,
+                    dataType: 'json',
+                    type: 'get',
+                    success: function(data, textStatus, xhr){
+                        $('#loadingToast').hide();
+                        if(data.rtn > 0){
+                            $('#toast').find('.weui_toast_content').html(data.errmsg).end().show();
+                            setTimeout(function(){;
+                                $('#toast').hide();
+                            }, 2000);
+                            return false;
+                        }
+
+                        var li = $('<li><a href="#" data-src="'+data.msg.url+'">'+filename+'</a></li>');
+                        li.appendTo($('#play_list'));
+
+                        $('#toast').find('.weui_toast_content').html(filename).end().show();
+                        setTimeout(function(){;
+                            $('#toast').hide();
+                        }, 2000);
+
+                        if($('#play_list li').length === 1){
+                            li.click();
+                        }
+                    }
+                });
+            }).on('touchstart', '#search_show', function(e){
+                music.touchstart = event.changedTouches[0].clientY;
+            }).on('touchend', '#search_show', function(e){
+                music.touchend = event.changedTouches[0].clientY;
+                if(music.total_page < music.page){
+                    $('#toast').find('.weui_toast_content').html('已加载完毕...').end().show();
+                    setTimeout(function(){;
+                        $('#toast').hide();
+                    }, 2000);
+                    return false;
+                }
+
+                if(music.touchstart-music.touchend > 200){
+                    var data = {name: $('#search_input').val(), page: music.page, size: music.size};
+                    music.getMusic(data);
+                }
+            }).on('click', function(e){
+                if($(e.target).parents('#search_show').length == 0 && $(e.target).parents('#search_bar').length ===0){
+                    $('#search_show').hide();
+                }
             });
+
+            music.audio = audiojs.createAll({
+                trackEnded: function() {
+                    if($('#play_list li').length===0){
+                        music.audio.stop();
+                    }
+                    var next = $('ol li.playing').next();
+                    if (!next.length){
+                        next = $('ol li:first-child');
+                    }
+                    next.addClass('playing').siblings().removeClass('playing');
+                    music.audio.load($('a', next).attr('data-src'));
+                    music.audio.play();               
+                }
+            }).pop();
+
+            // Load in the first track
+            if($('#play_list li').length > 0){
+                music.audio.load($('#play_list li:first-child').addClass('playing').find('a').attr('data-src'));
+                music.audio.play();
+            }
+
+            // Load in a track on click
+            $('#play_list').on('touchend click', function(e) {
+                if($('#play_list li').length === 0){
+                    return false;
+                }
+                if(music.delay > 0){
+                    $('#toast').find('.weui_toast_content').html('心好累，请勿操作太快。').end().show();
+                    setTimeout(function(){;
+                        $('#toast').hide();
+                    }, 2000);
+                    return false;
+                }
+
+                music.delay = 5;
+                music.intervalId = setInterval(function(){
+                    music.delay--;
+                    if(music.delay===0){
+                        clearInterval(music.intervalId);
+                    }
+                });
+
+                e.preventDefault();
+                if(e.target.nodeName.toLowerCase()==='li'){
+                    $(e.target).addClass('playing').siblings().removeClass('playing');
+                    music.audio.load($(e.target).find('a').attr('data-src'));
+                    music.audio.play();
+                    return true;
+                }
+                $(e.target).parents('li').addClass('playing').siblings().removeClass('playing');
+                music.audio.load($(e.target).attr('data-src'));
+                music.audio.play();
+            });
+            // Keyboard shortcuts
+            $(document).keydown(function(e) {
+                var unicode = e.charCode ? e.charCode : e.keyCode;
+                // right arrow
+                if (unicode == 39) {
+                    var next = $('#play_list li.playing').next();
+                    if (!next.length) next = $('#play_list li:first-child');
+                    next.click();
+                    // back arrow
+                } else if (unicode == 37) {
+                    var prev = $('#play_list li.playing').prev();
+                    if (!prev.length) prev = $('#play_list li:last-child');
+                    prev.click();
+                    // spacebar
+                } else if (unicode == 32) {
+                    music.audio.playPause();
+                }
+            })
+
+            music.getMusic = function(data){
+                if(music.xhr){
+                    music.xhr.abort();
+                    $('#loadingToast').hide();
+                }
+                $('#loadingToast').show();
+                music.xhr = $.ajax({
+                    url: '/app/music',
+                    data: data,
+                    dataType: 'json',
+                    type: 'get',
+                    success : function(data, textStatus, xhr){
+                        $('#loadingToast').hide();
+                        if(data.rtn > 0){
+                            $('#toast').find('.weui_toast_content').html(data.errmsg).end().show();
+                            setTimeout(function(){;
+                                $('#toast').hide();
+                            }, 2000);
+                            return false;
+                        }
+
+                        var tmp = data.msg;
+                        music.page = tmp.current_page-0+1;
+                        music.total_rows = tmp.total_rows;
+                        music.total_page = tmp.total_page;
+
+                        var html = '';
+                        tmp = data.msg.data;
+                        for(var i in tmp){
+                            html += '<div class="weui_cell" hash="'+tmp[i]['hash']+'" filename="'+tmp[i]['filename']+'"><div class="weui_cell_bd weui_cell_primary"><p>'+tmp[i]['filename']+'</p><p>时长:'+tmp[i]['duration']+'秒\t格式:'+tmp[i]['extname']+'\t码率:'+tmp[i]['bitrate']+'\t尺寸:'+new Number(tmp[i]['filesize']/1024/1024).toFixed(0)+'M</p></div></div>';
+                        }
+
+                        $('#search_show').html(html).show();
+                        return true;
+                    }
+                });
+            };
+            /*---end--在线音乐--end---*/
         }
     };
-    
-    // input
-    var input = {
-        url: '/input',
-        className: 'input',
-        render: function () {
-            return $('#tpl_input').html();
-        }
-    };
-    
-    // textarea
-    var textarea = {
-        url: '/textarea',
-        className: 'textarea',
-        render: function () {
-            return $('#tpl_textarea').html();
-        }
-    };
-    
-    // radio
-    var radio = {
-        url: '/radio',
-        className: 'radio',
-        render: function () {
-            return $('#tpl_radio').html();
-        }
-    };
-    
-    // checkbox
-    var checkbox = {
-        url: '/checkbox',
-        className: 'checkbox',
-        render: function () {
-            return $('#tpl_checkbox').html();
-        }
-    };
-    
-    // select
-    var select = {
-        url: '/select',
-        className: 'select',
-        render: function () {
-            return $('#tpl_select').html();
-        }
-    };
-    
-    // switcher
-    var switcher = {
-        url: '/switch',
-        className: 'switch',
-        render: function () {
-            return $('#tpl_switch').html();
-        }
-    };
-    
-    // uploader
-    var uploader = {
-        url: '/uploader',
-        className: 'uploader',
-        render: function () {
-            return $('#tpl_uploader').html();
-        }
-    };
-    
-    
+     
     router.push(home)
-        .push(button)
-        .push(cell)
-        .push(toast)
-        .push(dialog)
-        .push(progress)
-        .push(msg)
-        .push(article)
-        .push(actionsheet)
-        .push(icons)
-        .push(panel)
-        .push(tab)
-        .push(navbar)
-        .push(tabbar)
-        .push(searchbar)
-        .push(input)
-        .push(textarea)
-        .push(radio)
-        .push(checkbox)
-        .push(select)
-        .push(switcher)
-        .push(uploader)
+        .push(express)
+        .push(weather)
+        .push(stock)
+        .push(music)
         .setDefault('/')
         .init();
 
