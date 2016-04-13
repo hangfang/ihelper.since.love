@@ -251,7 +251,7 @@ EOF;
             
             $this->load->helper('include');
             $wechat = array_flip(include_config('wechat')['lottery']);
-            $data['text']['content'] = sprintf($this->_msg_lottery, $wechat[$tmp['lotteryCode']], $tmp['expect'], $tmp['openTime'], $tmp['openCode']);
+            $data['text']['content'] = sprintf($this->_msg_lottery, $wechat[$rt['retData']['lotteryCode']], $tmp['expect'], $tmp['openTime'], $tmp['openCode']);
             return $data;
         }
         
