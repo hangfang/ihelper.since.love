@@ -49,6 +49,14 @@ EOF;
     
 仅供参考，非投资依据。
 EOF;
+    
+    public $_msg_lottery = <<<EOF
+%s开奖信息：
+    期号：%s
+    开奖时间：%s
+    开奖号码：%s
+EOF;
+    
     public $_send_format = array(
             'text' => array('touser'=>'', 'msgtype'=>'text', 'text'=>array('content'=>'')),
             'image' => array('touser'=>'', 'msgtype'=>'image', 'image'=>array('media_id'=>'')),
@@ -219,6 +227,38 @@ EOF;
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
         $data['text']['content'] = '悲剧，新闻都被您过了...';
+        return $data;
+    }
+    
+    public function getLottery($lotteryType, $recordCnt=1, $msgXml=array()){
+        $data = array();
+        $data['method'] = 'get';
+        $data['header'] = array('apikey: '. BAIDU_API_KEY);
+        $data['data'] = array('lotterytype'=>$lotteryType, 'recordCnt'=>$recordCnt);
+        $data['url'] = BAIDU_LOTTERY_API_URL;
+        $rt = $this->http($data);
+        
+        if(empty($msgXml)){
+            return $rt;
+        }
+        
+        if($rt['errNum'] === 0){
+            $tmp = $data['retData']['data'];
+            
+            $data = $this->_send_format['text'];
+            $data['touser'] = $msgXml['FromUserName'];
+            $data['fromuser'] = $msgXml['ToUserName'];
+            
+            $this->load->helper('include');
+            $wechat = array_flip(include_config('wechat'));
+            $data['text']['content'] = sprintf($this->_msg_lottery, $wechat[$tmp['lotteryCode']], $tmp['expect'], $tmp['openTime'], $tmp['openCode']);
+            return $data;
+        }
+        
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = '别着急，还未开奖...';
         return $data;
     }
 }

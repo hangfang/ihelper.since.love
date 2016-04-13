@@ -7,4 +7,5 @@ return array(
     'news' => array('资讯','news','NEWS'),
     'girl' => array('美女','女神','女生', '女', '妹子', '妹', '丫头', '小女孩', '女星', '女性', '女郎', 'female', 'Female', 'FEMALE'),
     'position' => array('我','位置'),
+    'lottery' => array('超级大乐透'=>'dlt', '福彩3d'=>'fc3d', '排列3'=>'pl3', '排列5'=>'pl5', '七乐彩'=>'qlc', '七星彩'=>'qxc', '双色球'=>'ssq', '六场半全场'=>'zcbqc', '四场进球彩'=>'zcjqc', '十四场胜负彩'=>'zcsfc'),
 );

@@ -22,7 +22,7 @@ class Layout
         $data['environment'] = ENVIRONMENT;
         $data['base_url'] = BASE_URL;
         $data['content_for_layout'] = $this->obj->load->view($view,$data,true); 
-        
+
         if($return) 
         { 
             $output = $this->obj->load->view($this->layout,$data, true); 

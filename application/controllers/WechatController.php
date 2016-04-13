@@ -182,6 +182,8 @@ EOF;
                     $this->getRecentWeather($msgXml);
                 }elseif(in_array($contents[0], $wechat['girl'])){
                     $this->getGirls($msgXml);
+                }elseif(in_array($contents[0], $wechat['lottery'])){
+                    $this->getLottery($wechat['lottery'][$contents[0]], $msgXml);
                 }else{
                     $this->getNews($contents[0], $msgXml);
                 }
@@ -479,6 +481,12 @@ EOF;
     public function getNews($keyword, $msgXml){
         
         $data = $this->BaiduModel->getNews($keyword, $msgXml);
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function getLottery($lotterytype, $msgXml){
+        
+        $data = $this->BaiduModel->getLottery($lotterytype, 1, $msgXml);
         $this->WechatModel->sendMessage($data);
     }
 }
