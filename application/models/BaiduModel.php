@@ -230,11 +230,17 @@ EOF;
         return $data;
     }
     
-    public function getLottery($lotteryCode, $recordCnt=1, $msgXml=array()){
+    /**
+     * @todo 查询彩票开奖信息
+     * @param array $data
+     * @param array $msgXml
+     * @return string
+     */
+    public function getLottery($param, $msgXml=array()){
         $data = array();
         $data['method'] = 'get';
         $data['header'] = array('apikey: '. BAIDU_API_KEY);
-        $data['data'] = array('lotterycode'=>$lotteryCode, 'recordcnt'=>$recordCnt);
+        $data['data'] = $param;
         $data['url'] = BAIDU_LOTTERY_API_URL;
         $rt = $this->http($data);
         
@@ -250,8 +256,8 @@ EOF;
             $data['fromuser'] = $msgXml['ToUserName'];
             
             $this->load->helper('include');
-            $wechat = array_flip(include_config('wechat')['lottery']);
-            $data['text']['content'] = sprintf($this->_msg_lottery, $wechat[$rt['retData']['lotteryCode']], $tmp['expect'], $tmp['openTime'], $tmp['openCode']);
+            $lottery = array_flip(include_config('lottery'));
+            $data['text']['content'] = sprintf($this->_msg_lottery, $lottery[$rt['retData']['lotteryCode']], $tmp['expect'], $tmp['openTime'], $tmp['openCode']);
             return $data;
         }
         

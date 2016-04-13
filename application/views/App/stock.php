@@ -5,7 +5,7 @@
         <h1 class="page_title">股票查询</h1>
     </div>
     <div class="bd">
-        <form class="form-horizontal" action="/stock/index" method="post" target="_self" id="form_stock">
+        <form class="form-horizontal" action="/app/stock" method="post" target="_self" id="form_stock">
             <div class="form-group has-success has-feedback">
                 <label class="control-label col-sm-3" for="stockid">股票代码</label>
                 <div class="col-sm-9">

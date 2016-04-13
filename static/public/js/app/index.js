@@ -403,12 +403,73 @@ $(function () {
             /*---end--在线音乐--end---*/
         }
     };
-     
+    
+    // lottery
+    var lottery = {
+        url: '/lottery',
+        className: 'lottery',
+        render: function () {
+            if(typeof $('#lottery_code').selectpicker === 'undefined'){
+                $.getScript("/static/bootstrap/js/bootstrap-select.js?d=20160411", function(){
+
+                    $('#lottery_code').selectpicker({
+                        'mobile': true
+                    });
+                    $('head').append('<link rel="stylesheet" href="/static/bootstrap/css/bootstrap-select.min.css"/>');
+
+                });
+            }
+            return $('#tpl_lottery').html();
+        },
+        bind: function(){
+            /*---start-股票查询-start---*/
+            $('#lottery_code').blur(function(e){
+                $('#submit_lottery').click();
+            });
+
+            $('#form_lottery').submit(function(e){
+
+                if($('#lottery_code').val().length === 0){
+                    $('#lottery_code').parents('.form-group').removeClass('has-success').addClass('has-error').end().next('span').removeClass('glyphicon-ok').addClass('glyphicon-remove').show();
+                    return false;
+                }else{
+                    $('#lottery_code').parents('.form-group').removeClass('has-error').addClass('has-success').end().next('span').removeClass('glyphicon-remove').addClass('glyphicon-ok').show();
+                }
+
+                var data = $(this).serialize();
+                $('#loadingToast').show();
+                $.ajax({
+                    url : '/app/lottery',
+                    data : data,
+                    type : 'get',
+                    dataType : 'json',
+                    success : function(data, textStatus, xhr){
+                        $('#loadingToast').hide();
+                        if(data.rtn > 0){
+                            $('#toast').find('.weui_toast_content').html(data.errmsg).end().show();
+                            setTimeout(function(){;
+                                $('#toast').hide();
+                            }, 2000);
+                            return false;
+                        }
+
+                        $('#lottery_result').find('.weui_media_text').html(data.msg).end().show();
+                        return true;
+                    }
+                });
+
+                return false;
+            });
+            /*---end--股票查询--end---*/
+        }
+    };
+    
     router.push(home)
         .push(express)
         .push(weather)
         .push(stock)
         .push(music)
+        .push(lottery)
         .setDefault('/')
         .init();
 

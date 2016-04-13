@@ -48,6 +48,13 @@ EOF;
 <p class="weui_media_desc">    日出时间：%s</p>
 <p class="weui_media_desc">    日落时间：%s</p>      
 EOF;
+    
+    public $_msg_lottery = <<<EOF
+<p class="weui_media_desc">彩种：%s</p>
+<p class="weui_media_desc">期号：%s</p>
+<p class="weui_media_desc">时间：%s</p>
+<p class="weui_media_desc">号码：%s</p>   
+EOF;
             
     public function __construct() {
         parent::__construct();
@@ -156,8 +163,66 @@ EOF;
         $this->load->helper('include');
         $data['expressList'] = include_config('kdniao');
         
+        $this->load->helper('include');
+        $data['lotteryList'] = array_flip(array_unique(array_flip(include_config('lottery'))));
+        
         $this->layout->setLayout('weui');
         $this->layout->view('App/index', $data);
+    }
+    
+    public function lottery(){
+        $data = array();
+        $data['title'] = '彩票查询';
+        
+        
+        $this->load->helper('include');
+        $lottery = include_config('lottery');
+        
+        if($this->input->is_ajax_request()){
+            $data = array();
+            $data['lotterycode'] = $this->input->get('lottery_code');
+            $data['lotterycode'] = $data['lotterycode'] ? $data['lotterycode'] : '';
+
+            $data['recordcnt'] = $this->input->get('record_cnt');
+            $data['recordcnt'] = $data['recordcnt'] ? $data['recordcnt'] : 1;
+            
+            if(!$data['lotterycode']){
+                $this->json($this->error['lottery_lack_of_lotterycode_error']);
+            }
+            
+            $this->load->model('BaiduModel');
+            $rt = $this->BaiduModel->getLottery($data);
+
+            if(isset($rt['errNum']) && $rt['errNum']-0 !== 0){
+                $data = array();
+                $data['rtn'] = $rt['errNum']-0;
+                $data['errmsg'] = $rt['retMsg'];
+                
+                $this->json($data);
+                return false;
+            }
+            
+            $lottery = array_flip($lottery);
+            $tmp = $rt['retData']['data'][0];
+            $msg = sprintf($this->_msg_lottery, $lottery[$rt['retData']['lotteryCode']], $tmp['expect'], $tmp['openTime'], $tmp['openCode']);
+            
+            $data = array();
+            $data['rtn'] = 0;
+            $data['msg'] = $msg;
+            
+            $this->json($data);
+            return true;
+        }
+        
+        $lottery = array_flip(array_unique(array_flip($lottery)));
+        
+        $data['lotteryList'] = $lottery;
+        
+        $sigObj = $this->WechatModel->getJsApiSigObj();
+
+        $data = array_merge($data, $sigObj);
+        $this->layout->setLayout('weui');
+        $this->layout->view('App/lottery', $data);
     }
     
     public function location(){
