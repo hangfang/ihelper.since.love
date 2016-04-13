@@ -429,6 +429,8 @@ EOF;
 
             list($tmp, $com) = explode('：', $com_nu[0]);
             list($tmp, $nu) = explode('：', $com_nu[1]);
+            
+            $kdniao = include_config('kdniao');
             $data = $this->KuaidiModel->kdniao($kdniao[$com], $nu, $msgXml);
             $this->WechatModel->sendMessage($data);
         }
