@@ -250,7 +250,7 @@ EOF;
             $data['fromuser'] = $msgXml['ToUserName'];
             
             $this->load->helper('include');
-            $wechat = array_flip(include_config('wechat'));
+            $wechat = array_flip(include_config('wechat')['lottery']);
             $data['text']['content'] = sprintf($this->_msg_lottery, $wechat[$tmp['lotteryCode']], $tmp['expect'], $tmp['openTime'], $tmp['openCode']);
             return $data;
         }
