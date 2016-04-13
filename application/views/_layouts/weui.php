@@ -99,7 +99,7 @@
 
             </div>
             <div class="weui_tabbar">
-                <a href="/" class="weui_tabbar_item weui_bar_item_on">
+                <a href="/#/" class="weui_tabbar_item weui_bar_item_on">
                     <div class="weui_tabbar_icon">
                         <img src="/static/weui/images/icon_nav_button.png" alt="">
                     </div>
