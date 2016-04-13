@@ -20,6 +20,7 @@ class Layout
     function view($view, $data=null, $return=false) 
     { 
         $data['environment'] = ENVIRONMENT;
+        $data['base_url'] = BASE_URL;
         $data['content_for_layout'] = $this->obj->load->view($view,$data,true); 
         
         if($return) 

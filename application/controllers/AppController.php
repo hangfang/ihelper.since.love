@@ -171,6 +171,14 @@ EOF;
         $this->layout->view('App/location', $data);
     }
     
+    public function missing(){
+        
+        $data = array();
+        $data['title'] = '页面丢失...';
+        $this->layout->setLayout('empty');
+        $this->layout->view('App/missing', $data);
+    }
+    
     public function music(){
         
         $data = array();
@@ -224,14 +232,14 @@ EOF;
         
         $data = array();
         $data['title'] = 'web图像处理—简约版';
-        $this->layout->setLayout('photo');
+        $this->layout->setLayout('empty');
         $this->layout->view('App/photo', $data);
     }
     
     public function photopro(){
         $data = array();
         $data['title'] = 'web图像处理—专业版';
-        $this->layout->setLayout('photo');
+        $this->layout->setLayout('empty');
         $this->layout->view('App/photopro', $data);
     }
     
