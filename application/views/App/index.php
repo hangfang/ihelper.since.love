@@ -1,6 +1,4 @@
 </div>
-<script type="text/javascript" src="/static/bootstrap/js/bootstrap-select.js"></script>
-<link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap-select.min.css">
  <style>
     body { color: #666; font-family: sans-serif; line-height: 1.4; }
     h1 { color: #444; font-size: 1.2em; padding: 14px 2px 12px; margin: 0px; }
@@ -237,7 +235,6 @@ EOF;
 
 <script src="/static/weui/js/zepto.min.js?d=20160110"></script>
 <script src="/static/weui/js/router.min.js?d=20160110"></script>
-<script src="/static/audiojs/audio.min.js?d=20160110"></script>
 <script src="/static/public/js/app/index.js?d=20160110"></script>
 </body>
 </html>

@@ -19,14 +19,20 @@ $(function () {
         url: '/express',
         className: 'express',
         render: function () {
+            if(typeof $('#com').selectpicker === 'undefined'){
+                $.getScript("/static/bootstrap/js/bootstrap-select.js?d=20160411", function(){
+
+                    $('#com').selectpicker({
+                        'mobile': true
+                    });
+                    $('head').append('<link rel="stylesheet" href="/static/bootstrap/css/bootstrap-select.min.css"/>');
+
+                });
+            }
             return $('#tpl_express').html();
         },
         bind: function(){
             /*---start-快递查询-start---*/
-            $('#com').selectpicker({
-                'mobile': true
-            });
-
             $('#container').on('blur', '#nu', function(e){
                 $('#submit_express').click();
             });
@@ -80,14 +86,20 @@ $(function () {
         url: '/weather',
         className: 'weather',
         render: function () {
+            if(typeof $('#cityid').selectpicker === 'undefined'){
+                $.getScript("/static/bootstrap/js/bootstrap-select.js?d=20160411", function(){
+
+                    $('#cityid').selectpicker({
+                        'mobile': true
+                    });
+                    $('head').append('<link rel="stylesheet" href="/static/bootstrap/css/bootstrap-select.min.css"/>');
+
+                });
+            }
             return $('#tpl_weather').html();
         },
         bind: function(){
             /*---start-天气查询-start---*/
-            $('#cityid').selectpicker({
-                'mobile': true
-            });
-
             $('#container').on('submit', '#form_weather', function(e){
 
                 if($('#cityid').val().length === 0){
@@ -186,6 +198,26 @@ $(function () {
         },
         bind: function () {
             /*---start-在线音乐-start---*/
+            
+            if(typeof audiojs === 'undefined'){
+                $('body').append('<script src="/static/audiojs/audio.min.js?d=20160411"></script>');
+            }
+            
+            music.audio = audiojs.createAll({
+                trackEnded: function() {
+                    if($('#play_list li').length===0){
+                        music.audio.stop();
+                    }
+                    var next = $('#play_list li.playing').next();
+                    if (!next.length){
+                        next = $('#play_list li:first-child');
+                    }
+                    next.addClass('playing').siblings().removeClass('playing');
+                    music.audio.load($('a', next).attr('data-src'));
+                    music.audio.play();               
+                }
+            }).pop();
+            
             $('#container').on('focus', '#search_input', function (e) {
                 $('#search_show').show();
                 var $weuiSearchBar = $('#search_bar');
@@ -272,20 +304,7 @@ $(function () {
                 }
             });
 
-            music.audio = audiojs.createAll({
-                trackEnded: function() {
-                    if($('#play_list li').length===0){
-                        music.audio.stop();
-                    }
-                    var next = $('ol li.playing').next();
-                    if (!next.length){
-                        next = $('ol li:first-child');
-                    }
-                    next.addClass('playing').siblings().removeClass('playing');
-                    music.audio.load($('a', next).attr('data-src'));
-                    music.audio.play();               
-                }
-            }).pop();
+            
 
             // Load in the first track
             if($('#play_list li').length > 0){
