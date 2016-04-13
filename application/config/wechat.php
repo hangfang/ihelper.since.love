@@ -5,6 +5,6 @@ return array(
     'at' => array('你','关注','好友','添加','王琳玲','方航','琰琰','小方'),
     'daigou' => array('代购','香港','HK','Hong Kong','hk'),
     'news' => array('资讯','news','NEWS'),
-    'girl' => array('美女','女神','女生', '女', '妹子', '妹', '丫头', '小女孩'),
+    'girl' => array('美女','女神','女生', '女', '妹子', '妹', '丫头', '小女孩', '女星', '女性', '女郎', 'female', 'Female', 'FEMALE'),
     'position' => array('我','位置'),
 );
