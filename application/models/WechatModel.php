@@ -283,7 +283,7 @@ EOF;
         $data = array();
         foreach($msg as $_msg_name=>$_msg_value){
             if(is_array($_msg_value)){
-                if($_k === 'articles'){
+                if(isset($_msg_value['articles'])){
                     $data['articles'] = json_encode($_msg_value);
                     continue;
                 }
