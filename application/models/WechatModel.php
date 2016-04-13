@@ -280,9 +280,22 @@ EOF;
 //            error_log('send wechat message, msg: '. json_encode($rt));
 //            return false;
 //        }
+        $data = array();
+        foreach($msg as $_msg_name=>$_msg_value){
+            if(is_array($_msg_value)){
+                if($_k === 'articles'){
+                    $data['articles'] = json_encode($_msg_value);
+                    continue;
+                }
+                foreach($_msg_value as $_k=>$_v){
+                    $data[$_k] = $_v;
+                }
+                continue;
+            }
+            
+            $data[$_msg_name] = $_msg_value;
+        }
         
-        $data = $msg;
-        $data['msgtype'] === 'news' && $data['articles'] = json_encode($data['articles']);
         if(!$this->db->insert('wechat_send_message', $data)){
             error_log('save wechat_send_message error, sql:'. $this->db->last_query());
         }
