@@ -165,15 +165,13 @@ EOF;
             $data['fromuser'] = $msgXml['ToUserName'];
             
             $girls = array();
-            foreach($rt as $_k=>$_v){
+            foreach($rt['newslist'] as $_v){
                 $tmp = array();
-                if(is_array($_v)){
-                    $tmp['Title'] = $_v['title'];
-                    $tmp['Description'] = $_v['description'];
-                    $tmp['PicUrl'] = $_v['picUrl'];
-                    $tmp['Url'] = $_v['url'];
-                    $girls[] = $tmp;
-                }
+                $tmp['Title'] = $_v['title'];
+                $tmp['Description'] = $_v['description'];
+                $tmp['PicUrl'] = $_v['picUrl'];
+                $tmp['Url'] = $_v['url'];
+                $girls[] = $tmp;
             }
             
             $data['articles'] = $girls;
@@ -207,13 +205,11 @@ EOF;
             $news = array();
             foreach($rt['newslist'] as $_k=>$_v){
                 $tmp = array();
-                if(is_array($_v)){
-                    $tmp['Title'] = $_v['title'];
-                    $tmp['Description'] = $_v['description'];
-                    $tmp['PicUrl'] = $_v['picUrl'];
-                    $tmp['Url'] = $_v['url'];
-                    $news[] = $tmp;
-                }
+                $tmp['Title'] = $_v['title'];
+                $tmp['Description'] = $_v['description'];
+                $tmp['PicUrl'] = $_v['picUrl'];
+                $tmp['Url'] = $_v['url'];
+                $news[] = $tmp;
             }
             $data['articles'] = $news;
             return $data;
