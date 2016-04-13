@@ -51,7 +51,7 @@ EOF;
 EOF;
     
     public $_msg_lottery = <<<EOF
-%s开奖：
+彩种：%s
 期号：%s
 时间：%s
 号码：%s
