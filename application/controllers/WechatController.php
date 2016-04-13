@@ -180,8 +180,10 @@ EOF;
                     $this->getRecentExpress($msgXml);
                 }elseif($contents[0]==='天气'){
                     $this->getRecentWeather($msgXml);
+                }elseif(in_array($contents[0], $wechat['girl'])){
+                    $this->getGirls($msgXml);
                 }else{
-                    $this->unrecognize($msg, $msgXml);
+                    $this->getNews($contents[0], $msgXml);
                 }
             case 2:
                 if(($kdniao = include_config('kdniao')) && in_array($contents[0], array_keys($kdniao))){
@@ -465,6 +467,18 @@ EOF;
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
         $data['text']['content'] = $this->_msg_to_large;
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function getGirls($msgXml){
+        
+        $data = $this->BaiduModel->getGirls($msgXml);
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function getNews($keyword, $msgXml){
+        
+        $data = $this->BaiduModel->getNews($keyword, $msgXml);
         $this->WechatModel->sendMessage($data);
     }
 }

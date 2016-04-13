@@ -55,7 +55,7 @@ EOF;
             'voice' => array('touser'=>'', 'msgtype'=>'voice', 'voice'=>array('media_id'=>'')),
             'video' => array('touser'=>'', 'msgtype'=>'video', 'video'=>array('media_id'=>'', 'thumb_media_id'=>'', 'title'=>'', 'description'=>'')),
             'music' => array('touser'=>'', 'msgtype'=>'music', 'music'=>array('title'=>'', 'description'=>'', 'musicurl'=>'', 'hqmusicurl'=>'', 'thumb_media_id'=>'')),
-            'news' => array('touser'=>'', 'msgtype'=>'news', 'news'=>array('articles'=>array('title'=>'', 'description'=>'', 'url'=>'', 'picurl'=>''))),
+            'news' => array('touser'=>'', 'msgtype'=>'news', 'articles'=>array(array('title'=>'', 'description'=>'', 'url'=>'', 'picurl'=>'')),
         );
     
     public function getMusic($param, $msgXml=array()){
@@ -143,6 +143,86 @@ EOF;
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
         $data['text']['content'] = '咦，你很关心“'. $contents[0] .'”地区？';
+        return $data;
+    }
+    
+    
+    public function getGirls($msgXml=array()){
+        $data = array();
+        $data['method'] = 'get';
+        $data['header'] = array('apikey: '. BAIDU_API_KEY);
+        $data['url'] = sprintf(BAIDU_GIRLS_API_URL);
+        $rt = $this->http($data);
+        
+        if(empty($msgXml)){
+            return $rt;
+        }
+        
+        if($rt['code'] === 200){
+
+            $data = $this->_send_format['news'];
+            $data['touser'] = $msgXml['FromUserName'];
+            $data['fromuser'] = $msgXml['ToUserName'];
+            
+            $girls = array();
+            foreach($rt as $_k=>$_v){
+                $tmp = array();
+                if(is_array($_v)){
+                    $tmp['Title'] = $_v['title'];
+                    $tmp['Description'] = $_v['description'];
+                    $tmp['PicUrl'] = $_v['picUrl'];
+                    $tmp['Url'] = $_v['url'];
+                    $girls[] = $tmp;
+                }
+            }
+            
+            $data['articles'] = $girls;
+            return $data;
+        }
+        
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = '悲剧，美女都表示不约...';
+        return $data;
+    }
+    
+    public function getNews($keyword, $msgXml=array()){
+        $data = array();
+        $data['method'] = 'get';
+        $data['header'] = array('apikey: '. BAIDU_API_KEY);
+        $data['url'] = sprintf(BAIDU_NEWS_API_URL, $keyword);
+        $rt = $this->http($data);
+        
+        if(empty($msgXml)){
+            return $rt;
+        }
+        
+        if($rt['code'] === 200){
+
+            $data = $this->_send_format['news'];
+            $data['touser'] = $msgXml['FromUserName'];
+            $data['fromuser'] = $msgXml['ToUserName'];
+
+            $news = array();
+            foreach($rt['newslist'] as $_k=>$_v){
+                $tmp = array();
+                if(is_array($_v)){
+                    $tmp['Title'] = $_v['title'];
+                    $tmp['Description'] = $_v['description'];
+                    $tmp['PicUrl'] = $_v['picUrl'];
+                    $tmp['Url'] = $_v['url'];
+                    $news[] = $tmp;
+                }
+            }
+            $data['articles'] = $news;
+            return $data;
+        }
+        
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = '悲剧，新闻都被您过了...';
         return $data;
     }
 }
