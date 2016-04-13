@@ -51,10 +51,10 @@ EOF;
 EOF;
     
     public $_msg_lottery = <<<EOF
-%s开奖信息：
-    期号：%s
-    开奖时间：%s
-    开奖号码：%s
+%s开奖：
+期号：%s
+时间：%s
+号码：%s
 EOF;
     
     public $_send_format = array(
