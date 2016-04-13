@@ -10,6 +10,9 @@
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/static/weui/css/weui.css"/>
     <link rel="stylesheet" href="/static/weui/css/common.css"/>
+    <style type="text/css">
+      body,button, input, select, textarea,h1 ,h2, h3, h4, h5, h6 { font-family: Microsoft YaHei,'宋体' , Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;}
+    </style>
 </head>
 <body>
     <div class="container" id="container">

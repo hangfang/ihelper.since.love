@@ -393,4 +393,11 @@ EOF;
         $this->layout->setLayout('weui');
         $this->layout->view('App/weather', $data);
     }
+    
+    public function news(){
+        $data = array();
+        $dta['title'] = '新闻';
+        $this->layout->setLayout('weui');
+        $this->layout->view('App/news', $data);
+    }
 }
