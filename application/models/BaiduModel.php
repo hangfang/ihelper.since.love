@@ -230,11 +230,11 @@ EOF;
         return $data;
     }
     
-    public function getLottery($lotteryType, $recordCnt=1, $msgXml=array()){
+    public function getLottery($lotteryCode, $recordCnt=1, $msgXml=array()){
         $data = array();
         $data['method'] = 'get';
         $data['header'] = array('apikey: '. BAIDU_API_KEY);
-        $data['data'] = array('lotterytype'=>$lotteryType, 'recordCnt'=>$recordCnt);
+        $data['data'] = array('lotterycode'=>$lotteryCode, 'recordcnt'=>$recordCnt);
         $data['url'] = BAIDU_LOTTERY_API_URL;
         $rt = $this->http($data);
         

@@ -484,9 +484,9 @@ EOF;
         $this->WechatModel->sendMessage($data);
     }
     
-    public function getLottery($lotterytype, $msgXml){
+    public function getLottery($lotteryCode, $msgXml){
         
-        $data = $this->BaiduModel->getLottery($lotterytype, 1, $msgXml);
+        $data = $this->BaiduModel->getLottery($lotteryCode, 1, $msgXml);
         $this->WechatModel->sendMessage($data);
     }
 }
