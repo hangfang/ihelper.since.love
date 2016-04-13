@@ -43,7 +43,7 @@
         <div class="weui_grids">
             <a href="#/express" class="weui_grid">
                 <div class="weui_grid_icon">
-                    <i class="icon icon_button"></i>
+                    <i class="icon icon_actionSheet"></i>
                 </div>
                 <p class="weui_grid_label">
                     快递查询

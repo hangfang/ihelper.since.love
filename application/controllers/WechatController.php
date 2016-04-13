@@ -159,138 +159,36 @@ EOF;
         
         $contents = trim(str_replace(array('，', ','), array(' ', ' '), $contents));
         $contents = explode(' ', $contents);
-        
-        if(empty($contents)){
-            $data = $this->_send_format['text'];
-            $data['touser'] = $msgXml['FromUserName'];
-            $data['fromuser'] = $msgXml['ToUserName'];
-            $data['text']['content'] = '不知所云...';
-            $this->WechatModel->sendMessage($data, 'text');
-        }
 
         switch(count($contents)){
             case 1:
                 if(($kdniao = include_config('kdniao')) && in_array($contents[0], array_keys($kdniao))){//快递公司
-                    $data = $this->_send_format['text'];
-                    $data['touser'] = $msgXml['FromUserName'];
-                    $data['fromuser'] = $msgXml['ToUserName'];
-                    $data['text']['content'] = '咳，终于找到“'. $contents[0] .'”公司...';
-                    $this->WechatModel->sendMessage($data);
-
+                    $this->getExpressCom($contents[0], $msgXml);
                 }else if(($weather = include_config('weather')) && in_array($contents[0], array_keys($weather))){//天气
-                    $data = $this->BaiduModel->getWeather($weather[$contents[0]], $msgXml);
-                    $this->WechatModel->sendMessage($data);
-
+                    $this->getWeather($weather[$contents[0]], $msgXml);
                 }else if(($wechat = include_config('wechat')) && in_array($contents[0], $wechat['daigou'])){//图文广告
-                    $data = $this->_send_format['news'];
-                    $data['touser'] = $msgXml['FromUserName'];
-                    $data['fromuser'] = $msgXml['ToUserName'];
-
-                    $data['news'] = $tmp = array();
-                    $tmp['title'] = '香港代购';
-                    $tmp['description'] = '#4月5日#今天才是小胖妹真正意义上的生日，也因为她，妈咪才走上#香港代购#这条不归路[偷笑]';
-                    $tmp['picurl'] = 'https://mmbiz.qlogo.cn/mmbiz/vacvmEeokHY8vfIeqTeF3rR8gGria7u8m0rzD2EoVDCpo64IjyDwkkxicN0pKNUwfHzjKmShsNBGMLicnPwTUAbJA/0?wx_fmt=jpeg';
-                    $tmp['url'] = 'http://mp.weixin.qq.com/s?__biz=MzI4NzIyMjQwNw==&mid=100000006&idx=1&sn=2f99b09162bba5902ac99acf99ef9659#rd';
-                    $data['news'][] = $tmp;
-
-                    $data['article_count'] = count($data['news']);
-
-                    $this->WechatModel->sendMessage($data);
-
+                    $this->daigou();
                 }else if(in_array($contents[0], $wechat['at'])){//关注微信号
-                    $data = $this->_send_format['text'];
-                    $data['touser'] = $msgXml['FromUserName'];
-                    $data['fromuser'] = $msgXml['ToUserName'];
-                    $data['text']['content'] = '搜索“'. WX_HK_ACCOUNT .'”吧'."\n".'期待您的关注n(*≧▽≦*)n';
-                    $this->WechatModel->sendMessage($data);
-
+                    $this->hopeSubscribe($msgXml);
                 }elseif(in_array($contents[0], $wechat['position'])){//提示发送位置信息
-                    $data = $this->_send_format['text'];
-                    $data['touser'] = $msgXml['FromUserName'];
-                    $data['fromuser'] = $msgXml['ToUserName'];
-                    $data['text']['content'] = '爽快点，告诉我你的位置吧？';
-                    $this->WechatModel->sendMessage($data);
+                    $this->tellMeYourPosition($msgXml);
                 }elseif(preg_match('/^[\d]{6}$/i', $contents[0]) === 1){//股票代码
-                    
-                    if(preg_match('/^6[\d]{5}$/i', $contents[0]) === 1){
-                        $stockid = 'sh'. $contents[0];//上海
-                    }elseif(preg_match('/^0[\d]{5}|3[\d]{5}$/i', $contents[0]) === 1){
-                        $stockid = 'sz'. $contents[0];//深圳
-                    }else{
-                        $stockid = $contents[0];
-                    }
-                    
-                    
-                    $data = $this->BaiduModel->getStock($stockid, $msgXml);
-                    $this->WechatModel->sendMessage($data);
+                    $this->getStock($stockid, $msgXml);
                 }elseif(in_array($contents[0], $wechat['around'])){//上一条是位置信息
-                    $lastMsg = $this->WechatModel->getLastReceiveMsg($msgXml, array('MsgType'=>'location'));
-                    if(empty($lastMsg)){
-                        $data = $this->_send_format['text'];
-                        $data['touser'] = $msgXml['FromUserName'];
-                        $data['fromuser'] = $msgXml['ToUserName'];
-                        $data['text']['content'] = '请发送您的位置，以精准定位';
-                        $this->WechatModel->sendMessage($data);
-                    }elseif(time()-strtotime($lastMsg['CreateTime']) > 300){
-                        $this->load->library('friendlydate');
-                        $data = $this->_send_format['text'];
-                        $data['touser'] = $msgXml['FromUserName'];
-                        $data['fromuser'] = $msgXml['ToUserName'];
-                        $data['text']['content'] = sprintf($this->_msg_position_expired, $this->friendlydate->timeDiff($lastMsg['CreateTime']));
-                        $this->WechatModel->sendMessage($data);
-                    }
-                    
-                    $data = $this->PositionModel->searchAround($lastMsg, $msgXml);
-                    $this->WechatModel->sendMessage($data);
+                    $this->searchAround($contents[0], $msgXml);
                 }elseif($contents[0]==='快递'){
-                    $lastMessage = $this->WechatModel->getLastSendMsg($msgXml, array('msgtype'=>'text'), array('content'=>array('value'=>'公司名称', 'side'=>'after')));
-                    
-                    if(!empty($lastMessage)){
-                        
-                        $com_nu = explode('物流信息', $lastMessage['content']);
-                        $com_nu = explode("\n", $com_nu[0]);
-                        
-                        list($tmp, $com) = explode('：', $com_nu[0]);
-                        list($tmp, $nu) = explode('：', $com_nu[1]);
-                        $data = $this->KuaidiModel->kdniao($kdniao[$com], $nu, $msgXml);
-                        $this->WechatModel->sendMessage($data);
-                        break;
-                    }
-                    
+                    $this->getRecentExpress($msgXml);
                 }elseif($contents[0]==='天气'){
-                    $lastMessage = $this->WechatModel->getLastSendMsg($msgXml, array('msgtype'=>'text'), array('content'=>array('value'=>'天气', 'side'=>'after')));
-                    
-                    if(!empty($lastMessage)){
-                        
-                        $city = explode("\n", $lastMessage['content']);
-                        
-                        preg_match_all('/\((.+)\)/', $city[0], $match);
-                        $data = $this->BaiduModel->getWeather($weather[$match[1][0]], $msgXml);
-                        $this->WechatModel->sendMessage($data);
-                        break;
-                    }
+                    $this->getRecentWeather($msgXml);
                 }else{
-                    $data = $this->_send_format['text'];
-                    $data['touser'] = $msgXml['FromUserName'];
-                    $data['fromuser'] = $msgXml['ToUserName'];
-                    $data['text']['content'] = sprintf($this->_unrecognized_msg, $contents[0]);
-                    $this->WechatModel->sendMessage($data);
+                    $this->unrecognize($msg, $msgXml);
                 }
-                
-                break;
             case 2:
                 if(($kdniao = include_config('kdniao')) && in_array($contents[0], array_keys($kdniao))){
-                    $data = $this->KuaidiModel->kdniao($kdniao[$contents[0]], $contents[1], $msgXml);
-                    $this->WechatModel->sendMessage($data);
-                    break;
+                    $this->getExpress($kdniao[$contents[0]], $contents[1], $msgXml);
                 }
             default :
-                $data = $this->_send_format['text'];
-                $data['touser'] = $msgXml['FromUserName'];
-                $data['fromuser'] = $msgXml['ToUserName'];
-                $data['text']['content'] = sprintf($this->_msg_to_large, $contents[0]);
-                $this->WechatModel->sendMessage($data);
-                break;
+                $this->complexedMessage($msgXml);
         }
     }
     
@@ -434,6 +332,136 @@ EOF;
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
         $data['text']['content'] = $msgXml['FromUserName'] .'菜单跳转';
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function daigou($msgXml){
+        $data = $this->_send_format['news'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+
+        $data['news'] = $tmp = array();
+        $tmp['title'] = '香港代购';
+        $tmp['description'] = '#4月5日#今天才是小胖妹真正意义上的生日，也因为她，妈咪才走上#香港代购#这条不归路[偷笑]';
+        $tmp['picurl'] = 'https://mmbiz.qlogo.cn/mmbiz/vacvmEeokHY8vfIeqTeF3rR8gGria7u8m0rzD2EoVDCpo64IjyDwkkxicN0pKNUwfHzjKmShsNBGMLicnPwTUAbJA/0?wx_fmt=jpeg';
+        $tmp['url'] = 'http://mp.weixin.qq.com/s?__biz=MzI4NzIyMjQwNw==&mid=100000006&idx=1&sn=2f99b09162bba5902ac99acf99ef9659#rd';
+        $data['news'][] = $tmp;
+
+        $data['article_count'] = count($data['news']);
+
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function getExpressCom($msg, $msgXml){
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = '咳，终于找到“'. $msg .'”公司...';
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function getStock($stockid, $msgXml){
+        if(preg_match('/^6[\d]{5}$/i', $stockid) === 1){
+            $stockid = 'sh'. $stockid;//上海
+        }elseif(preg_match('/^0[\d]{5}|3[\d]{5}$/i', $stockid) === 1){
+            $stockid = 'sz'. $stockid;//深圳
+        }else{
+            $stockid = $stockid;
+        }
+
+
+        $data = $this->BaiduModel->getStock($stockid, $msgXml);
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function unrecognize($msg, $msgXml){
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = sprintf($this->_unrecognized_msg, $msg);
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function hopeSubscribe($msgXml){
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = '搜索“'. WX_HK_ACCOUNT .'”吧'."\n".'期待您的关注n(*≧▽≦*)n';
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function tellMeYourPosition($msgXml){
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = '爽快点，告诉我你的位置吧？';
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function searchAround($msg, $msgXml){
+        $lastMsg = $this->WechatModel->getLastReceiveMsg($msgXml, array('MsgType'=>'location'));
+        if(empty($lastMsg)){
+            $data = $this->_send_format['text'];
+            $data['touser'] = $msgXml['FromUserName'];
+            $data['fromuser'] = $msgXml['ToUserName'];
+            $data['text']['content'] = '请发送您的位置，以精准定位';
+            $this->WechatModel->sendMessage($data);
+        }elseif(time()-strtotime($lastMsg['CreateTime']) > 300){
+            $this->load->library('friendlydate');
+            $data = $this->_send_format['text'];
+            $data['touser'] = $msgXml['FromUserName'];
+            $data['fromuser'] = $msgXml['ToUserName'];
+            $data['text']['content'] = sprintf($this->_msg_position_expired, $this->friendlydate->timeDiff($lastMsg['CreateTime']));
+            $this->WechatModel->sendMessage($data);
+        }
+
+        $data = $this->PositionModel->searchAround($lastMsg, $msgXml);
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function getRecentExpress($msgXml){
+        $lastMessage = $this->WechatModel->getLastSendMsg($msgXml, array('msgtype'=>'text'), array('content'=>array('value'=>'公司名称', 'side'=>'after')));
+                    
+        if(!empty($lastMessage)){
+
+            $com_nu = explode('物流信息', $lastMessage['content']);
+            $com_nu = explode("\n", $com_nu[0]);
+
+            list($tmp, $com) = explode('：', $com_nu[0]);
+            list($tmp, $nu) = explode('：', $com_nu[1]);
+            $data = $this->KuaidiModel->kdniao($kdniao[$com], $nu, $msgXml);
+            $this->WechatModel->sendMessage($data);
+        }
+    }
+    
+    public function getRecentWeather($msgXml){
+        $lastMessage = $this->WechatModel->getLastSendMsg($msgXml, array('msgtype'=>'text'), array('content'=>array('value'=>'天气', 'side'=>'after')));
+                    
+        if(!empty($lastMessage)){
+
+            $city = explode("\n", $lastMessage['content']);
+
+            preg_match_all('/\((.+)\)/', $city[0], $match);
+            $data = $this->BaiduModel->getWeather($weather[$match[1][0]], $msgXml);
+            $this->WechatModel->sendMessage($data);
+        }
+    }
+    
+    public function getWeather($msg, $msgXml){
+        $data = $this->BaiduModel->getWeather($msg, $msgXml);
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function getExpress($com, $nu, $msgXml){
+        $data = $this->KuaidiModel->kdniao($com, $nu, $msgXml);
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function complexedMessage($msgXml){
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = $this->_msg_to_large;
         $this->WechatModel->sendMessage($data);
     }
 }
