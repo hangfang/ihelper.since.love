@@ -8,7 +8,7 @@
     .bg-wrapper {position:relative;}
     .container-fluid {margin-top:15px; padding: 0; border-radius: 5px;}
     .list-group {margin-bottom: 0px;}
-    .list-group-item{border-color: rgb(235,235,235);}
+    .list-group-item{border-color: rgb(197,197,197);}
     .list-group-item a {display:block; color: #000;}
     .img-responsive {width:403px; height:268px;}
     .pull-right {width:50px; height:50px;}
