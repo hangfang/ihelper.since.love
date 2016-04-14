@@ -431,7 +431,7 @@ EOF;
         $data = array();
         $this->input->get('keyword') && $data['word'] = $this->input->get('keyword');
         
-        $data['page'] = $this->input->get('page') ? $this->input->get('page') : rand(1,999);
+        $data['page'] = $this->input->get('page') ? $this->input->get('page') : rand(1,9999);
         
         $data['rand'] = 1;
         $data['num'] = 8;
