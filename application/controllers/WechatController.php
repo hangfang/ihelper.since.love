@@ -500,7 +500,7 @@ EOF;
     
     public function getJoke($msgXml){
         $data = array();
-        $data['page'] = rand(1, 10000);
+        $data['page'] = rand(1, 260);
         $data = $this->BaiduModel->getJoke($data, $msgXml);
         $this->WechatModel->sendMessage($data);
     }
