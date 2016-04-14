@@ -1,9 +1,9 @@
 $(function(){
     $('#container').on('touchstart', '.container-fluid:last', function(e){
-        e.preventDefault();
+        e.stopPropagation();
         news.touchstart = event.changedTouches[0].clientY;
     }).on('touchend', '.container-fluid:last', function(e){
-        e.preventDefault();
+        e.stopPropagation();
         news.touchsend = event.changedTouches[0].clientY;
         if(news.touchstart-news.touchsend > 200){
             var data = {page: news.page};
