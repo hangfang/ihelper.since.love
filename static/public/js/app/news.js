@@ -4,7 +4,7 @@ $(function(){
     }).on('touchend', '.container-fluid:last', function(e){
         news.touchsend = event.changedTouches[0].clientY;
         if(news.touchstart-news.touchsend > 200){
-            var data = {page: news.page};
+            var data = {};
             $('#loadingToast').show();
             $.ajax({
                 url : '/app/news',
