@@ -55,7 +55,7 @@ define('MUSIC_163_SONG_LYRIC_API_URL', 'http://music.163.com/api/song/lyric');
 define('BAIDU_GIRLS_API_URL', 'http://apis.baidu.com/txapi/mvtp/meinv?num=8');
 
 /*百度新闻*/
-define('BAIDU_NEWS_API_URL', 'http://apis.baidu.com/txapi/weixin/wxhot?num=8&rand=1&word=%s&page=1');
+define('BAIDU_NEWS_API_URL', 'http://apis.baidu.com/txapi/weixin/wxhot');
 
 /*百度彩票开奖*/
 define('BAIDU_LOTTERY_API_URL', 'http://apis.baidu.com/apistore/lottery/lotteryquery');

@@ -479,8 +479,12 @@ EOF;
     }
     
     public function getNews($keyword, $msgXml){
-        
-        $data = $this->BaiduModel->getNews($keyword, $msgXml);
+        $data = array();
+        $keyword && $data['word'] = $keyword;
+        $data['page'] = rand(1,10);
+        $data['rand'] = 1;
+        $data['num'] = 8;
+        $data = $this->BaiduModel->getNews($data, $msgXml);
         $this->WechatModel->sendMessage($data);
     }
     

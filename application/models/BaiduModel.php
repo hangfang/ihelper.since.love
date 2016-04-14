@@ -193,11 +193,12 @@ EOF;
         return $data;
     }
     
-    public function getNews($keyword, $msgXml=array()){
+    public function getNews($param, $msgXml=array()){
         $data = array();
         $data['method'] = 'get';
         $data['header'] = array('apikey: '. BAIDU_API_KEY);
-        $data['url'] = sprintf(BAIDU_NEWS_API_URL, $keyword);
+        $data['url'] = BAIDU_NEWS_API_URL;
+        $data['data'] = $param;
         $rt = $this->http($data);
         
         if(empty($msgXml)){
