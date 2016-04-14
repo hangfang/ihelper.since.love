@@ -59,7 +59,7 @@ EOF;
     
         public $_msg_joke = <<<EOF
 标题：%s
-内容：%s
+%s
 EOF;
         
     public $_send_format = array(
