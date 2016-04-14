@@ -489,4 +489,8 @@ $(function () {
             }
         })
     }
+    
+    $('#contact').click(function(e){
+        $('#msg').show();
+    });
 });

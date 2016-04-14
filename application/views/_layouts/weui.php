@@ -109,19 +109,19 @@
                     </div>
                     <p class="weui_tabbar_label">微信</p>
                 </a>
-                <a href="javascript:;" class="weui_tabbar_item">
+                <a href="javascript:;" id="contact" class="weui_tabbar_item">
                     <div class="weui_tabbar_icon">
                         <img src="/static/weui/images/icon_nav_msg.png" alt="">
                     </div>
                     <p class="weui_tabbar_label">通讯录</p>
                 </a>
-                <a href="javascript:;" class="weui_tabbar_item">
+                <a href="/app/pano" class="weui_tabbar_item">
                     <div class="weui_tabbar_icon">
                         <img src="/static/weui/images/icon_nav_article.png" alt="">
                     </div>
                     <p class="weui_tabbar_label">发现</p>
                 </a>
-                <a href="javascript:;" class="weui_tabbar_item">
+                <a href="/app/location" class="weui_tabbar_item">
                     <div class="weui_tabbar_icon">
                         <img src="/static/weui/images/icon_nav_cell.png" alt="">
                     </div>
