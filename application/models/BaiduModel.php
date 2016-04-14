@@ -277,7 +277,7 @@ EOF;
     public function getJoke($param, $msgXml=array()){
         
         $data = array();
-        $data['method'] = 'get';
+        $data['method'] = 'post';
         $data['header'] = array('apikey: '. BAIDU_API_KEY);
         $data['data'] = $param;
         $data['url'] = BAIDU_JOKE_API_URL;
