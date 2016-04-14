@@ -89,6 +89,14 @@
                     资讯
                 </p>
             </a>
+            <a href="/app/pano" class="weui_grid">
+                <div class="weui_grid_icon">
+                    <i class="icon icon_button"></i>
+                </div>
+                <p class="weui_grid_label">
+                    街景
+                </p>
+            </a>
         </div>
     </div>
 </script>
