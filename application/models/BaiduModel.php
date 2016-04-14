@@ -59,6 +59,7 @@ EOF;
     
         public $_msg_joke = <<<EOF
 标题：%s
+            
 %s
 EOF;
         
