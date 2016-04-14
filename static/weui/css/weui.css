@@ -899,7 +899,7 @@ input.weui_btn_plain_default {
   -webkit-flex: 1;
       -ms-flex: 1;
           flex: 1;
-  padding: 7px 0 0;
+  padding: 4px 0 0;
   -webkit-tap-highlight-color: transparent;
 }
 .weui_tabbar_item.weui_bar_item_on .weui_tabbar_label {

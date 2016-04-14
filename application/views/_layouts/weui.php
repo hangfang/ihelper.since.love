@@ -13,6 +13,8 @@
     <style type="text/css">
         body {background-color: rgb(235,235,235);}
         body,button, input, select, textarea,h1 ,h2, h3, h4, h5, h6 { font-family: Microsoft YaHei,'宋体' , Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;}
+        p.weui_tabbar_label {padding: 0; margin:0;}
+        .weui_tabbar_icon + .weui_tabbar_label {margin: 0;}
     </style>
 </head>
 <body>
