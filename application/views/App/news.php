@@ -5,7 +5,7 @@
     .img {height:50px;}
     .font16 {font-size:16px;}
     .bg-wrapper {position:relative;}
-    .container-fluid {margin-top:15px; padding: 0;}
+    .container-fluid {margin-top:15px; padding: 0; border-radius: 5px;}
     .list-group {margin-bottom: 0px;}
     .list-group-item{border-color: rgb(235,235,235);}
     .list-group-item a {display:block; color: #000;}
