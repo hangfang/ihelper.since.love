@@ -491,6 +491,7 @@ $(function () {
     }
     
     $('#contact').click(function(e){
+        $('#container').hide();
         $('#msg').show();
     });
 });
