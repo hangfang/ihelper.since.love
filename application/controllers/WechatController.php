@@ -47,9 +47,9 @@ class WechatController extends MY_Controller {
 咦，您是说“%s”吗？
 可小i尚小，未能处理ㄒoㄒ
 
-1、发送如“北京”<a href="{BASE_URL}/#/weather">查询</a>天气
-2、发送如“申通，xx”<a href="{BASE_URL}/#/express">查询</a>物流
-3、发送如“600000”<a href="{BASE_URL}/#/stock">查询</a>股票数据
+1、发送如“北京”<a href="/#/weather">查询</a>天气
+2、发送如“申通，xx”<a href="/#/express">查询</a>物流
+3、发送如“600000”<a href="/#/stock">查询</a>股票数据
 4、发送如“美容”等，搜索周边
 5、更多隐藏功能由您发掘…
         
@@ -60,9 +60,9 @@ EOF;
 额，信息量太大
 请说重点(*≧▽≦*)
 
-1、发送如“北京”<a href="{BASE_URL}/#/weather">查询</a>天气
-2、发送如“申通，xx”<a href="{BASE_URL}/#/express">查询</a>物流
-3、发送如“600000”<a href="{BASE_URL}/#/stock">查询</a>股票数据
+1、发送如“北京”<a href="/#/weather">查询</a>天气
+2、发送如“申通，xx”<a href="/#/express">查询</a>物流
+3、发送如“600000”<a href="/#/stock">查询</a>股票数据
 4、发送如“美容”等，搜索周边
 5、更多隐藏功能由您发掘…
         
@@ -72,9 +72,9 @@ EOF;
     public $_msg_welcome_back = <<<EOF
 热烈欢迎老伙伴回归！
 
-1、发送如“北京”<a href="{BASE_URL}/#/weather">查询</a>天气
-2、发送如“申通，xx”<a href="{BASE_URL}/#/express">查询</a>物流
-3、发送如“600000”<a href="{BASE_URL}/#/stock">查询</a>股票数据
+1、发送如“北京”<a href="/#/weather">查询</a>天气
+2、发送如“申通，xx”<a href="/#/express">查询</a>物流
+3、发送如“600000”<a href="/#/stock">查询</a>股票数据
 4、发送如“美容”等，搜索周边
 5、更多隐藏功能由您发掘…
         
@@ -84,9 +84,9 @@ EOF;
     public $_msg_welcome_newbeing = <<<EOF
 撒花欢迎新朋友到来！
 
-1、发送如“北京”<a href="{BASE_URL}/#/weather">查询</a>天气
-2、发送如“申通，xx”<a href="{BASE_URL}/#/express">查询</a>物流
-3、发送如“600000”<a href="{BASE_URL}/#/stock">查询</a>股票数据
+1、发送如“北京”<a href="/#/weather">查询</a>天气
+2、发送如“申通，xx”<a href="/#/express">查询</a>物流
+3、发送如“600000”<a href="/#/stock">查询</a>股票数据
 4、发送如“美容”等，搜索周边
 5、更多隐藏功能由您发掘…
         
