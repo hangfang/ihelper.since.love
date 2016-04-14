@@ -7,4 +7,5 @@ return array(
     'news' => array('资讯','news','NEWS'),
     'girl' => array('美女','女神','女生', '女', '妹子', '妹', '丫头', '小女孩', '女星', '女性', '女郎', 'female', 'Female', 'FEMALE'),
     'position' => array('我','位置'),
+    'joke' => array('joke', 'JOKE', 'joker', 'JOKER', '段子', '笑话', '笑林'),
 );

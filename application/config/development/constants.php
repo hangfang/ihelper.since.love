@@ -59,3 +59,6 @@ define('BAIDU_NEWS_API_URL', 'http://apis.baidu.com/txapi/weixin/wxhot');
 
 /*百度彩票开奖*/
 define('BAIDU_LOTTERY_API_URL', 'http://apis.baidu.com/apistore/lottery/lotteryquery');
+
+/*百度笑话*/
+define('BAIDU_JOKE_API_URL', 'http://apis.baidu.com/hihelpsme/chinajoke/getjokelist');

@@ -184,6 +184,8 @@ EOF;
                     $this->getGirls($msgXml);
                 }elseif(($lottery = include_config('lottery')) && in_array($contents[0], array_keys($lottery))){
                     $this->getLottery($lottery[$contents[0]], $msgXml);
+                }elseif(in_array($contents[0], $wechat['joke'])){
+                    $this->getJoke($msgXml);
                 }else{
                     $this->getNews($contents[0], $msgXml);
                 }
@@ -493,6 +495,13 @@ EOF;
         $data['lotterycode'] = $lotteryCode;
         $data['recordcnt'] = 1;
         $data = $this->BaiduModel->getLottery($data, $msgXml);
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function getJoke($msgXml){
+        $data = array();
+        $data['page'] = rand(1, 10000);
+        $data = $this->BaiduModel->getJoke($data, $msgXml);
         $this->WechatModel->sendMessage($data);
     }
 }

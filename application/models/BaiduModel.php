@@ -57,6 +57,11 @@ EOF;
 号码：%s
 EOF;
     
+        public $_msg_joke = <<<EOF
+标题：%s
+内容：%s
+EOF;
+        
     public $_send_format = array(
             'text' => array('touser'=>'', 'msgtype'=>'text', 'text'=>array('content'=>'')),
             'image' => array('touser'=>'', 'msgtype'=>'image', 'image'=>array('media_id'=>'')),
@@ -266,6 +271,37 @@ EOF;
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
         $data['text']['content'] = '别着急，还未开奖...';
+        return $data;
+    }
+    
+    public function getJoke($param, $msgXml=array()){
+        
+        $data = array();
+        $data['method'] = 'get';
+        $data['header'] = array('apikey: '. BAIDU_API_KEY);
+        $data['data'] = $param;
+        $data['url'] = BAIDU_JOKE_API_URL;
+        $rt = $this->http($data);
+        
+        if(empty($msgXml)){
+            return $rt;
+        }
+        
+        if($rt['res_code'] === 0){
+            $tmp = $rt['res_body']['JokeList'][0];
+            
+            $data = $this->_send_format['text'];
+            $data['touser'] = $msgXml['FromUserName'];
+            $data['fromuser'] = $msgXml['ToUserName'];
+            
+            $data['text']['content'] = sprintf($this->_msg_joke, $tmp['JokeTitle'], $tmp['JokeContent']);
+            return $data;
+        }
+        
+        $data = $this->_send_format['text'];
+        $data['touser'] = $msgXml['FromUserName'];
+        $data['fromuser'] = $msgXml['ToUserName'];
+        $data['text']['content'] = '准备好，段子即将开讲...';
         return $data;
     }
 }
