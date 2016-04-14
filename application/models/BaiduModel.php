@@ -230,11 +230,7 @@ EOF;
             return $data;
         }
         
-        $data = $this->_send_format['text'];
-        $data['touser'] = $msgXml['FromUserName'];
-        $data['fromuser'] = $msgXml['ToUserName'];
-        $data['text']['content'] = '悲剧，新闻都被您过了...';
-        return $data;
+        return false;
     }
     
     /**

@@ -488,6 +488,10 @@ EOF;
         $data['rand'] = 1;
         $data['num'] = 8;
         $data = $this->BaiduModel->getNews($data, $msgXml);
+        if($data===false){
+            $this->unrecognize($keyword, $msgXml);
+            return false;
+        }
         $this->WechatModel->sendMessage($data);
     }
     
