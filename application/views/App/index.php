@@ -81,6 +81,14 @@
                     在线音乐
                 </p>
             </a>
+            <a href="/app/news" class="weui_grid">
+                <div class="weui_grid_icon">
+                    <i class="icon icon_button"></i>
+                </div>
+                <p class="weui_grid_label">
+                    资讯
+                </p>
+            </a>
         </div>
     </div>
 </script>
