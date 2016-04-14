@@ -467,4 +467,15 @@ EOF;
         $this->layout->setLayout('weui');
         $this->layout->view('App/news', $data);
     }
+    
+    public function pano(){
+        
+        $data = array();
+        $data['title'] = '当前位置街景';
+        $sigObj = $this->WechatModel->getJsApiSigObj();
+
+        $data = array_merge($data, $sigObj);
+        $this->layout->setLayout('weui');
+        $this->layout->view('App/pano', $data);
+    }
 }
