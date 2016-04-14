@@ -1,5 +1,4 @@
 <style>
-    body {background-color: #ccc;}
     .banner {position:absolute; bottom:0; color:#fff; width:100%; background:rgba(0,0,0,.7);}
     .txt {display:table-cell; vertical-align:middle; height:50px;}
     .no-new-line {overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
