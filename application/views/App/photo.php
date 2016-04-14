@@ -49,7 +49,7 @@
     </ul>
     <div class="footer">
         <div class="links">
-            <a href="http://ihelper.since.love/photo/pro">专业版</a>
+            <a href="/photo/pro">专业版</a>
         </div>
     </div>
 </div>
