@@ -288,7 +288,7 @@ EOF;
         }
         
         if($rt['res_code'] === 0){
-            $tmp = $rt['res_body']['JokeList'][0];
+            $tmp = $rt['res_body']['JokeList'][rand(0,19)];
             
             $data = $this->_send_format['text'];
             $data['touser'] = $msgXml['FromUserName'];
