@@ -12,7 +12,7 @@ class JobController extends MY_Controller {
             $query = $this->db->order_by('id', 'desc')->get('app_ssq');
             $row = $query->num_rows()>0 ? $query->row_array() : array();
             if(!$row){
-                for($i=3; $i<=date('Y'); $i++){
+                for($i=3; $i<=ltrim(date('Y'), '20'); $i++){
                     for($j=1; $j<=154; $j++){
                         $expect = str_pad($i, 2, 0, STR_PAD_LEFT).str_pad($j, 3, 0, STR_PAD_LEFT);
                         $this->keepSsq($expect);
