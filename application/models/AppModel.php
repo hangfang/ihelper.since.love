@@ -6,12 +6,12 @@ class AppModel extends MY_Model{
     public function genSsq($num, $msgXml){
         $blue = array();
         for($i=1; $i<34; $i++){
-            $blue[] = str_pad($i, 2, '0');
+            $blue[] = str_pad($i, 2, '0', STR_PAD_LEFT);
         }
         
         $red = array();
         for($i=1; $i<17; $i++){
-            $red[] = str_pad($i, 2, '0');
+            $red[] = str_pad($i, 2, '0', STR_PAD_LEFT);
         }
         
         $lottery = array();
