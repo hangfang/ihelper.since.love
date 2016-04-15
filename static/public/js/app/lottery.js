@@ -26,7 +26,7 @@ $(function(){
         $('#form_check .weui_cell_primary').hide();
         $('#form_check input').val('');
         $('#'+$(this).val()).show();
-        $('#'+$(this).val()).find('input:first').focus();
+        $.publish('focus', [$('#'+$(this).val()).find('input:first')]);
     });
     
     $('#form_check').on('input', '#ssq .red', function(e){
@@ -225,4 +225,8 @@ $(function(){
     });
     
     $('#'+$('#lottery_type').val()).find('input:first').focus();
+    
+    $.subscribe('focus', function(e, el){
+        $(el).focus();
+    });
 });
