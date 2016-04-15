@@ -19,7 +19,7 @@ class AppModel extends MY_Model{
             $rand = array_rand($blue, 6);
             $blues = array($blue[$rand[0]], $blue[$rand[1]], $blue[$rand[2]], $blue[$rand[3]], $blue[$rand[4]], $blue[$rand[5]]);
             $rand = array_rand($red, 1);
-            $reds = $red[$rand[0]];
+            $reds = $red[$rand];
             
             $lottery[] = implode(' ', $blues) . '+' . $reds;
         }
