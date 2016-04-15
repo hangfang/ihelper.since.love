@@ -24,34 +24,123 @@ $(function(){
         });
         
         $('#form_check .weui_cell_primary').hide();
+        $('#form_check input').val('');
         $('#'+$(this).val()).show();
         $('#'+$(this).val()).find('input:first').focus();
     });
     
-    $('#form_check').on('input', '#ssq input', function(e){
+    $('#form_check').on('input', '#ssq .red', function(e){
         var val = $(this).val();
         var rule = /[^\d]+/ig;
-        var isLast = $(this).next().length==0;
-        var max = isLast ? 16 : 33;
-        if(val-0>max || rule.test(val)){
+        if(val-0>33 || rule.test(val)){
             $(this).val('');
             return false;
         }
         
         if(val.length===2){
-            if(isLast){
+            $(this).next().focus();
+        }
+        
+    }).on('blur', '#ssq .red', function(e){
+        var val = $(this).val();
+        var _this = this;
+        var dumplicate = false;
+        $(this).siblings('.red').each(function(index, el){
+            if($(el).val().length>0 && $(el).val()===val){
+                dumplicate = true;
+                return false;
+            }
+        });
+
+        if(dumplicate){
+            $(this).val('').focus();
+            return false;
+        }
+        
+    });
+    
+    $('#form_check').on('input', '#ssq .blue', function(e){
+        var val = $(this).val();
+        var rule = /[^\d]+/ig;
+        if(val-0>16 || rule.test(val)){
+            $(this).val('');
+            return false;
+        }
+        
+        if(val.length===2){
+            $('#form_check').find('input[type=submit]').click();
+            return true;
+        }
+    }).on('blur', '#ssq .blue', function(e){
+        var val = $(this).val();
+        var _this = this;
+        var dumplicate = false;
+        $(this).siblings().each(function(index, el){
+            if($(_this).attr('name')!=='g' && $(el).val().length>0 && $(el).val()===val){
+                dumplicate = true;
+                return false;
+            }
+        });
+
+        if(dumplicate){
+            $(this).val('').focus();
+            return false;
+        }
+        
+    });
+    
+    $('#form_check').on('input', '#dlt .red', function(e){
+        var val = $(this).val();
+        var rule = /[^\d]+/ig;
+
+        if(val-0>35 || rule.test(val)){
+            $(this).val('');
+            return false;
+        }
+        
+        if(val.length===2){
+            $(this).next().focus();
+        }
+        
+    }).on('blur', '#dlt .red', function(e){
+        var val = $(this).val();
+        var dumplicate = false;
+        $(this).siblings('.red').each(function(index, el){
+            if($(el).val().length>0 && $(el).val()===val){
+                dumplicate = true;
+                return false;
+            }
+        });
+
+        if(dumplicate){
+            $(this).val('').focus();
+            return false;
+        }
+        
+    });
+    
+    $('#form_check').on('input', '#dlt .blue', function(e){
+        var val = $(this).val();
+        var rule = /[^\d]+/ig;
+
+        if(val-0>12 || rule.test(val)){
+            $(this).val('');
+            return false;
+        }
+        
+        if(val.length===2){
+            if($(this).next().focus().length===0){
                 $('#form_check').find('input[type=submit]').click();
                 return true;
             }
             $(this).next().focus();
         }
         
-    }).on('blur', '#ssq input', function(e){
+    }).on('blur', '#dlt .blue', function(e){
         var val = $(this).val();
-        var _this = this;
         var dumplicate = false;
-        $(this).siblings().each(function(index, el){
-            if($(_this).attr('name')!=='g' && $(el).val().length>0 && $(el).val()===val){
+        $(this).siblings('.red').each(function(index, el){
+            if($(el).val().length>0 && $(el).val()===val){
                 dumplicate = true;
                 return false;
             }
@@ -126,4 +215,6 @@ $(function(){
         
         return false;
     });
+    
+    $('#'+$('#lottery_type').val()).find('input:first').focus();
 });

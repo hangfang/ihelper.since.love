@@ -505,7 +505,7 @@ EOF;
             foreach($data as &$_v){
                 $_v = str_pad($_v, 2, '0', STR_PAD_LEFT);
             }
-            $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>&nbsp;&nbsp;<span class="text-primary">', array_slice($data, 0, 6)).'</span>+<span class="text-danger">'. $data['g'] .'</span>未中奖...';
+            $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>,<span class="text-primary">', array_slice($data, 0, 6)).'</span>+<span class="text-danger">'. $data['g'] .'</span>未中奖...';
             $this->json($rt);
             return true;
         }
@@ -525,7 +525,7 @@ EOF;
         
         $rt = array();
         $rt['rtn'] = 0;
-        $rt['msg'] = '恭喜你，<span class="text-primary">'.implode('</span>&nbsp;&nbsp;<span class="text-primary">', array_slice($data, 0, 6)).'</span>+<span class="text-danger">'. $data['g'] .'</span><br/>'. $str;
+        $rt['msg'] = '恭喜你，<span class="text-primary">'.implode('</span>,<span class="text-primary">', array_slice($data, 0, 6)).'</span>+<span class="text-danger">'. $data['g'] .'</span><br/>'. $str;
         $this->json($rt);
         return true;
     }
@@ -538,7 +538,7 @@ EOF;
         
         $rt = array();
         $rt['rtn'] = 0;
-        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>&nbsp;&nbsp;<span class="text-primary">', $data).'</span>未中奖...';
+        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>,<span class="text-primary">', $data).'</span>未中奖...';
         $this->json($rt);
         return true;
     }
@@ -558,7 +558,7 @@ EOF;
         foreach($data as &$_v){
             $_v = str_pad($_v, 2, '0', STR_PAD_LEFT);
         }
-        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>&nbsp;&nbsp;<span class="text-primary">', array_slice($data, 0, 5)).'</span>+<span class="text-danger">'. implode('</span>&nbsp;&nbsp;<span class="text-danger">', array_slice($data, 5, 2)) .'</span>未中奖...';
+        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>,<span class="text-primary">', array_slice($data, 0, 5)).'</span>+<span class="text-danger">'. implode('</span>&nbsp;&nbsp;<span class="text-danger">', array_slice($data, 5, 2)) .'</span>未中奖...';
         $this->json($rt);
         return true;
     }
@@ -573,7 +573,7 @@ EOF;
         
         $rt = array();
         $rt['rtn'] = 0;
-        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>&nbsp;&nbsp;<span class="text-primary">', $data).'</span>未中奖...';
+        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>,<span class="text-primary">', $data).'</span>未中奖...';
         $this->json($rt);
         return true;
     }
@@ -586,7 +586,7 @@ EOF;
         
         $rt = array();
         $rt['rtn'] = 0;
-        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>&nbsp;&nbsp;<span class="text-primary">', $data).'</span>未中奖...';
+        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>,<span class="text-primary">', $data).'</span>未中奖...';
         $this->json($rt);
         return true;
     }
@@ -603,7 +603,7 @@ EOF;
         
         $rt = array();
         $rt['rtn'] = 0;
-        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>&nbsp;&nbsp;<span class="text-primary">', $data).'</span>未中奖...';
+        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>,<span class="text-primary">', $data).'</span>未中奖...';
         $this->json($rt);
         return true;
     }
