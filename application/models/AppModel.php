@@ -16,7 +16,12 @@ class AppModel extends MY_Model{
         
         $lottery = array();
         for($i=0; $i<$num; $i++){
-            $lottery[] = implode(' ', array_rand($blue, 6)) . '+' . array_rand($red, 1);
+            $rand = array_rand($blue, 6);
+            $blues = array($red[$rand[0]], $red[$rand[1]], $red[$rand[2]], $red[$rand[3]], $red[$rand[4]], $red[$rand[5]]);
+            $rand = array_rand($red, 1);
+            $reds = $red[$rand[0]];
+            
+            $lottery[] = implode(' ', $blues) . '+' . $reds;
         }
         
         if(empty($msgXml)){
