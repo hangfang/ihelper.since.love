@@ -1,16 +1,9 @@
 $(function(){
-
-    $('#lottery_code').on('change', function(e){
-        $('#form_lottery').find('input[type=submit]').click();
-    });
-    
-    $('#form_lottery').submit(function(e){
-        
-        var data = $(this).serialize();
+    $('#lottery_type').on('change', function(e){
         $('#loadingToast').show();
         $.ajax({
             url : '/app/lottery',
-            data : data,
+            data : {lottery_code: $('#lottery_type').val()},
             type : 'get',
             dataType : 'json',
             success : function(data, textStatus, xhr){
@@ -23,22 +16,19 @@ $(function(){
                     return false;
                 }
                 
-                var html = $('<div class="weui_panel" id="lottery_result" style=""><div class="weui_panel_hd">查询结果</div><div class="weui_panel_bd"><div class="weui_media_box weui_media_text">'+data.msg+'</div></div></div>');
+                $('.weui_panel_hd').find('.text-danger').text('old').removeClass('text-danger');
+                var html = $('<div class="weui_panel" id="lottery_result" style=""><div class="weui_panel_hd">查询结果(<span class="text-danger">new</span>)</div><div class="weui_panel_bd"><div class="weui_media_box weui_media_text">'+data.msg+'</div></div></div>');
                 $('form:last').after(html);
                 return true;
             }
         });
         
-        return false;
-    });
-    
-    $('#lottery_type').on('change', function(e){
         $('#form_check .weui_cell_primary').hide();
         $('#'+$(this).val()).show();
         $('#'+$(this).val()).find('input:first').focus();
     });
     
-    $('#form_check').on('input', '#Ssq input', function(e){
+    $('#form_check').on('input', '#ssq input', function(e){
         var val = $(this).val();
         var rule = /[^\d]+/ig;
         var isLast = $(this).next().length==0;
@@ -56,7 +46,7 @@ $(function(){
             $(this).next().focus();
         }
         
-    }).on('blur', '#Ssq input', function(e){
+    }).on('blur', '#ssq input', function(e){
         var val = $(this).val();
         var _this = this;
         var dumplicate = false;
@@ -74,7 +64,7 @@ $(function(){
         
     });
     
-    $('#form_check').on('input', '#Pls input, #Plw input, #Qxc input, #3D input', function(e){
+    $('#form_check').on('input', '#pl3 input, #pl5 input, #qxc input, #fc3d input', function(e){
         var val = $(this).val();
         var rule = /[^\d]+/ig;
         var isLast = $(this).next().length==0;

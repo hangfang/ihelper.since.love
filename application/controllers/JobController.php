@@ -26,12 +26,13 @@ class JobController extends MY_Controller {
     
     public function keepSsq($expect){
         $url = sprintf('http://kaijiang.500.com/shtml/ssq/%s.shtml', $expect);
-        $content = mb_convert_encoding(file_get_contents($url), 'UTF-8', 'GBK');
-            
-        if(strlen($content) === 0){
+        $content = @file_get_contents($url);
+        if(!$content){
             echo $url .' error'."\n";
             return false;
         }
+        $content = mb_convert_encoding($content, 'UTF-8', 'GBK');
+            
         
         $lottery = array();
         $content = explode('开奖日期', $content);

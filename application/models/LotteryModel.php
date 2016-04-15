@@ -47,7 +47,7 @@ class LotteryModel extends MY_Model{
         $query = $this->db->get('app_ssq');
         $result = $query && $query->num_rows()>0 ? $query->result_array() : array();
         
-        $rt = array();
+        $rt = array('一等奖'=>array(), '二等奖'=>array(), '三等奖'=>0, '四等奖'=>0, '五等奖'=>0, '六等奖'=>0);
         foreach($result as $_v){
             $hitBlue = array($_v['a'],$_v['b'],$_v['c'],$_v['d'],$_v['e'],$_v['f']);
             $hitRed = $_v['g'];
@@ -57,23 +57,31 @@ class LotteryModel extends MY_Model{
             }
             
             foreach($data as $_index=>$_num){
+                
+                
                 if($_index!='g' && !in_array($_num, $hitBlue)){
+                    if($price===1){
+                        $price = 3;
+                        continue;
+                    }
                     $price++;
                 }
             }
             
-            if($price<7){
+            if($price<3){
                 $tmp = $_v;
                 $tmp['price_info'] = $num2info[$price];
                 $tmp['price_value'] = $_v[$num2price[$price]];
-                $rt[] = $tmp;
+                $rt[$num2info[$price]][] = $tmp;
+            }elseif($price<7){
+                $rt[$num2info[$price]]++;
             }
         }
 
         return $rt;
     }
     
-    public function check3D($data){
+    public function checkFc3d($data){
         return array();
     }
     
@@ -81,11 +89,11 @@ class LotteryModel extends MY_Model{
         return array();
     }
     
-    public function checkPlw($data){
+    public function checkPl5($data){
         return array();
     }
     
-    public function checkPls($data){
+    public function checkPl3($data){
         return array();
     }
     

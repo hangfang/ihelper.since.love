@@ -513,8 +513,14 @@ EOF;
         
         
         $str = '';
-        foreach($rt as $_v){
-            $str .= $_v['insert_time'].'喜中'. $_v['price_info'] .'，奖金<span class="text-danger">'. $_v['price_value'] .'</span><br/>';
+        foreach($rt as $_k=>$_v){
+            if($_k==='二等奖' || $_k==='一等奖'){
+                foreach($_v as $_vv){
+                    $str .= date('Y-m-d', strtotime($_vv['insert_time'])).'&nbsp;&nbsp;中'. $_k .'，奖金<span class="text-danger">￥'. number_format($_vv['price_value'], 0, '', ',') .'元</span><br/>';
+                }
+            }else{
+                $str .= '中'. $_k .'<span class="text-danger">'. $_v .'次</span><br/>';
+            }
         }
         
         $rt = array();
@@ -524,7 +530,7 @@ EOF;
         return true;
     }
     
-    public function check3D(){
+    public function checkFc3d(){
         $data = array();
         $data['a'] = intval($this->input->get('a'));
         $data['b'] = intval($this->input->get('b'));
@@ -557,7 +563,7 @@ EOF;
         return true;
     }
     
-    public function checkPlw(){
+    public function checkPl5(){
         $data = array();
         $data['a'] = intval($this->input->get('a'));
         $data['b'] = intval($this->input->get('b'));
@@ -572,7 +578,7 @@ EOF;
         return true;
     }
     
-    public function checkPls(){
+    public function checkPl3(){
         $data = array();
         $data['a'] = intval($this->input->get('a'));
         $data['b'] = intval($this->input->get('b'));
