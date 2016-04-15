@@ -469,7 +469,7 @@ $(function () {
         .push(weather)
         .push(stock)
         .push(music)
-        .push(lottery)
+        //.push(lottery)
         .setDefault('/')
         .init();
 

@@ -65,7 +65,7 @@
                     股票查询
                 </p>
             </a>
-            <a href="#/lottery" class="weui_grid">
+            <a href="/app/lottery" class="weui_grid">
                 <div class="weui_grid_icon">
                     <i class="icon icon_toast"></i>
                 </div>
