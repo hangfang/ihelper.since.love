@@ -17,7 +17,7 @@ class AppModel extends MY_Model{
         $lottery = array();
         for($i=0; $i<$num; $i++){
             $rand = array_rand($blue, 6);
-            $blues = array($red[$rand[0]], $red[$rand[1]], $red[$rand[2]], $red[$rand[3]], $red[$rand[4]], $red[$rand[5]]);
+            $blues = array($blue[$rand[0]], $blue[$rand[1]], $blue[$rand[2]], $blue[$rand[3]], $blue[$rand[4]], $blue[$rand[5]]);
             $rand = array_rand($red, 1);
             $reds = $red[$rand[0]];
             
