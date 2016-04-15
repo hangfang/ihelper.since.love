@@ -9,8 +9,8 @@ define('WX_APP_SECRET', '82c0a8cdfc3daf060ceccd96016d43ed');
 
 define('WX_ADMIN_OPENID', 'ohwjvw1QPmm0YLy3yKhjGYg4qS_g');
 
-define('WX_TOKEN', 'fanghang2015ieg926400');
-define('WX_ENCODING_AES_KEY', 'QC5CPFmTl06C7j3UYK4YuOdYaz4lBZTJjOywAbDnZwX');
+define('WX_TOKEN', 'fanghang2016ieg926400');
+define('WX_ENCODING_AES_KEY', 'TkFBgCr7fcI7EPqCd0lPV48vaV5c49dkE0vhbXHHXLH');
 
 define('WX_HK_ACCOUNT', 'WangLin-ling');
 define('WX_JSAPI_DEBUG', 'false');
