@@ -23,5 +23,5 @@ return array(
         '四场'=>'zcjqc', 
         '胜负彩'=>'zcsfc', 
         '十四场'=>'zcsfc',
-        '十四场胜负彩'=>'zcsfc'
+        '胜负彩'=>'zcsfc'
     );
