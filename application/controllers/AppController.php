@@ -478,4 +478,127 @@ EOF;
         $this->layout->setLayout('weui');
         $this->layout->view('App/pano', $data);
     }
+    
+    public function checkLottery(){
+        
+        $lottery_type = ucfirst($this->input->get('lottery_type'));
+        $funcName = 'check'.$lottery_type;
+        $this->$funcName();
+    }
+    
+    public function checkSsq(){
+        $data = array();
+        $data['a'] = intval($this->input->get('a'));
+        $data['b'] = intval($this->input->get('b'));
+        $data['c'] = intval($this->input->get('c'));
+        $data['d'] = intval($this->input->get('d'));
+        $data['e'] = intval($this->input->get('e'));
+        $data['f'] = intval($this->input->get('f'));
+        $data['g'] = intval($this->input->get('g'));
+        
+        $this->load->model('LotteryModel');
+        $rt = $this->LotteryModel->checkSsq($data);
+        
+        if(empty($rt)){
+            $rt = array();
+            $rt['rtn'] = 0;
+            foreach($data as &$_v){
+                $_v = str_pad($_v, 2, '0', STR_PAD_LEFT);
+            }
+            $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>&nbsp;&nbsp;<span class="text-primary">', array_slice($data, 0, 6)).'</span>+<span class="text-danger">'. $data['g'] .'</span>未中奖...';
+            $this->json($rt);
+            return true;
+        }
+        
+        
+        
+        $str = '';
+        foreach($rt as $_v){
+            $str .= $_v['insert_time'].'喜中'. $_v['price_info'] .'，奖金<span class="text-danger">'. $_v['price_value'] .'</span><br/>';
+        }
+        
+        $rt = array();
+        $rt['rtn'] = 0;
+        $rt['msg'] = '恭喜你，<span class="text-primary">'.implode('</span>&nbsp;&nbsp;<span class="text-primary">', array_slice($data, 0, 6)).'</span>+<span class="text-danger">'. $data['g'] .'</span><br/>'. $str;
+        $this->json($rt);
+        return true;
+    }
+    
+    public function check3D(){
+        $data = array();
+        $data['a'] = intval($this->input->get('a'));
+        $data['b'] = intval($this->input->get('b'));
+        $data['c'] = intval($this->input->get('c'));
+        
+        $rt = array();
+        $rt['rtn'] = 0;
+        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>&nbsp;&nbsp;<span class="text-primary">', $data).'</span>未中奖...';
+        $this->json($rt);
+        return true;
+    }
+    
+    public function checkDlt(){
+        $data = array();
+        $data['a'] = intval($this->input->get('a'));
+        $data['b'] = intval($this->input->get('b'));
+        $data['c'] = intval($this->input->get('c'));
+        $data['d'] = intval($this->input->get('d'));
+        $data['e'] = intval($this->input->get('e'));
+        $data['f'] = intval($this->input->get('f'));
+        $data['g'] = intval($this->input->get('g'));
+        
+        $rt = array();
+        $rt['rtn'] = 0;
+        foreach($data as &$_v){
+            $_v = str_pad($_v, 2, '0', STR_PAD_LEFT);
+        }
+        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>&nbsp;&nbsp;<span class="text-primary">', array_slice($data, 0, 5)).'</span>+<span class="text-danger">'. implode('</span>&nbsp;&nbsp;<span class="text-danger">', array_slice($data, 5, 2)) .'</span>未中奖...';
+        $this->json($rt);
+        return true;
+    }
+    
+    public function checkPlw(){
+        $data = array();
+        $data['a'] = intval($this->input->get('a'));
+        $data['b'] = intval($this->input->get('b'));
+        $data['c'] = intval($this->input->get('c'));
+        $data['d'] = intval($this->input->get('d'));
+        $data['e'] = intval($this->input->get('e'));
+        
+        $rt = array();
+        $rt['rtn'] = 0;
+        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>&nbsp;&nbsp;<span class="text-primary">', $data).'</span>未中奖...';
+        $this->json($rt);
+        return true;
+    }
+    
+    public function checkPls(){
+        $data = array();
+        $data['a'] = intval($this->input->get('a'));
+        $data['b'] = intval($this->input->get('b'));
+        $data['c'] = intval($this->input->get('c'));
+        
+        $rt = array();
+        $rt['rtn'] = 0;
+        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>&nbsp;&nbsp;<span class="text-primary">', $data).'</span>未中奖...';
+        $this->json($rt);
+        return true;
+    }
+    
+    public function checkQxc(){
+        $data = array();
+        $data['a'] = intval($this->input->get('a'));
+        $data['b'] = intval($this->input->get('b'));
+        $data['c'] = intval($this->input->get('c'));
+        $data['d'] = intval($this->input->get('d'));
+        $data['e'] = intval($this->input->get('e'));
+        $data['f'] = intval($this->input->get('f'));
+        $data['g'] = intval($this->input->get('g'));
+        
+        $rt = array();
+        $rt['rtn'] = 0;
+        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>&nbsp;&nbsp;<span class="text-primary">', $data).'</span>未中奖...';
+        $this->json($rt);
+        return true;
+    }
 }

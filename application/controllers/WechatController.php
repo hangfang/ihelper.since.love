@@ -530,9 +530,9 @@ EOF;
             }
         }
         
-        $this->load->model('AppModel');
+        $this->load->model('LotteryModel');
         $funcName = 'gen'.$type;
-        $data = $this->AppModel->$funcName($num, $msgXml);
+        $data = $this->LotteryModel->$funcName($num, $msgXml);
         $this->WechatModel->sendMessage($data);
     }
 }

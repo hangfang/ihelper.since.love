@@ -87,8 +87,8 @@ class JobController extends MY_Controller {
         $content = explode('六等奖', $content[1]);
         list($_, $_, $lottery['fivth_num'], $_, $lottery['fivth']) = explode('<td>', preg_replace('/\/|\s+/', '', $content[0]));
         $lottery['fivth'] = str_replace(',', '', $lottery['fivth']);
-
-        list($_, $_, $lottery['sixth_num'], $_, $lottery['sixth']) = explode('<td>', preg_replace('/\/|\s+/', '', $content[0]));
+        
+        list($_, $_, $lottery['sixth_num'], $_, $lottery['sixth']) = explode('<td>', preg_replace('/\/|\s+/', '', $content[1]));
         $lottery['sixth'] = str_replace(',', '', $lottery['sixth']);
         
         $this->load->database();
