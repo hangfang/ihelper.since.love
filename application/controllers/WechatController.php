@@ -187,6 +187,8 @@ EOF;
                     $this->getLottery($lottery[$contents[0]], $msgXml);
                 }elseif(in_array($contents[0], $wechat['joke'])){
                     $this->getJoke($msgXml);
+                }elseif(in_array($contents[0], $wechat['genlottery'])){
+                    $this->genLottery($contents[0], $msgXml);
                 }else{
                     $this->getNews($contents[0], $msgXml);
                 }
@@ -507,6 +509,30 @@ EOF;
         $data = array();
         $data['page'] = rand(1, 260);
         $data = $this->BaiduModel->getJoke($data, $msgXml);
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function genLottery($msg, $msgXml){
+        $num = array('一'=>1 ,'二'=>2,'两'=>2,'三'=>3,'四'=>4,'五'=>5);
+        $type = array('双色球'=>'Ssq');
+        
+        foreach($num as $_k=>$_v){
+            if(strpos($msg, $_k) !== false){
+                $num = $_v;
+                break;
+            }
+        }
+        
+        foreach($type as $_k=>$_v){
+            if(strpos($msg, $_k) !== false){
+                $type = $_v;
+                break;
+            }
+        }
+        
+        $this->load->model('AppModel');
+        $funcName = 'gen'.$type;
+        $data = $this->AppModel->$funcName($num, $msgXml);
         $this->WechatModel->sendMessage($data);
     }
 }
