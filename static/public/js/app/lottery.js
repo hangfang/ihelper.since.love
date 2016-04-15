@@ -26,7 +26,7 @@ $(function(){
         $('#form_check .weui_cell_primary').hide();
         $('#form_check input').val('');
         $('#'+$(this).val()).show();
-        $('#'+$(this).val()).find('input:first').click();
+        $('#'+$(this).val()).find('input:first').focus();
     });
     
     $('#form_check').on('input', '#ssq .red', function(e){
@@ -38,7 +38,11 @@ $(function(){
         }
         
         if(val.length===2){
-            $(this).next().click();
+            if($(this).next('.red').length===0){
+                $(this).next('.blue').focus();
+                return true;
+            }
+            $(this).next('.red').focus();
         }
         
     }).on('blur', '#ssq .red', function(e){
@@ -53,7 +57,7 @@ $(function(){
         });
 
         if(dumplicate){
-            $(this).val('').click();
+            $(this).val('').focus();
             return false;
         }
         
@@ -83,7 +87,7 @@ $(function(){
         });
 
         if(dumplicate){
-            $(this).val('').click();
+            $(this).val('').focus();
             return false;
         }
         
@@ -99,7 +103,11 @@ $(function(){
         }
         
         if(val.length===2){
-            $(this).next().click();
+            if($(this).next('.red').length===0){
+                $(this).next('.blue').focus();
+                return true;
+            }
+            $(this).next('.red').focus();
         }
         
     }).on('blur', '#dlt .red', function(e){
@@ -113,7 +121,7 @@ $(function(){
         });
 
         if(dumplicate){
-            $(this).val('').click();
+            $(this).val('').focus();
             return false;
         }
         
@@ -129,17 +137,17 @@ $(function(){
         }
         
         if(val.length===2){
-            if($(this).next().val().length===0){
-                $('#form_check').find('input[type=submit]').click();
+            if($(this).next('.blue').length===0){
+                $('#form_check').submit();
                 return true;
             }
-            $(this).next().click();
+            $(this).next('.blue').click();
         }
         
     }).on('blur', '#dlt .blue', function(e){
         var val = $(this).val();
         var dumplicate = false;
-        $(this).siblings('.red').each(function(index, el){
+        $(this).siblings('.blue').each(function(index, el){
             if($(el).val().length>0 && $(el).val()===val){
                 dumplicate = true;
                 return false;
@@ -147,7 +155,7 @@ $(function(){
         });
 
         if(dumplicate){
-            $(this).val('').click();
+            $(this).val('').focus();
             return false;
         }
         
@@ -168,7 +176,7 @@ $(function(){
                 $('#form_check').find('input[type=submit]').click();
                 return true;
             }
-            $(this).next().click();
+            $(this).next().focus();
         }
         
     });
