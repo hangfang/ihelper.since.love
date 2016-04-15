@@ -3,22 +3,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class JobController extends MY_Controller {
     
-    public function getSsq($expect = ''){
+    public function getSsq($expect=''){
         if($expect){
-            $this->keepSsq(sprintf('http://kaijiang.500.com/shtml/ssq/%s.shtml', $expect), $expect);
-            
+            $this->keepSsq($expect);
         }else{
-            for($i=3; $i<=date('Y'); $i++){
-                for($j=1; $j<=154; $j++){
-                    $expect = str_pad($i, 2, 0, STR_PAD_LEFT).str_pad($j, 3, 0, STR_PAD_LEFT);
-                    $this->keepSsq(sprintf('http://kaijiang.500.com/shtml/ssq/%s.shtml', $expect), $expect);
+            $this->load->database();
+            
+            $query = $this->db->order_by('id', 'desc')->get('app_ssq');
+            $row = $query->num_rows()>0 ? $query->row_array() : array();
+            if(!$row){
+                for($i=3; $i<=date('Y'); $i++){
+                    for($j=1; $j<=154; $j++){
+                        $expect = str_pad($i, 2, 0, STR_PAD_LEFT).str_pad($j, 3, 0, STR_PAD_LEFT);
+                        $this->keepSsq($expect);
+                    }
                 }
+            }else{
+                $this->keepSsq($row['expect']+1);
             }
         }
     }
     
-    public function keepSsq($url, $expect){
-        
+    public function keepSsq($expect){
+        $url = sprintf('http://kaijiang.500.com/shtml/ssq/%s.shtml', $expect);
         $content = mb_convert_encoding(file_get_contents($url), 'UTF-8', 'GBK');
             
         if(strlen($content) === 0){
