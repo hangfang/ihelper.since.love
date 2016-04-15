@@ -26,7 +26,7 @@ $(function(){
         $('#form_check .weui_cell_primary').hide();
         $('#form_check input').val('');
         $('#'+$(this).val()).show();
-        $('#'+$(this).val()).find('input:first').focus();
+        $('#'+$(this).val()).find('input:first').click();
     });
     
     $('#form_check').on('input', '#ssq .red', function(e){
@@ -38,7 +38,7 @@ $(function(){
         }
         
         if(val.length===2){
-            $(this).next().focus();
+            $(this).next().click();
         }
         
     }).on('blur', '#ssq .red', function(e){
@@ -53,7 +53,7 @@ $(function(){
         });
 
         if(dumplicate){
-            $(this).val('').focus();
+            $(this).val('').click();
             return false;
         }
         
@@ -83,7 +83,7 @@ $(function(){
         });
 
         if(dumplicate){
-            $(this).val('').focus();
+            $(this).val('').click();
             return false;
         }
         
@@ -99,7 +99,7 @@ $(function(){
         }
         
         if(val.length===2){
-            $(this).next().focus();
+            $(this).next().click();
         }
         
     }).on('blur', '#dlt .red', function(e){
@@ -113,7 +113,7 @@ $(function(){
         });
 
         if(dumplicate){
-            $(this).val('').focus();
+            $(this).val('').click();
             return false;
         }
         
@@ -129,11 +129,11 @@ $(function(){
         }
         
         if(val.length===2){
-            if($(this).next().focus().length===0){
+            if($(this).next().val().length===0){
                 $('#form_check').find('input[type=submit]').click();
                 return true;
             }
-            $(this).next().focus();
+            $(this).next().click();
         }
         
     }).on('blur', '#dlt .blue', function(e){
@@ -147,7 +147,7 @@ $(function(){
         });
 
         if(dumplicate){
-            $(this).val('').focus();
+            $(this).val('').click();
             return false;
         }
         
@@ -168,7 +168,7 @@ $(function(){
                 $('#form_check').find('input[type=submit]').click();
                 return true;
             }
-            $(this).next().focus();
+            $(this).next().click();
         }
         
     });
