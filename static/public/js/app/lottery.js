@@ -19,14 +19,15 @@ $(function(){
                 $('.weui_panel_hd').find('.text-danger').text('old').removeClass('text-danger');
                 var html = $('<div class="weui_panel" id="lottery_result" style=""><div class="weui_panel_hd">查询结果(<span class="text-danger">new</span>)</div><div class="weui_panel_bd"><div class="weui_media_box weui_media_text">'+data.msg+'</div></div></div>');
                 $('form:last').after(html);
+                
                 return true;
             }
         });
         
         $('#form_check .weui_cell_primary').hide();
-        $('#form_check input').val('');
+        $('#form_check input[type=tel]').val('');
         $('#'+$(this).val()).show();
-        $('#'+$(this).val()).find('input:first').focus();
+        $('#'+$(this).val()).find('input[type=tel]:first').focus();
     });
     
     $('#form_check').on('input', '#ssq .red', function(e){
@@ -50,14 +51,15 @@ $(function(){
         var _this = this;
         var dumplicate = false;
         $(this).siblings('.red').each(function(index, el){
-            if($(el).val().length>0 && $(el).val()===val){
+            if($(el).val().length>0 && $(el).val()-0===val-0){
                 dumplicate = true;
                 return false;
             }
         });
 
         if(dumplicate){
-            $(this).val('').focus();
+            $(this).val('')
+            $(this).focus();
             return false;
         }
         
@@ -72,7 +74,7 @@ $(function(){
         }
         
         if(val.length===2){
-            $('#form_check').find('input[type=submit]').click();
+            $('#form_check').submit();
             return true;
         }
     }).on('blur', '#ssq .blue', function(e){
@@ -114,7 +116,7 @@ $(function(){
         var val = $(this).val();
         var dumplicate = false;
         $(this).siblings('.red').each(function(index, el){
-            if($(el).val().length>0 && $(el).val()===val){
+            if($(el).val().length>0 && $(el).val()-0===val-0){
                 dumplicate = true;
                 return false;
             }
@@ -141,14 +143,14 @@ $(function(){
                 $('#form_check').submit();
                 return true;
             }
-            $(this).next('.blue').click();
+            $(this).next('.blue').focus();
         }
         
     }).on('blur', '#dlt .blue', function(e){
         var val = $(this).val();
         var dumplicate = false;
         $(this).siblings('.blue').each(function(index, el){
-            if($(el).val().length>0 && $(el).val()===val){
+            if($(el).val().length>0 && $(el).val()-0===val-0){
                 dumplicate = true;
                 return false;
             }
@@ -164,7 +166,7 @@ $(function(){
     $('#form_check').on('input', '#pl3 input, #pl5 input, #qxc input, #fc3d input', function(e){
         var val = $(this).val();
         var rule = /[^\d]+/ig;
-        var isLast = $(this).next().length==0;
+        var isLast = $(this).next('input[type=tel]').length==0;
 
         if(val-0>9 || rule.test(val)){
             $(this).val('');
@@ -173,10 +175,10 @@ $(function(){
         
         if(val.length===1){
             if(isLast){
-                $('#form_check').find('input[type=submit]').click();
+                $('#form_check').submit();
                 return true;
             }
-            $(this).next().focus();
+            $(this).next('input[type=tel]').focus();
         }
         
     });
@@ -185,7 +187,7 @@ $(function(){
         var lottery_type = $('#lottery_type').val();
         var data = {lottery_type: lottery_type};
         var isCompleted = true;
-        $('#'+lottery_type).find('input').each(function(index, el){
+        $('#'+lottery_type).find('input[type=tel]').each(function(index, el){
             if($(el).val().length==0){
                 $(el).focus();
                 isCompleted = false;
@@ -224,5 +226,5 @@ $(function(){
         return false;
     });
     
-    $('#'+$('#lottery_type').val()).find('input:first').focus();
+    $('#lottery_type').trigger('change');
 });

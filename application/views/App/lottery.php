@@ -64,9 +64,10 @@ EOF;
                     </div>
                 </div>
             </div>
-            <input type="submit" class="weui_btn weui_btn_primary" value="是否中奖">
+            <input type="submit" class="weui_btn weui_btn_primary" value="是否中奖" />
         </form>
     </div>
 </div>
 
+<script src="/static/public/js/jquery.subscribe.js?d=20160110"></script>
 <script src="/static/public/js/app/lottery.js?d=20160110"></script>
