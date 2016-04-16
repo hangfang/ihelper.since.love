@@ -89,7 +89,7 @@ class JobController extends MY_Controller {
             return false;
         }
         
-        if($this->db->insert('app_dlt', $lottery)){echo $this->db->last_query();
+        if($this->db->insert('app_dlt', $lottery)){
             echo $expect . ' keep ok'. "\n";
         }
     }
