@@ -2,6 +2,97 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class JobController extends MY_Controller {
+    public function getDlt($expect=''){
+        if($expect){
+            $this->keepDlt($expect);
+        }else{
+            $this->load->database();
+            
+            $query = $this->db->order_by('id', 'desc')->get('app_dlt');
+            $row = $query->num_rows()>0 ? $query->row_array() : array();
+            if(!$row){
+                for($i=7; $i<=ltrim(date('Y')); $i++){
+                    for($j=1; $j<=160; $j++){
+                        $expect = str_pad($i, 2, 0, STR_PAD_LEFT).str_pad($j, 3, 0, STR_PAD_LEFT);
+                        $this->keepDlt($expect);
+                    }
+                }
+            }else{
+                $this->keepDlt($row['expect']+1);
+            }
+        }
+    }
+    
+    public function keepDlt($expect){
+        $url = sprintf('http://kaijiang.500.com/shtml/dlt/%s.shtml', $expect);
+        $content = @file_get_contents($url);
+        if(!$content){
+            echo $url .' error'."\n";
+            return false;
+        }
+        $content = mb_convert_encoding($content, 'UTF-8', 'GBK');
+            
+        
+        $lottery = array();
+        $content = explode('开奖日期', $content);
+
+        $content = explode('开奖号码', $content[1]);
+        list($lottery['insert_time'], $_) = explode('--', preg_replace(array('/年|月|日/', '/[^\d-]/'), array('-', ''), $content[0]));
+        $lottery['insert_time'] = date('Y-m-d H:i:s', strtotime($lottery['insert_time']));
+            
+        $content = explode('本期销量', $content[1]);
+        preg_match_all('/>(\d+)</', $content[0], $haoma);
+        
+        if(!isset($haoma[1][0])){
+            echo $url .' not selled'."\n";
+            return false;
+        }
+        $lottery['expect'] = $expect;
+        $lottery['a'] = $haoma[1][0];
+        $lottery['b'] = $haoma[1][1];
+        $lottery['c'] = $haoma[1][2];
+        $lottery['d'] = $haoma[1][3];
+        $lottery['e'] = $haoma[1][4];
+        $lottery['f'] = $haoma[1][5];
+        $lottery['g'] = $haoma[1][6];
+
+
+        $content = explode('奖池滚存', $content[1]);
+        preg_match_all('/>([\d,]+)元/', $content[0], $lottery['sell']);
+        $lottery['sell'] = str_replace(',', '', $lottery['sell'][1][0]);
+
+        $content = explode('开奖详情', $content[1]);
+        preg_match_all('/>([\d,]+)元/', $content[0], $lottery['remain']);
+        $lottery['remain'] = str_replace(',', '', $lottery['remain'][1][0]);
+
+        $content = explode('备注', $content[1]);
+        $content = explode('一等奖', $content[0]);
+        
+        list($price_first, $content) = explode('二等奖', $content[1]);
+        list($price_second, $content) = explode('三等奖', $content);
+        list($price_third, $content) = explode('四等奖', $content);
+        list($price_forth, $content) = explode('五等奖', $content);
+        list($price_fivth, $content) = explode('六等奖', $content);
+        list($price_sixth, $content) = explode('center', $content, 2);
+
+        @list($_, $_, $_, $_, $lottery['first_num'], $_, $lottery['first'], $_, $_, $_, $lottery['first_add_num'], $_, $lottery['first_add']) = explode('<td>', preg_replace('/\/|,|\s+/', '', $price_first));
+        @list($_, $_, $_, $_, $lottery['second_num'], $_, $lottery['second'], $_, $_, $_, $lottery['second_add_num'], $_, $lottery['second_add']) = explode('<td>', preg_replace('/\/|,|\s+/', '', $price_second));
+        @list($_, $_, $_, $_, $lottery['third_num'], $_, $lottery['third'], $_, $_, $_, $lottery['third_add_num'], $_, $lottery['third_add']) = explode('<td>', preg_replace('/\/|,|\s+/', '', $price_third));
+        @list($_, $_, $lottery['forth_num'], $_, $lottery['forth']) = explode('<td>', preg_replace('/\/|,|\s+/', '', $price_forth));
+        @list($_, $_, $lottery['fivth_num'], $_, $lottery['fivth']) = explode('<td>', preg_replace('/\/|,|\s+/', '', $price_fivth));
+        @list($_, $_, $lottery['sixth_num'], $_, $lottery['sixth']) = explode('<td>', preg_replace('/\/|,|\s+/', '', $price_sixth));
+
+        $this->load->database();
+        
+        if($this->db->where('expect', $lottery['expect'])->get('app_dlt')->num_rows()>0){
+            echo $expect . ' exists' . "\n";
+            return false;
+        }
+        
+        if($this->db->insert('app_dlt', $lottery)){echo $this->db->last_query();
+            echo $expect . ' keep ok'. "\n";
+        }
+    }
     
     public function get3D($expect=''){
         if($expect){

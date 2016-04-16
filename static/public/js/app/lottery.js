@@ -1,9 +1,10 @@
 $(function(){
     $('#lottery_type').on('change', function(e){
+        var _this = this;
         $('#loadingToast').show();
         $.ajax({
             url : '/app/lottery',
-            data : {lottery_code: $('#lottery_type').val()},
+            data : {lottery_code: $(_this).val()},
             type : 'get',
             dataType : 'json',
             success : function(data, textStatus, xhr){
@@ -25,9 +26,8 @@ $(function(){
         });
         
         $('#form_check .weui_cell_primary').hide();
-        $('#form_check input[type=tel]').val('');
-        $('#'+$(this).val()).show();
-        $('#'+$(this).val()).find('input[type=tel]:first').focus();
+        $('#'+$(this).val()+' input').val('');
+        $('#'+$(this).val()).show().find('input').focus();
     });
     
     $('#form_check').on('input', '#ssq .red', function(e){
@@ -166,7 +166,7 @@ $(function(){
     $('#form_check').on('input', '#pl3 input, #pl5 input, #qxc input, #fc3d input', function(e){
         var val = $(this).val();
         var rule = /[^\d]+/ig;
-        var isLast = $(this).next('input[type=tel]').length==0;
+        var isLast = $(this).next().length==0;
 
         if(val-0>9 || rule.test(val)){
             $(this).val('');
@@ -178,7 +178,7 @@ $(function(){
                 $('#form_check').submit();
                 return true;
             }
-            $(this).next('input[type=tel]').focus();
+            $(this).next().focus();
         }
         
     });
