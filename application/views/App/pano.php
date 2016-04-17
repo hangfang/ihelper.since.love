@@ -94,11 +94,11 @@
         });
 
         qq.maps.event.addListener(this.map, 'click', function(e){
-            map.panTo(new qq.maps.LatLng(e.latLng.lat, e.latLng.lng));
+            txmap.map.panTo(new qq.maps.LatLng(e.latLng.lat, e.latLng.lng));
         });
         
         qq.maps.event.addListener(this.map, 'dbclick', function(e){
-            map.panTo(new qq.maps.LatLng(e.latLng.lat, e.latLng.lng));
+            txmap.map.panTo(new qq.maps.LatLng(e.latLng.lat, e.latLng.lng));
             
             alert(txmap.map.getZoom());
         });
@@ -130,22 +130,22 @@
         
         //根据指定的范围调整地图视野。
         //map.fitBounds(latlngBounds);
-        qq.maps.event.addListener(map, 'bounds_changed', function () {
+        qq.maps.event.addListener(this.map, 'bounds_changed', function () {
             //console.log("地图的可视范围为：" + map.getBounds());
         });
 
 
-        qq.maps.event.addListener(map, 'center_changed', function () {
+        qq.maps.event.addListener(this.map, 'center_changed', function () {
             //console.log("地图中心为：" + map.getCenter());
         });
 
 
         //当地图缩放级别更改时会触发此事件。
-        qq.maps.event.addListener(map, 'zoom_changed', function () {
+        qq.maps.event.addListener(this.map, 'zoom_changed', function () {
             //console.log("地图缩放级别为：" + map.getZoom());
         });
 
-        qq.maps.event.addListener(map, 'maptypeid_changed', function () {
+        qq.maps.event.addListener(this.map, 'maptypeid_changed', function () {
             //console.log("地图类型ID为：" + map.getMapTypeId());
         });
         
