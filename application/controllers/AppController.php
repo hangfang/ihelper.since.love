@@ -247,7 +247,7 @@ EOF;
         $data['cityList'] = include_config('weather');
         
         $this->load->helper('include');
-        $data['expressList'] = include_config('kdniao');
+        $data['expressList'] = array_unique(include_config('kdniao'));
         
         $this->load->helper('include');
         $data['lotteryList'] = array_flip(array_unique(array_flip(include_config('lottery'))));
@@ -289,40 +289,46 @@ EOF;
             }
             
             $lottery = array_flip($lottery);
-            foreach($rt as $_v){
+            foreach($rt as $_v){print_r($_v);exit;
                 $code = array();
-                isset($_v['a']) && $code[] = $_v['a'];
-                isset($_v['b']) && $code[] = $_v['b'];
-                isset($_v['c']) && $code[] = $_v['c'];
-                isset($_v['d']) && $code[] = $_v['d'];
-                isset($_v['e']) && $code[] = $_v['e'];
-                isset($_v['f']) && $code[] = $_v['f'];
-                isset($_v['g']) && $code[] = $_v['g'];
+                isset($_v['a']) && $code[] = str_pad($_v['a'], 2, 0, STR_PAD_LEFT);
+                isset($_v['b']) && $code[] = str_pad($_v['b'], 2, 0, STR_PAD_LEFT);
+                isset($_v['c']) && $code[] = str_pad($_v['c'], 2, 0, STR_PAD_LEFT);
+                isset($_v['d']) && $code[] = str_pad($_v['e'], 2, 0, STR_PAD_LEFT);
+                isset($_v['e']) && $code[] = str_pad($_v['e'], 2, 0, STR_PAD_LEFT);
+                isset($_v['f']) && $code[] = str_pad($_v['f'], 2, 0, STR_PAD_LEFT);
+                isset($_v['g']) && $code[] = str_pad($_v['g'], 2, 0, STR_PAD_LEFT);
                 
-                $pride_info = '';
+                $prideInfo = '';
                 switch($data['lotterycode']){
                     case 'ssq':
-                        $pride_info = sprintf($this->_ssq_pride, $_v['first'], $_v['first_num'], $_v['second'], $_v['second_num'], $_v['third'], $_v['third_num'], $_v['forth'], $_v['forth_num'], $_v['fivth'], $_v['fivth_num'], $_v['sixth'], $_v['sixth_num']);
+                        $prideInfo = sprintf($this->_ssq_pride, $_v['first'], $_v['first_num'], $_v['second'], $_v['second_num'], $_v['third'], $_v['third_num'], $_v['forth'], $_v['forth_num'], $_v['fivth'], $_v['fivth_num'], $_v['sixth'], $_v['sixth_num']);
+                        $openCode = '<span class="ballbg_red">'.implode('</span><span class="ballbg_red">', array_slice($code, 0, 6)).'</span><span class="ballbg_blue">'.$code[6].'</span>';
                         break;
                     case 'dlt':
-                        $pride_info = sprintf($this->_dlt_pride, $_v['first_add'], $_v['first_add_num'], $_v['first'], $_v['first_num'], $_v['second_add'], $_v['second_add_num'], $_v['second'], $_v['second_num'], $_v['third_add'], $_v['third_add_num'], $_v['third'], $_v['third_num'], $_v['forth_add'], $_v['forth_add_num'], $_v['forth'], $_v['forth_num'], $_v['fivth_add'], $_v['fivth_add_num'], $_v['fivth'], $_v['fivth_num'], $_v['sixth'], $_v['sixth_num']);
+                        $prideInfo = sprintf($this->_dlt_pride, $_v['first_add'], $_v['first_add_num'], $_v['first'], $_v['first_num'], $_v['second_add'], $_v['second_add_num'], $_v['second'], $_v['second_num'], $_v['third_add'], $_v['third_add_num'], $_v['third'], $_v['third_num'], $_v['forth_add'], $_v['forth_add_num'], $_v['forth'], $_v['forth_num'], $_v['fivth_add'], $_v['fivth_add_num'], $_v['fivth'], $_v['fivth_num'], $_v['sixth'], $_v['sixth_num']);
+                        $openCode = '<span class="ballbg_red">'.implode('</span><span class="ballbg_red">', array_slice($code, 0, 5)).'</span><span class="ballbg_blue">'.implode('</span><span class="ballbg_blue">', array_slice($code, 5, 2)).'</span>';
                         break;
                     case 'fc3d':
-                        $pride_info = sprintf($this->_fc3d_pride, $_v['first'], $_v['first_num'], $_v['second']>200?'组三':'组六', $_v['second'], $_v['second_num']);
+                        $prideInfo = sprintf($this->_fc3d_pride, $_v['first'], $_v['first_num'], $_v['second']>200?'组三':'组六', $_v['second'], $_v['second_num']);
+                        $openCode = '<span class="ballbg_red">'.implode('</span><span class="ballbg_red">', $code).'</span>';
                         break;
                     case 'pl3':
-                        $pride_info = sprintf($this->_pl3_pride, $_v['first'], $_v['first_num'], $_v['second']>200?'组三':'组六', $_v['second'], $_v['second_num']);
+                        $prideInfo = sprintf($this->_pl3_pride, $_v['first'], $_v['first_num'], $_v['second']>200?'组三':'组六', $_v['second'], $_v['second_num']);
+                        $openCode = '<span class="ballbg_red">'.implode('</span><span class="ballbg_red">', $code).'</span>';
                         break;
                     case 'pl5':
-                        $pride_info = sprintf($this->_pl5_pride, $_v['first'], $_v['first_num']);
+                        $prideInfo = sprintf($this->_pl5_pride, $_v['first'], $_v['first_num']);
+                        $openCode = '<span class="ballbg_red">'.implode('</span><span class="ballbg_red">', $code).'</span>';
                         break;
                     case 'qxc':
-                        $pride_info = sprintf($this->_qxc_pride, $_v['first'], $_v['first_num'], $_v['second'], $_v['second_num'], $_v['third'], $_v['third_num'], $_v['forth'], $_v['forth_num'], $_v['fivth'], $_v['fivth_num'], $_v['sixth'], $_v['sixth_num']);
+                        $prideInfo = sprintf($this->_qxc_pride, $_v['first'], $_v['first_num'], $_v['second'], $_v['second_num'], $_v['third'], $_v['third_num'], $_v['forth'], $_v['forth_num'], $_v['fivth'], $_v['fivth_num'], $_v['sixth'], $_v['sixth_num']);
+                        $openCode = '<span class="ballbg_red">'.implode('</span><span class="ballbg_red">', $code).'</span>';
                         break;
                 }
                 
-                $extra = sprintf($this->_msg_lottery_extra, number_format($_v['remain'], 0, '', ','), number_format($_v['sell'], 0, '', ','), $pride_info);
-                $msg = sprintf($this->_msg_lottery, $lottery[$data['lotterycode']], $_v['expect'], substr($_v['insert_time'], 0, 10), implode(',', $code), $extra);
+                $extra = sprintf($this->_msg_lottery_extra, number_format($_v['remain'], 0, '', ','), number_format($_v['sell'], 0, '', ','), $prideInfo);
+                $msg = sprintf($this->_msg_lottery, $lottery[$data['lotterycode']], $_v['expect'], substr($_v['insert_time'], 0, 10), $openCode, $extra);
             }
                         
             $data = array();
@@ -484,8 +490,12 @@ EOF;
                 $this->json($this->error['weather_lack_of_cityid_error']);
             }
             
+            
+            $this->load->helper('include');
+            $cities = include_config('weather');
+        
             $this->load->model('BaiduModel');
-            $rt = $this->BaiduModel->getWeather($cityid);
+            $rt = $this->BaiduModel->getWeather($cities[$cityid]);
 
             if(isset($rt['Reason']) && strlen($rt['Reason']) > 0){
                 $data = array();
@@ -507,8 +517,6 @@ EOF;
             return true;
         }
         
-        $this->load->helper('include');
-        $data['cityList'] = include_config('weather');
         $this->layout->setLayout('weui');
         $this->layout->view('App/weather', $data);
     }

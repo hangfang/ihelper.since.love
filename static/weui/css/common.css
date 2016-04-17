@@ -9,7 +9,7 @@ body {
 }
 
 .container {
-	height: 100%;
+	//height: 100%;
         margin-bottom: 75px;
 	overflow-y: auto;
 	-webkit-overflow-scrolling: touch
@@ -321,3 +321,37 @@ body {
 .weui_tabbar a:hover {text-decoration: none;}
 .weui_tabbar_item {-webkit-filter: grayscale(100%);-moz-filter: grayscale(100%);-ms-filter: grayscale(100%);-o-filter: grayscale(100%);}
 .weui_bar_item_on {-webkit-filter: none;-moz-filter: none;-ms-filter: none;-o-filter: none;}
+
+.ballbg_red {    
+    background: url(/static/public/images/app/openprize_ball_bg.gif) 0 0 no-repeat;
+    width: 20px;
+    height: 21px;
+    line-height: 21px;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    display: inline-block;
+    margin-right: 5px;
+}
+.ballbg_blue {    
+    background: url(/static/public/images/app/openprize_ball_bg.gif) -21px 0 no-repeat;
+    width: 20px;
+    height: 21px;
+    line-height: 21px;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    display: inline-block;
+    margin-right: 5px;
+}
+.ballbg_yellow{
+    background: url(/img/openprize_ball_bg.gif) -42px 0 no-repeat;
+    width: 16px;
+    height: 19px;
+    line-height: 19px;
+    color: #700505;
+    text-align: center;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 5px;
+}

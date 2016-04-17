@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50542
 File Encoding         : 65001
 
-Date: 2016-04-17 12:39:37
+Date: 2016-04-17 15:47:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -108,6 +108,8 @@ CREATE TABLE `app_pl5` (
   `a` tinyint(2) unsigned NOT NULL,
   `b` tinyint(2) unsigned NOT NULL,
   `c` tinyint(2) unsigned NOT NULL,
+  `d` tinyint(2) unsigned NOT NULL DEFAULT '0',
+  `e` tinyint(2) unsigned NOT NULL DEFAULT '0',
   `sell` int(10) unsigned NOT NULL,
   `remain` int(10) unsigned NOT NULL,
   `first` int(10) unsigned NOT NULL,
@@ -179,7 +181,7 @@ CREATE TABLE `app_ssq` (
   `expect` varchar(255) NOT NULL,
   `insert_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1942 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3883 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for app_zcbqc
@@ -244,7 +246,7 @@ CREATE TABLE `wechat_receive_message` (
   KEY `MsgType` (`MsgType`),
   KEY `CreateTime` (`CreateTime`),
   KEY `Format` (`Format`)
-) ENGINE=MyISAM AUTO_INCREMENT=2581 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2582 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for wechat_send_message
@@ -270,7 +272,7 @@ CREATE TABLE `wechat_send_message` (
   KEY `touser` (`touser`) USING BTREE,
   KEY `msgtype` (`msgtype`),
   KEY `createtime` (`createtime`)
-) ENGINE=MyISAM AUTO_INCREMENT=1212 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1213 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for wechat_token

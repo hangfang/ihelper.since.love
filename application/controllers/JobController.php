@@ -52,6 +52,8 @@ class JobController extends MY_Controller {
         $lottery['a'] = $haoma[1][0];
         $lottery['b'] = $haoma[1][1];
         $lottery['c'] = $haoma[1][2];
+        $lottery['d'] = $haoma[1][3];
+        $lottery['e'] = $haoma[1][4];
 
 
         $content = explode('开奖详情', $content[1]);

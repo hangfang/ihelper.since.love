@@ -41,28 +41,12 @@
     </div>
     <div class="bd">
         <div class="weui_grids">
-            <a href="#/express" class="weui_grid">
+            <a href="#/query" class="weui_grid">
                 <div class="weui_grid_icon">
                     <i class="icon icon_actionSheet"></i>
                 </div>
                 <p class="weui_grid_label">
-                    快递查询
-                </p>
-            </a>
-            <a href="#/weather" class="weui_grid">
-                <div class="weui_grid_icon">
-                    <i class="icon icon_cell"></i>
-                </div>
-                <p class="weui_grid_label">
-                    天气查询
-                </p>
-            </a>
-            <a href="#/stock" class="weui_grid">
-                <div class="weui_grid_icon">
-                    <i class="icon icon_toast"></i>
-                </div>
-                <p class="weui_grid_label">
-                    股票查询
+                    查询
                 </p>
             </a>
             <a href="/app/lottery" class="weui_grid">
@@ -73,17 +57,10 @@
                     彩票查询
                 </p>
             </a>
-            <a href="#/music" class="weui_grid">
-                <div class="weui_grid_icon">
-                    <i class="icon icon_dialog"></i>
-                </div>
-                <p class="weui_grid_label">
-                    在线音乐
-                </p>
-            </a>
+           
             <a href="/app/news" class="weui_grid">
                 <div class="weui_grid_icon">
-                    <i class="icon icon_button"></i>
+                    <i class="icon icon_progress"></i>
                 </div>
                 <p class="weui_grid_label">
                     资讯
@@ -100,202 +77,66 @@
         </div>
     </div>
 </script>
-<script type="text/html" id="tpl_express">
+<script type="text/html" id="tpl_query">
     <div class="hd">
         <h1 class="page_title">物流查询</h1>
     </div>
     <div class="bd">
         <form class="form-horizontal" action="/app/express" method="post" target="_self" id="form_express">
-            <div class="form-group has-success has-feedback">
-                <label class="control-label col-sm-3" for="com">快递公司</label>
-                <div class="col-sm-9">
-                    <select name="com" id="com" class="show-tick form-control" data-live-search="true" autocomplete="on">
-                    <?php
-                        foreach($expressList as $_k=>$_v){
-                            echo <<<EOF
+            <div class="weui_cells">
+                <div class="weui_cell weui_cell_select weui_select_before">
+                    <div class="weui_cell_hd">
+                        <select name="com" id="com" class="weui_select" data-live-search="true" autocomplete="on">
+                        <?php
+                            foreach($expressList as $_k=>$_v){
+                                echo <<<EOF
 <option value="{$_v}">{$_k}</optoin>
 EOF;
-                        }
-                    ?>
-                    </select>
-                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" style="display:none;"></span>
-                    <span id="com_success" class="sr-only" style="display: none;">(success)</span>
-                </div>
-            </div>
-            <div class="form-group has-success has-feedback">
-                <label class="control-label col-sm-3" for="nu">快递单号</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" id="nu" name="nu" aria-describedby="nu_success" autocomplete="on">
-                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" style="display: none;"></span>
-                    <span id="nu_success" class="sr-only" style="display: none;">(success)</span>
-                </div>
-            </div>
-            <div class="form-group" style="width: 50px; margin: 0 auto;">
-                <div>
-                    <button class="form-control btn btn-default" type="submit" id="submit_express">查询</button>
-                </div>
-            </div>
-        </form>
-        
-        <div class="weui_panel" id="express_result" style="display: none;">
-            <div class="weui_panel_hd">查询结果</div>
-            <div class="weui_panel_bd">
-                <div class="weui_media_box weui_media_text">
-                    <p class="weui_media_desc"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="tpl_weather">
-    <div class="hd">
-        <h1 class="page_title">天气查询</h1>
-    </div>
-    <div class="bd">
-        <form class="form-horizontal" action="/app/weather" method="post" target="_self" id="form_weather">
-            <div class="form-group has-success has-feedback">
-                <label class="control-label col-sm-3" for="cityid">城市名称</label>
-                <div class="col-sm-9">
-                    <select name="cityid" id="cityid" class="show-tick form-control" data-live-search="true" autocomplete="on">
-                    <?php
-                        foreach($cityList as $_k=>$_v){
-                            echo <<<EOF
-<option value="{$_v}">{$_k}</optoin>
-EOF;
-                        }
-                    ?>
-                    </select>
-                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" style="display:none;"></span>
-                    <span id="cityid_success" class="sr-only" style="display: none;">(success)</span>
-                </div>
-            </div>
-            <div class="form-group" style="width: 50px; margin: 0 auto;">
-                <div>
-                    <button class="form-control btn btn-default" type="submit" id="submit_weather">查询</button>
-                </div>
-            </div>
-        </form>
-        
-        <div class="weui_panel" id="weather_result" style="display: none;">
-            <div class="weui_panel_hd">查询结果</div>
-            <div class="weui_panel_bd">
-                <div class="weui_media_box weui_media_text">
-                    <p class="weui_media_desc"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="tpl_stock">
-    <div class="hd">
-        <h1 class="page_title">股票查询</h1>
-    </div>
-    <div class="bd">
-        <form class="form-horizontal" action="/app/stock" method="post" target="_self" id="form_stock">
-            <div class="form-group has-success has-feedback">
-                <label class="control-label col-sm-3" for="stockid">股票代码</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" id="stockid" name="stockid" aria-describedby="nu_success" autocomplete="on">
-                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" style="display: none;"></span>
-                    <span id="nu_success" class="sr-only" style="display: none;">(success)</span>
-                </div>
-            </div>
-            <div class="form-group" style="width: 50px; margin: 0 auto;">
-                <div>
-                    <button class="form-control btn btn-default" type="submit" id="submit_stock">查询</button>
-                </div>
-            </div>
-        </form>
-        
-        <div class="weui_panel" id="stock_result" style="display: none;">
-            <div class="weui_panel_hd">查询结果</div>
-            <div class="weui_panel_bd">
-                <div class="weui_media_box weui_media_text">
-                    <p class="weui_media_desc"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="tpl_music">
-    <div class="panel">
-    <div class="searchbar">
-        <div class="hd">
-            <h1 class="page_title">在线音乐</h1>
-        </div>
-        <div class="bd">
-            <audio preload="none" class="bd-12"></audio>
-            <!--<a href="javascript:;" class="weui_btn weui_btn_primary">点击展现searchBar</a>-->
-            <div class="weui_search_bar" id="search_bar">
-                <div class="weui_search_outer">
-                    <div class="weui_search_inner">
-                        <i class="weui_icon_search"></i>
-                        <input type="search" class="weui_search_input" id="search_input" placeholder="搜索" required="">
-                        <a href="javascript:" class="weui_icon_clear" id="search_clear"></a>
+                            }
+                        ?>
+                        </select>
                     </div>
-                    <label for="search_input" class="weui_search_text" id="search_text" style="display: none;">
-                        <i class="weui_icon_search"></i>
-                        <span>搜索</span>
-                    </label>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" type="text" name="nu" id="nu" placeholder="快递单号"/>
+                    </div>
                 </div>
-                <a href="javascript:" class="weui_search_cancel" id="search_cancel">取消</a>
             </div>
-            <div class="weui_cells weui_cells_access search_show" id="search_show" style="display: none;">
+            <button class="weui_btn weui_btn_primary" type="submit" id="submit_express">查询快递</button>
+        </form>
+        <form class="form-horizontal" action="/app/weather" method="post" target="_self" id="form_weather">
+            <div class="weui_cell">
+                <!--<div class="weui_cell_hd">
+                    <label class="weui_label">城市</label>
+                </div>-->
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="text" id="cityid" name="cityid" placeholder="请输入城市">
+                </div>
             </div>
-            <ol id="play_list">
-            </ol>
-        </div>
+            <button class="weui_btn weui_btn_primary" type="submit" id="submit_weather">查询天气</button>
+        </form>
+        
+        <form class="form-horizontal" action="/app/stock" method="post" target="_self" id="form_stock">
+            <div class="weui_cell">
+                <!--<div class="weui_cell_hd">
+                    <label class="weui_label">股票代码</label>
+                </div>-->
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="number" id="stockid" name="stockid" placeholder="请输入股票代码">
+                </div>
+            </div>
+            <button class="weui_btn weui_btn_primary" type="submit" id="submit_stock">查询股票</button>
+        </form>
     </div>
-</div>
-<div id="shortcuts">
-    <div>
-        <h1>Keyboard shortcuts:</h1>
-        <p><em>&rarr;</em> Next track</p>
-        <p><em>&larr;</em> Previous track</p>
-        <p><em>Space</em> Play/pause</p>
-    </div>
-</div>
 </script>
 
-<script type="text/html" id="tpl_lottery">
-    <div class="hd">
-        <h1 class="page_title">彩票查询</h1>
-    </div>
-    <div class="bd">
-        <form class="form-horizontal" action="/app/lottery" method="post" target="_self" id="form_lottery">
-            <div class="form-group has-success has-feedback">
-                <label class="control-label col-sm-3" for="lottery_code">选择彩种</label>
-                <div class="col-sm-9">
-                    <select name="lottery_code" id="lottery_code" class="show-tick form-control" data-live-search="true" autocomplete="on">
-                    <?php
-                        foreach($lotteryList as $_k=>$_v){
-                            echo <<<EOF
-<option value="{$_v}">{$_k}</optoin>
-EOF;
-                        }
-                    ?>
-                    </select>
-                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" style="display:none;"></span>
-                    <span id="lottery_code_success" class="sr-only" style="display: none;">(success)</span>
-                </div>
-            </div>
-            <div class="form-group" style="width: 50px; margin: 0 auto;">
-                <div>
-                    <button class="form-control btn btn-default" type="submit" id="submit_lottery">查询</button>
-                </div>
-            </div>
-        </form>
-        
-        <div class="weui_panel" id="lottery_result" style="display: none;">
-            <div class="weui_panel_hd">查询结果</div>
-            <div class="weui_panel_bd">
-                <div class="weui_media_box weui_media_text">
-                    <p class="weui_media_desc"></p>
-                </div>
-            </div>
+<div class="weui_panel" id="result" style="display: none;">
+    <div class="weui_panel_hd">查询结果</div>
+    <div class="weui_panel_bd">
+        <div class="weui_media_box weui_media_text">
+            <p class="weui_media_desc"></p>
         </div>
     </div>
-</script>
+</div>
 <script src="/static/weui/js/zepto.min.js?d=20160110"></script>
 <script src="/static/weui/js/router.min.js?d=20160110"></script>
 <script src="/static/public/js/app/index.js?d=20160110"></script>
