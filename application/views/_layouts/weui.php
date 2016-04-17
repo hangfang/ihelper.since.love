@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <title><?php echo $title; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+<!--    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">-->
 <!--    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-theme.min.css">-->
     <script src="/static/public/js/jquery.min.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<!--    <script src="/static/bootstrap/js/bootstrap.min.js"></script>-->
     <link rel="stylesheet" href="/static/weui/css/weui.css"/>
     <link rel="stylesheet" href="/static/weui/css/common.css"/>
     <style type="text/css">
@@ -130,6 +130,23 @@
             </div>
         </div>
     </div>
+    <!-- start-ActionSheet-start -->
+    <div id="actionSheet_wrap">
+        <div class="weui_mask_transition" id="mask" style="display: none;"></div>
+        <div class="weui_actionsheet" id="weui_actionsheet">
+            <div class="weui_actionsheet_menu">
+                <div class="weui_actionsheet_cell">全景预览</div>
+                <div class="weui_actionsheet_cell">以此为起点</div>
+                <div class="weui_actionsheet_cell">以此为终点</div>
+                <div class="weui_actionsheet_cell">以此点附近找...</div>
+                <div class="weui_actionsheet_cell">添加新地点</div>
+            </div>
+            <div class="weui_actionsheet_action">
+                <div class="weui_actionsheet_cell" id="actionsheet_cancel">取消</div>
+            </div>
+        </div>
+    </div>
+    <!-- start-ActionSheet-start -->
 </body>
 </html>
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=55520872" charset="UTF-8"></script>
