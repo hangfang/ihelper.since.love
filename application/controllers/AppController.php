@@ -289,7 +289,7 @@ EOF;
             }
             
             $lottery = array_flip($lottery);
-            foreach($rt as $_v){print_r($_v);exit;
+            foreach($rt as $_v){
                 $code = array();
                 isset($_v['a']) && $code[] = str_pad($_v['a'], 2, 0, STR_PAD_LEFT);
                 isset($_v['b']) && $code[] = str_pad($_v['b'], 2, 0, STR_PAD_LEFT);
