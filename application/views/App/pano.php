@@ -94,11 +94,33 @@
         });
 
         qq.maps.event.addListener(this.map, 'click', function(e){
-            txmap.map.panTo(new qq.maps.LatLng(e.latLng.lat, e.latLng.lng));
+            //txmap.map.panTo(new qq.maps.LatLng(e.latLng.lat, e.latLng.lng));
         });
         
         qq.maps.event.addListener(this.map, 'dbclick', function(e){
-            alert(txmap.map.getZoom());
+            if(txmap.map.getZoom()===18){
+                $('.weui_actionsheet_cell').data(e);
+                var mask = $('#mask');
+                var weuiActionsheet = $('#weui_actionsheet');
+                weuiActionsheet.addClass('weui_actionsheet_toggle');
+                mask.show().addClass('weui_fade_toggle').one('click', function () {
+                    hideActionSheet(weuiActionsheet, mask);
+                });
+                $('#actionsheet_cancel').one('click', function () {
+                    hideActionSheet(weuiActionsheet, mask);
+                });
+                weuiActionsheet.unbind('transitionend').unbind('webkitTransitionEnd');
+
+                function hideActionSheet(weuiActionsheet, mask) {
+                    weuiActionsheet.removeClass('weui_actionsheet_toggle');
+                    mask.removeClass('weui_fade_toggle');
+                    weuiActionsheet.on('transitionend', function () {
+                        mask.hide();
+                    }).on('webkitTransitionEnd', function () {
+                        mask.hide();
+                    })
+                } 
+            }
         });
         
         qq.maps.event.addListener(this.map, 'rightclick', function(e){
