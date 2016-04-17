@@ -3,16 +3,170 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class JobController extends MY_Controller {
     
+    public function getPlw($expect=''){
+        if($expect){
+            $this->keepPlw($expect);
+        }else{
+            $this->load->database();
+            
+            $query = $this->db->order_by('id', 'desc')->get('app_plw');
+            $row = $query->num_rows()>0 ? $query->row_array() : array();
+            if(!$row){
+                for($i=4; $i<=ltrim(date('Y'), '20'); $i++){
+                    for($j=1; $j<=360; $j++){
+                        $expect = str_pad($i, 4, 0, STR_PAD_LEFT).str_pad($j, 3, 0, STR_PAD_LEFT);
+                        $this->keepPlw($expect);
+                    }
+                }
+            }else{
+                $this->keepPlw($row['expect']+1);
+            }
+        }
+    }
+    
+    public function keepPlw($expect){
+        $url = sprintf('http://kaijiang.500.com/shtml/plw/%s.shtml', $expect);
+        $content = @file_get_contents($url);
+        if(!$content){
+            echo $url .' error'."\n";
+            return false;
+        }
+        $content = mb_convert_encoding($content, 'UTF-8', 'GBK');
+            
+        
+        $lottery = array();
+        $content = explode('开奖日期', $content);
+
+        $content = explode('开奖号码', $content[1]);
+        list($lottery['insert_time'], $_) = explode('--', preg_replace(array('/年|月|日/', '/[^\d-]/'), array('-', ''), $content[0]));
+        $lottery['insert_time'] = date('Y-m-d H:i:s', strtotime($lottery['insert_time']));
+            
+        $content = explode('本期销量', $content[1]);
+        preg_match_all('/>(\d+)</', $content[0], $haoma);
+        
+        if(!isset($haoma[1][0])){
+            echo $url .' not selled'."\n";
+            return false;
+        }
+        $lottery['expect'] = $expect;
+        $lottery['a'] = $haoma[1][0];
+        $lottery['b'] = $haoma[1][1];
+        $lottery['c'] = $haoma[1][2];
+
+
+        $content = explode('开奖详情', $content[1]);
+        preg_match_all('/>([\d,]+)元/', $content[0], $lottery['sell']);
+        $lottery['sell'] = str_replace(',', '', $lottery['sell'][1][0]);
+        $lottery['remain'] = 0;
+
+        $content = explode('上一期', $content[1]);
+        $content = explode('直选', $content[0]);
+        $content = explode('走势图', $content[1]);
+
+        list($_, $_, $lottery['first_num'], $_, $lottery['first']) = explode('<td>', preg_replace('/\/|\s+/', '', $content[0]));
+        $lottery['first'] = str_replace(',', '', $lottery['first']);
+
+        $this->load->database();
+        
+        if($this->db->where('expect', $lottery['expect'])->get('app_plw')->num_rows()>0){
+            echo $expect . ' exists' . "\n";
+            return false;
+        }
+        
+        if($this->db->insert('app_plw', $lottery)){
+            echo $expect . ' keep ok'. "\n";
+        }
+    }
+    
+    public function getPls($expect=''){
+        if($expect){
+            $this->keepPls($expect);
+        }else{
+            $this->load->database();
+            
+            $query = $this->db->order_by('id', 'desc')->get('app_pls');
+            $row = $query->num_rows()>0 ? $query->row_array() : array();
+            if(!$row){
+                for($i=4; $i<=ltrim(date('Y'), '20'); $i++){
+                    for($j=1; $j<=360; $j++){
+                        $expect = str_pad($i, 4, 0, STR_PAD_LEFT).str_pad($j, 3, 0, STR_PAD_LEFT);
+                        $this->keepPls($expect);
+                    }
+                }
+            }else{
+                $this->keepPls($row['expect']+1);
+            }
+        }
+    }
+    
+    public function keepPls($expect){
+        $url = sprintf('http://kaijiang.500.com/shtml/pls/%s.shtml', $expect);
+        $content = @file_get_contents($url);
+        if(!$content){
+            echo $url .' error'."\n";
+            return false;
+        }
+        $content = mb_convert_encoding($content, 'UTF-8', 'GBK');
+            
+        
+        $lottery = array();
+        $content = explode('开奖日期', $content);
+
+        $content = explode('开奖号码', $content[1]);
+        list($lottery['insert_time'], $_) = explode('--', preg_replace(array('/年|月|日/', '/[^\d-]/'), array('-', ''), $content[0]));
+        $lottery['insert_time'] = date('Y-m-d H:i:s', strtotime($lottery['insert_time']));
+            
+        $content = explode('本期销量', $content[1]);
+        preg_match_all('/>(\d+)</', $content[0], $haoma);
+        
+        if(!isset($haoma[1][0])){
+            echo $url .' not selled'."\n";
+            return false;
+        }
+        $lottery['expect'] = $expect;
+        $lottery['a'] = $haoma[1][0];
+        $lottery['b'] = $haoma[1][1];
+        $lottery['c'] = $haoma[1][2];
+
+
+        $content = explode('开奖详情', $content[1]);
+        preg_match_all('/>([\d,]+)元/', $content[0], $lottery['sell']);
+        $lottery['sell'] = str_replace(',', '', $lottery['sell'][1][0]);
+        $lottery['remain'] = 0;
+
+        $content = explode('上一期', $content[1]);
+        $content = explode('直选', $content[0]);
+        $keyword = strpos($content[1], '组三')!==false ? '组三' : '组六';
+        $content = explode($keyword, $content[1]);
+
+        list($_, $_, $lottery['first_num'], $_, $lottery['first']) = explode('<td>', preg_replace('/\/|\s+/', '', $content[0]));
+        $lottery['first'] = str_replace(',', '', $lottery['first']);
+
+        list($_, $_, $lottery['second_num'], $_, $lottery['second']) = explode('<td>', preg_replace('/\/|\s+/', '', $content[1]));
+        $lottery['second'] = str_replace(',', '', $lottery['second']);
+
+        $this->load->database();
+        
+        if($this->db->where('expect', $lottery['expect'])->get('app_pls')->num_rows()>0){
+            echo $expect . ' exists' . "\n";
+            return false;
+        }
+        
+        if($this->db->insert('app_pls', $lottery)){
+            echo $expect . ' keep ok'. "\n";
+        }
+    }
+    
     public function getQxc($expect=''){
         if($expect){
             $this->keepQxc($expect);
         }else{
             $this->load->database();
             
-            $query = $this->db->order_by('id', 'desc')->get('app_qxc');
+            $query = $this->db->where('expect', '09061')->order_by('id', 'desc')->get('app_qxc');
             $row = $query->num_rows()>0 ? $query->row_array() : array();
             if(!$row){
-                for($i=4; $i<=ltrim(date('Y'), '20'); $i++){
+                for($i=9; $i<=ltrim(date('Y'), '20'); $i++){
                     for($j=1; $j<=200; $j++){
                         $expect = str_pad($i, 2, 0, STR_PAD_LEFT).str_pad($j, 3, 0, STR_PAD_LEFT);
                         $this->keepQxc($expect);
@@ -67,21 +221,21 @@ class JobController extends MY_Controller {
         $lottery['remain'] = str_replace(',', '', $lottery['remain'][1][0]);
 
         $content = explode('走势图', $content[1]);
-        $content = explode('特等奖', $content[0]);
-        $content = explode('一等奖', $content[1]);
+        $content = explode('一等奖', $content[0]);
+        $content = explode('二等奖', $content[1]);
 
         list($_, $_, $lottery['first_num'], $_, $lottery['first']) = explode('<td>', preg_replace('/\/|\s+/', '', $content[0]));
 
-        $content = explode('二等奖', $content[1]);
+        $content = explode('三等奖', $content[1]);
         list($_, $_, $lottery['second_num'], $_, $lottery['second']) = explode('<td>', preg_replace('/\/|\s+/', '', $content[0]));
 
-        $content = explode('三等奖', $content[1]);
+        $content = explode('四等奖', $content[1]);
         list($_, $_, $lottery['third_num'], $_, $lottery['third']) = explode('<td>', preg_replace('/\/|\s+/', '', $content[0]));
 
-        $content = explode('四等奖', $content[1]);
+        $content = explode('五等奖', $content[1]);
         list($_, $_, $lottery['forth_num'], $_, $lottery['forth']) = explode('<td>', preg_replace('/\/|\s+/', '', $content[0]));
 
-        $content = explode('五等奖', $content[1]);
+        $content = explode('六等奖', $content[1]);
         list($_, $_, $lottery['fivth_num'], $_, $lottery['fivth']) = explode('<td>', preg_replace('/\/|\s+/', '', $content[0]));
         
         list($_, $_, $lottery['sixth_num'], $_, $lottery['sixth']) = explode('<td>', preg_replace('/\/|\s+/', '', $content[1]));
