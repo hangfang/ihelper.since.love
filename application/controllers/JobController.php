@@ -18,7 +18,7 @@ class JobController extends MY_Controller {
                     }
                 }
             }else{
-                $this->keepDlt($row['expect']+1);
+                $this->keepDlt(str_pad($row['expect']+1, 5, 0, STR_PAD_LEFT));
             }
         }
     }
@@ -65,7 +65,7 @@ class JobController extends MY_Controller {
         preg_match_all('/>([\d,]+)元/', $content[0], $lottery['remain']);
         $lottery['remain'] = str_replace(',', '', $lottery['remain'][1][0]);
 
-        $content = explode('备注', $content[1]);
+        $content = explode('走势图', $content[1]);
         $content = explode('一等奖', $content[0]);
         
         list($price_first, $content) = explode('二等奖', $content[1]);
@@ -73,15 +73,68 @@ class JobController extends MY_Controller {
         list($price_third, $content) = explode('四等奖', $content);
         list($price_forth, $content) = explode('五等奖', $content);
         list($price_fivth, $content) = explode('六等奖', $content);
-        list($price_sixth, $content) = explode('center', $content, 2);
-
-        @list($_, $_, $_, $_, $lottery['first_num'], $_, $lottery['first'], $_, $_, $_, $lottery['first_add_num'], $_, $lottery['first_add']) = explode('<td>', preg_replace('/\/|,|\s+/', '', $price_first));
-        @list($_, $_, $_, $_, $lottery['second_num'], $_, $lottery['second'], $_, $_, $_, $lottery['second_add_num'], $_, $lottery['second_add']) = explode('<td>', preg_replace('/\/|,|\s+/', '', $price_second));
-        @list($_, $_, $_, $_, $lottery['third_num'], $_, $lottery['third'], $_, $_, $_, $lottery['third_add_num'], $_, $lottery['third_add']) = explode('<td>', preg_replace('/\/|,|\s+/', '', $price_third));
-        @list($_, $_, $lottery['forth_num'], $_, $lottery['forth']) = explode('<td>', preg_replace('/\/|,|\s+/', '', $price_forth));
-        @list($_, $_, $lottery['fivth_num'], $_, $lottery['fivth']) = explode('<td>', preg_replace('/\/|,|\s+/', '', $price_fivth));
-        @list($_, $_, $lottery['sixth_num'], $_, $lottery['sixth']) = explode('<td>', preg_replace('/\/|,|\s+/', '', $price_sixth));
-
+        list($price_sixth) = explode('七等奖', $content);
+        
+        $price_first = explode('<td>', preg_replace('/\/|\s+/', '', $price_first));
+        $lottery['first_num'] = isset($price_first['4']) ? $price_first['4'] : 0;
+        $lottery['first'] = isset($price_first['6']) ? $price_first['6'] : '';
+        $lottery['first_add_num'] = isset($price_first['10']) ? $price_first['10'] : 0;
+        $lottery['first_add'] = isset($price_first['12']) ? $price_first['12'] : '';
+        
+        $price_second = explode('<td>', preg_replace('/\/|\s+/', '', $price_second));
+        $lottery['second_num'] = isset($price_second['4']) ? $price_second['4'] : 0;
+        $lottery['second'] = isset($price_second['6']) ? $price_second['6'] : '';
+        $lottery['second_add_num'] = isset($price_second['10']) ? $price_second['10'] : 0;
+        $lottery['second_add'] = isset($price_second['12']) ? $price_second['12'] : '';
+        
+        $price_third = explode('<td>', preg_replace('/\/|\s+/', '', $price_third));
+        $lottery['third_num'] = isset($price_third['4']) ? $price_third['4'] : 0;
+        $lottery['third'] = isset($price_third['6']) ? $price_third['6'] : '';
+        $lottery['third_add_num'] = isset($price_third['10']) ? $price_third['10'] : 0;
+        $lottery['third_add'] = isset($price_third['12']) ? $price_third['12'] : '';
+        
+        $price_has_add = strpos($price_forth, '基本')!==false ? true : false;
+        $price_forth = explode('<td>', preg_replace('/\/|\s+/', '', $price_forth));
+        if($price_has_add){
+            $lottery['forth_num'] = isset($price_forth['4']) ? $price_forth['4'] : 0;
+            $lottery['forth'] = isset($price_forth['6']) ? $price_forth['6'] : '';
+            $lottery['forth_add_num'] = isset($price_forth['10']) ? $price_forth['10'] : 0;
+            $lottery['forth_add'] = isset($price_forth['12']) ? $price_forth['12'] : '';
+        }else{
+            $lottery['forth_num'] = isset($price_forth['4']) ? $price_forth['2'] : 0;
+            $lottery['forth'] = isset($price_forth['6']) ? $price_forth['4'] : '';
+            $lottery['forth_add_num'] = 0;
+            $lottery['forth_add'] = '';
+        }
+        
+        $price_has_add = strpos($price_fivth, '基本')!==false ? true : false;
+        $price_fivth = explode('<td>', preg_replace('/\/|\s+/', '', $price_fivth));
+        if($price_has_add){
+            $lottery['fivth_num'] = isset($price_fivth['4']) ? $price_fivth['4'] : 0;
+            $lottery['fivth'] = isset($price_fivth['6']) ? $price_fivth['6'] : '';
+            $lottery['fivth_add_num'] = isset($price_fivth['10']) ? $price_fivth['10'] : 0;
+            $lottery['fivth_add'] = isset($price_fivth['12']) ? $price_fivth['12'] : '';
+        }else{
+            $lottery['fivth_num'] = isset($price_fivth['4']) ? $price_fivth['2'] : 0;
+            $lottery['fivth'] = isset($price_fivth['6']) ? $price_fivth['4'] : '';
+            $lottery['fivth_add_num'] = 0;
+            $lottery['fivth_add'] = '';
+        }
+        
+        $price_has_add = strpos($price_sixth, '基本')!==false ? true : false;
+        $price_sixth = explode('<td>', preg_replace('/\/|\s+/', '', $price_sixth));
+        if($price_has_add){
+            $lottery['sixth_num'] = isset($price_sixth['4']) ? $price_sixth['4'] : 0;
+            $lottery['sixth'] = isset($price_sixth['6']) ? $price_sixth['6'] : '';
+            $lottery['sixth_add_num'] = isset($price_sixth['10']) ? $price_sixth['10'] : 0;
+            $lottery['sixth_add'] = isset($price_sixth['12']) ? $price_sixth['12'] : '';
+        }else{
+            $lottery['sixth_num'] = isset($price_sixth['2']) ? $price_sixth['2'] : 0;
+            $lottery['sixth'] = isset($price_sixth['4']) ? $price_sixth['4'] : '';
+            $lottery['sixth_add_num'] = 0;
+            $lottery['sixth_add'] = '';
+        }
+        
         $this->load->database();
         
         if($this->db->where('expect', $lottery['expect'])->get('app_dlt')->num_rows()>0){
@@ -110,7 +163,7 @@ class JobController extends MY_Controller {
                     }
                 }
             }else{
-                $this->keep3D($row['expect']+1);
+                $this->keepDlt(str_pad($row['expect']+1, 5, 0, STR_PAD_LEFT));
             }
         }
     }
@@ -189,7 +242,7 @@ class JobController extends MY_Controller {
                     }
                 }
             }else{
-                $this->keepSsq($row['expect']+1);
+                $this->keepDlt(str_pad($row['expect']+1, 5, 0, STR_PAD_LEFT));
             }
         }
     }
