@@ -39,6 +39,7 @@
     });
     
     var txmap = {};
+    txmap.map = {};
     txmap.latLong = {
                         latitude: 22.5428234337,// 纬度，浮点数，范围为90 ~ -90
                         longitude: 114.0595370000// 经度，浮点数，范围为180 ~ -180。
@@ -86,23 +87,23 @@
         var container = document.getElementById("container");
 
         //初始化地图
-        txmap.map = new qq.maps.Map(container, {
+        this.map = new qq.maps.Map(container, {
             // 地图的中心地理坐标。
             center: new qq.maps.LatLng(txmap.latLong.latitude, txmap.latLong.longitude),
             zoom: 13
         });
 
-        qq.maps.event.addListener(map, 'click', function(e){
+        qq.maps.event.addListener(this.map, 'click', function(e){
             map.panTo(new qq.maps.LatLng(e.latLng.lat, e.latLng.lng));
         });
         
-        qq.maps.event.addListener(map, 'dbclick', function(e){
+        qq.maps.event.addListener(this.map, 'dbclick', function(e){
             map.panTo(new qq.maps.LatLng(e.latLng.lat, e.latLng.lng));
             
             alert(txmap.map.getZoom());
         });
         
-        qq.maps.event.addListener(map, 'rightclick', function(e){
+        qq.maps.event.addListener(this.map, 'rightclick', function(e){
             $('.weui_actionsheet_cell').data(e);
 
             var mask = $('#mask');
