@@ -575,13 +575,13 @@ EOF;
     
     public function checkSsq(){
         $data = array();
-        $data['a'] = intval($this->input->get('a'));
-        $data['b'] = intval($this->input->get('b'));
-        $data['c'] = intval($this->input->get('c'));
-        $data['d'] = intval($this->input->get('d'));
-        $data['e'] = intval($this->input->get('e'));
-        $data['f'] = intval($this->input->get('f'));
-        $data['g'] = intval($this->input->get('g'));
+        $data['a'] = str_pad(intval($this->input->get('a')), 2, 0, STR_PAD_LEFT);
+        $data['b'] = str_pad(intval($this->input->get('b')), 2, 0, STR_PAD_LEFT);
+        $data['c'] = str_pad(intval($this->input->get('c')), 2, 0, STR_PAD_LEFT);
+        $data['d'] = str_pad(intval($this->input->get('d')), 2, 0, STR_PAD_LEFT);
+        $data['e'] = str_pad(intval($this->input->get('e')), 2, 0, STR_PAD_LEFT);
+        $data['f'] = str_pad(intval($this->input->get('f')), 2, 0, STR_PAD_LEFT);
+        $data['g'] = str_pad(intval($this->input->get('g')), 2, 0, STR_PAD_LEFT);
         
         $this->load->model('LotteryModel');
         $rt = $this->LotteryModel->checkSsq($data);

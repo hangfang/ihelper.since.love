@@ -46,7 +46,7 @@ class LotteryModel extends MY_Model{
         $num2info = array('', '一等奖', '二等奖', '三等奖', '四等奖', '五等奖', '六等奖');
         $query = $this->db->get('app_ssq');
         $result = $query && $query->num_rows()>0 ? $query->result_array() : array();
-        
+
         $rt = array('一等奖'=>array(), '二等奖'=>array(), '三等奖'=>0, '四等奖'=>0, '五等奖'=>0, '六等奖'=>0);
         foreach($result as $_v){
             $hitBlue = array($_v['a'],$_v['b'],$_v['c'],$_v['d'],$_v['e'],$_v['f']);
