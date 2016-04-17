@@ -99,7 +99,7 @@
         qq.maps.event.addListener(map, 'dbclick', function(e){
             map.panTo(new qq.maps.LatLng(e.latLng.lat, e.latLng.lng));
             
-            alert(map.getZoom());
+            alert(txmap.map.getZoom());
         });
         
         qq.maps.event.addListener(map, 'rightclick', function(e){
