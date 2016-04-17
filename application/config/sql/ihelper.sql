@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50542
 File Encoding         : 65001
 
-Date: 2016-04-17 11:35:47
+Date: 2016-04-17 12:39:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -57,7 +57,7 @@ CREATE TABLE `app_dlt` (
   `expect` varchar(255) NOT NULL,
   `insert_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4594 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5958 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for app_fc3d
@@ -97,7 +97,7 @@ CREATE TABLE `app_pl3` (
   `expect` varchar(255) NOT NULL,
   `insert_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9975 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=10059 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for app_pl5
@@ -180,6 +180,33 @@ CREATE TABLE `app_ssq` (
   `insert_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1942 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for app_zcbqc
+-- ----------------------------
+DROP TABLE IF EXISTS `app_zcbqc`;
+CREATE TABLE `app_zcbqc` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for app_zcjqc
+-- ----------------------------
+DROP TABLE IF EXISTS `app_zcjqc`;
+CREATE TABLE `app_zcjqc` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for app_zcsfc
+-- ----------------------------
+DROP TABLE IF EXISTS `app_zcsfc`;
+CREATE TABLE `app_zcsfc` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for wechat_receive_message

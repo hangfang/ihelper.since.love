@@ -322,7 +322,7 @@ EOF;
                 }
                 
                 $extra = sprintf($this->_msg_lottery_extra, number_format($_v['remain'], 0, '', ','), number_format($_v['sell'], 0, '', ','), $pride_info);
-                $msg = sprintf($this->_msg_lottery, $lottery[$data['lotterycode']], $_v['expect'], $_v['insert_time'], implode(',', $code), $extra);
+                $msg = sprintf($this->_msg_lottery, $lottery[$data['lotterycode']], $_v['expect'], substr($_v['insert_time'], 0, 10), implode(',', $code), $extra);
             }
                         
             $data = array();
