@@ -226,11 +226,11 @@
     };
     
     wx.ready(function(res){
-        console.log(res);
+        alert('ready');
         txmap.init();
     });
     
     wx.error(function(res){
-        console.log(res);
+        alert('error')
     });
 </script>
