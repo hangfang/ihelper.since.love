@@ -14,7 +14,7 @@ class JobController extends MY_Controller {
             if(!$row){
                 for($i=4; $i<=ltrim(date('Y'), '20'); $i++){
                     for($j=1; $j<=360; $j++){
-                        $expect = str_pad($i, 4, 0, STR_PAD_LEFT).str_pad($j, 3, 0, STR_PAD_LEFT);
+                        $expect = str_pad($i, 2, 0, STR_PAD_LEFT).str_pad($j, 3, 0, STR_PAD_LEFT);
                         $this->keepPlw($expect);
                     }
                 }
@@ -89,7 +89,7 @@ class JobController extends MY_Controller {
             if(!$row){
                 for($i=4; $i<=ltrim(date('Y'), '20'); $i++){
                     for($j=1; $j<=360; $j++){
-                        $expect = str_pad($i, 4, 0, STR_PAD_LEFT).str_pad($j, 3, 0, STR_PAD_LEFT);
+                        $expect = str_pad($i, 2, 0, STR_PAD_LEFT).str_pad($j, 3, 0, STR_PAD_LEFT);
                         $this->keepPls($expect);
                     }
                 }
