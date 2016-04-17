@@ -100,4 +100,10 @@ class LotteryModel extends MY_Model{
     public function checkQxc($data){
         return array();
     }
+    
+    public function genLottery($data){
+        
+        $query = $this->db->order_by('id', 'desc')->limit($data['recordcnt'], 0)->get('app_'. $data['lotterycode']);
+        return $query && $query->num_rows()>0 ? $query->result_array() : array();
+    }
 }

@@ -9,7 +9,7 @@ class JobController extends MY_Controller {
         }else{
             $this->load->database();
             
-            $query = $this->db->order_by('id', 'desc')->get('app_plw');
+            $query = $this->db->order_by('id', 'desc')->get('app_pl5');
             $row = $query->num_rows()>0 ? $query->row_array() : array();
             if(!$row){
                 for($i=4; $i<=ltrim(date('Y'), '20'); $i++){
@@ -68,12 +68,12 @@ class JobController extends MY_Controller {
 
         $this->load->database();
         
-        if($this->db->where('expect', $lottery['expect'])->get('app_plw')->num_rows()>0){
+        if($this->db->where('expect', $lottery['expect'])->get('app_pl5')->num_rows()>0){
             echo $expect . ' exists' . "\n";
             return false;
         }
         
-        if($this->db->insert('app_plw', $lottery)){
+        if($this->db->insert('app_pl5', $lottery)){
             echo $expect . ' keep ok'. "\n";
         }
     }
@@ -84,7 +84,7 @@ class JobController extends MY_Controller {
         }else{
             $this->load->database();
             
-            $query = $this->db->order_by('id', 'desc')->get('app_pls');
+            $query = $this->db->where('expect', '16015')->order_by('id', 'desc')->get('app_pl3');
             $row = $query->num_rows()>0 ? $query->row_array() : array();
             if(!$row){
                 for($i=4; $i<=ltrim(date('Y'), '20'); $i++){
@@ -147,12 +147,12 @@ class JobController extends MY_Controller {
 
         $this->load->database();
         
-        if($this->db->where('expect', $lottery['expect'])->get('app_pls')->num_rows()>0){
+        if($this->db->where('expect', $lottery['expect'])->get('app_pl3')->num_rows()>0){
             echo $expect . ' exists' . "\n";
             return false;
         }
         
-        if($this->db->insert('app_pls', $lottery)){
+        if($this->db->insert('app_pl3', $lottery)){
             echo $expect . ' keep ok'. "\n";
         }
     }
@@ -403,7 +403,7 @@ class JobController extends MY_Controller {
         }else{
             $this->load->database();
             
-            $query = $this->db->order_by('id', 'desc')->get('app_3d');
+            $query = $this->db->order_by('id', 'desc')->get('app_fc3d');
             $row = $query->num_rows()>0 ? $query->row_array() : array();
             if(!$row){
                 for($i=2004; $i<=ltrim(date('Y')); $i++){
@@ -466,12 +466,12 @@ class JobController extends MY_Controller {
 
         $this->load->database();
         
-        if($this->db->where('expect', $lottery['expect'])->get('app_3d')->num_rows()>0){
+        if($this->db->where('expect', $lottery['expect'])->get('app_fc3d')->num_rows()>0){
             echo $expect . ' exists' . "\n";
             return false;
         }
         
-        if($this->db->insert('app_3d', $lottery)){
+        if($this->db->insert('app_fc3d', $lottery)){
             echo $expect . ' keep ok'. "\n";
         }
     }
