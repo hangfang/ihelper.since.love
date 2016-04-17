@@ -225,7 +225,12 @@
 //        }, 30 * 1000);
     };
     
-    wx.ready(function(){
+    wx.ready(function(res){
+        console.log(res);
         txmap.init();
+    });
+    
+    wx.error(function(res){
+        console.log(res);
     });
 </script>
