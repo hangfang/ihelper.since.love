@@ -98,8 +98,6 @@
         });
         
         qq.maps.event.addListener(this.map, 'dbclick', function(e){
-            txmap.map.panTo(new qq.maps.LatLng(e.latLng.lat, e.latLng.lng));
-            
             alert(txmap.map.getZoom());
         });
         
