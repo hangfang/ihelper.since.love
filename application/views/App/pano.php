@@ -98,7 +98,7 @@
         });
         
         qq.maps.event.addListener(this.map, 'dbclick', function(e){
-            if(txmap.map.getZoom()===18){
+            if(txmap.map.getZoom()===18){alert(1);
                 $('.weui_actionsheet_cell').data(e);
                 var mask = $('#mask');
                 var weuiActionsheet = $('#weui_actionsheet');
@@ -120,7 +120,7 @@
                         mask.hide();
                     })
                 } 
-            }
+            }alert(2);
         });
         
         qq.maps.event.addListener(this.map, 'rightclick', function(e){
