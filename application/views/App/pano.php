@@ -141,9 +141,9 @@
             //console.log("地图类型ID为：" + map.getMapTypeId());
         });
         
-        $('body').on('click', '.weui_actionsheet_cell', function(e){
+        $('body').on('click', '.weui_actionsheet_cell:eq(0)', function(e){
             /*--start---创建街景--start---*/
-            var latLng = $(this).data().latLng;console.log(latLng);
+            var latLng = $(this).data().latLng
             pano_service = new qq.maps.PanoramaService();
             var point = {lat: latLng.lat, lng: latLng.lng};
             var radius;
@@ -162,24 +162,18 @@
             $('#mask').click();
             /*---end----创建街景---end----*/
         });
-//        $('#container').on('touchend', function(e){
-//            /*--start---创建街景--start---*/
-//            pano_service = new qq.maps.PanoramaService();
-//            var point = {lat: txmap.latLong.latitude, lng: txmap.latLong.longitude};
-//            var radius;
-//            pano_service.getPano(point, radius, function (result){
-//                pano = new qq.maps.Panorama(document.getElementById('container'), {
-//                    //pano: '10011501120802180635300',    //场景ID
-//                    pov:{   //视角
-//                            heading:1,  //偏航角
-//                            pitch:0     //俯仰角
-//                        },
-//                    zoom:1      //缩放
-//                })
-//                pano.setPano(result.svid);
-//            });
-//            /*---end----创建街景---end----*/
-//        });
+        
+        $('body').on('click', '.weui_actionsheet_cell:eq(1)', function(e){
+            $('#loadingToast').find('.weui_toast_content').html('敬请期待').end().show();
+        });
+        
+        $('body').on('click', '.weui_actionsheet_cell:eq(2)', function(e){
+            $('#loadingToast').find('.weui_toast_content').html('敬请期待').end().show();
+        });
+        
+        $('body').on('click', '.weui_actionsheet_cell:eq(3)', function(e){
+            $('#loadingToast').find('.weui_toast_content').html('敬请期待').end().show();
+        });
 
 //        var times = 0;
 //        var oInterval = setInterval(function () {
