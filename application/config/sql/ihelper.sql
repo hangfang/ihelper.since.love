@@ -10,30 +10,10 @@ Target Server Type    : MYSQL
 Target Server Version : 50542
 File Encoding         : 65001
 
-Date: 2016-04-17 11:18:37
+Date: 2016-04-17 11:35:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for app_3d
--- ----------------------------
-DROP TABLE IF EXISTS `app_3d`;
-CREATE TABLE `app_3d` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `a` tinyint(2) unsigned NOT NULL,
-  `b` tinyint(2) unsigned NOT NULL,
-  `c` tinyint(2) unsigned NOT NULL,
-  `sell` int(10) unsigned NOT NULL,
-  `remain` int(10) unsigned NOT NULL,
-  `first` int(10) unsigned NOT NULL,
-  `first_num` int(10) unsigned NOT NULL,
-  `second` int(10) unsigned NOT NULL,
-  `second_num` int(10) unsigned NOT NULL,
-  `expect` varchar(255) NOT NULL,
-  `insert_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6020 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for app_dlt
@@ -80,10 +60,10 @@ CREATE TABLE `app_dlt` (
 ) ENGINE=MyISAM AUTO_INCREMENT=4594 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for app_pls
+-- Table structure for app_fc3d
 -- ----------------------------
-DROP TABLE IF EXISTS `app_pls`;
-CREATE TABLE `app_pls` (
+DROP TABLE IF EXISTS `app_fc3d`;
+CREATE TABLE `app_fc3d` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `a` tinyint(2) unsigned NOT NULL,
   `b` tinyint(2) unsigned NOT NULL,
@@ -97,13 +77,33 @@ CREATE TABLE `app_pls` (
   `expect` varchar(255) NOT NULL,
   `insert_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6361 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6020 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for app_plw
+-- Table structure for app_pl3
 -- ----------------------------
-DROP TABLE IF EXISTS `app_plw`;
-CREATE TABLE `app_plw` (
+DROP TABLE IF EXISTS `app_pl3`;
+CREATE TABLE `app_pl3` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `a` tinyint(2) unsigned NOT NULL,
+  `b` tinyint(2) unsigned NOT NULL,
+  `c` tinyint(2) unsigned NOT NULL,
+  `sell` int(10) unsigned NOT NULL,
+  `remain` int(10) unsigned NOT NULL,
+  `first` int(10) unsigned NOT NULL,
+  `first_num` int(10) unsigned NOT NULL,
+  `second` int(10) unsigned NOT NULL,
+  `second_num` int(10) unsigned NOT NULL,
+  `expect` varchar(255) NOT NULL,
+  `insert_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=9975 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for app_pl5
+-- ----------------------------
+DROP TABLE IF EXISTS `app_pl5`;
+CREATE TABLE `app_pl5` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `a` tinyint(2) unsigned NOT NULL,
   `b` tinyint(2) unsigned NOT NULL,
@@ -115,7 +115,7 @@ CREATE TABLE `app_plw` (
   `expect` varchar(255) NOT NULL,
   `insert_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6365 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=10097 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for app_qxc

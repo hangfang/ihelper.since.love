@@ -8,4 +8,5 @@ return array(
     'ssq_got_price_before' => array('errcode'=>6,'errmsg'=>'此号码已中大奖'),
     'stock_lack_of_stockid_error' => array('errcode'=>7,'errmsg'=>'请输入股票diamante'),
     'weather_lack_of_cityid_error' => array('errcode'=>8,'errmsg'=>'请选择城市'),
+    'get_lottery_no_result_found' => array('errcode'=>9,'errmsg'=>'未查询到开奖信息'),
 );

@@ -53,7 +53,14 @@ EOF;
 <p class="weui_media_desc">彩种：%s</p>
 <p class="weui_media_desc">期号：%s</p>
 <p class="weui_media_desc">时间：%s</p>
-<p class="weui_media_desc">号码：%s</p>   
+<p class="weui_media_desc">号码：%s</p>
+%s
+EOF;
+    
+    public $_msg_lottery_extra = <<<EOF
+<p class="weui_media_desc">销量：%s</p>
+<p class="weui_media_desc">奖池：%s</p>
+%s
 EOF;
     
     public $_msg_news = <<<EOF
@@ -88,6 +95,53 @@ EOF;
 </a>
 </li>    
 EOF;
+    
+    public $_ssq_pride = <<<EOF
+<p class="weui_media_desc">一等奖：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">二等奖：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">三等奖：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">四等奖：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">五等奖：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">六等奖：奖金%s&nbsp;&nbsp;共%s注</p>
+EOF;
+    
+    public $_dlt_pride = <<<EOF
+<p class="weui_media_desc">一等奖追加：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">一&nbsp;&nbsp;&nbsp;等&nbsp;&nbsp;&nbsp;奖：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">二等奖追加：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">二&nbsp;&nbsp;&nbsp;等&nbsp;&nbsp;&nbsp;奖：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">三等奖追加：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">三&nbsp;&nbsp;&nbsp;等&nbsp;&nbsp;&nbsp;奖：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">四等奖追加：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">四&nbsp;&nbsp;&nbsp;等&nbsp;&nbsp;&nbsp;奖：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">五等奖追加：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">五&nbsp;&nbsp;&nbsp;等&nbsp;&nbsp;&nbsp;奖：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">六&nbsp;&nbsp;&nbsp;等&nbsp;&nbsp;&nbsp;奖：奖金%s&nbsp;&nbsp;共%s注</p>
+EOF;
+    
+    public $_fc3d_pride = <<<EOF
+<p class="weui_media_desc">直选：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">%s：奖金%s&nbsp;&nbsp;共%s注</p>
+EOF;
+        
+    public $_pl3_pride = <<<EOF
+<p class="weui_media_desc">直选：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">%s：奖金%s&nbsp;&nbsp;共%s注</p>
+EOF;
+    
+    public $_pl5_pride = <<<EOF
+<p class="weui_media_desc">直选：奖金%s&nbsp;&nbsp;共%s注</p>
+EOF;
+    
+    public $_qxc_pride = <<<EOF
+<p class="weui_media_desc">一等奖：奖金%s&nbsp;&nbsp;共%s注</p>  
+<p class="weui_media_desc">二等奖：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">三等奖：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">四等奖：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">五等奖：奖金%s&nbsp;&nbsp;共%s注</p>
+<p class="weui_media_desc">六等奖：奖金%s&nbsp;&nbsp;共%s注</p>
+EOF;
+   
     public function __construct() {
         parent::__construct();
         $this->load->model('WechatModel');
@@ -222,22 +276,55 @@ EOF;
                 $this->json($this->error['lottery_lack_of_lotterycode_error']);
             }
             
-            $this->load->model('BaiduModel');
-            $rt = $this->BaiduModel->getLottery($data);
+            $this->load->model('LotteryModel');
+            $rt = $this->LotteryModel->getLottery($data);
 
-            if(isset($rt['errNum']) && $rt['errNum']-0 !== 0){
+            if(empty($rt)){
                 $data = array();
-                $data['rtn'] = $rt['errNum']-0;
-                $data['errmsg'] = $rt['retMsg'];
+                $data['rtn'] = $this->error['get_lottery_no_result_found']['errcode'];
+                $data['errmsg'] = $this->error['get_lottery_no_result_found']['errmsg'];
                 
                 $this->json($data);
                 return false;
             }
             
             $lottery = array_flip($lottery);
-            $tmp = $rt['retData']['data'][0];
-            $msg = sprintf($this->_msg_lottery, $lottery[$rt['retData']['lotteryCode']], $tmp['expect'], $tmp['openTime'], $tmp['openCode']);
-            
+            foreach($rt as $_v){
+                $code = array();
+                isset($_v['a']) && $code[] = $_v['a'];
+                isset($_v['b']) && $code[] = $_v['b'];
+                isset($_v['c']) && $code[] = $_v['c'];
+                isset($_v['d']) && $code[] = $_v['d'];
+                isset($_v['e']) && $code[] = $_v['e'];
+                isset($_v['f']) && $code[] = $_v['f'];
+                isset($_v['g']) && $code[] = $_v['g'];
+                
+                $pride_info = '';
+                switch($data['lotterycode']){
+                    case 'ssq':
+                        $pride_info = sprintf($this->_ssq_pride, $_v['first'], $_v['first_num'], $_v['second'], $_v['second_num'], $_v['third'], $_v['third_num'], $_v['forth'], $_v['forth_num'], $_v['fivth'], $_v['fivth_num'], $_v['sixth'], $_v['sixth_num']);
+                        break;
+                    case 'dlt':
+                        $pride_info = sprintf($this->_dlt_pride, $_v['first_add'], $_v['first_add_num'], $_v['first'], $_v['first_num'], $_v['second_add'], $_v['second_add_num'], $_v['second'], $_v['second_num'], $_v['third_add'], $_v['third_add_num'], $_v['third'], $_v['third_num'], $_v['forth_add'], $_v['forth_add_num'], $_v['forth'], $_v['forth_num'], $_v['fivth_add'], $_v['fivth_add_num'], $_v['fivth'], $_v['fivth_num'], $_v['sixth'], $_v['sixth_num']);
+                        break;
+                    case 'fc3d':
+                        $pride_info = sprintf($this->_fc3d_pride, $_v['first'], $_v['first_num'], $_v['second']>200?'组三':'组六', $_v['second'], $_v['second_num']);
+                        break;
+                    case 'pl3':
+                        $pride_info = sprintf($this->_pl3_pride, $_v['first'], $_v['first_num'], $_v['second']>200?'组三':'组六', $_v['second'], $_v['second_num']);
+                        break;
+                    case 'pl5':
+                        $pride_info = sprintf($this->_pl5_pride, $_v['first'], $_v['first_num']);
+                        break;
+                    case 'qxc':
+                        $pride_info = sprintf($this->_qxc_pride, $_v['first'], $_v['first_num'], $_v['second'], $_v['second_num'], $_v['third'], $_v['third_num'], $_v['forth'], $_v['forth_num'], $_v['fivth'], $_v['fivth_num'], $_v['sixth'], $_v['sixth_num']);
+                        break;
+                }
+                
+                $extra = sprintf($this->_msg_lottery_extra, number_format($_v['remain'], 0, '', ','), number_format($_v['sell'], 0, '', ','), $pride_info);
+                $msg = sprintf($this->_msg_lottery, $lottery[$data['lotterycode']], $_v['expect'], $_v['insert_time'], implode(',', $code), $extra);
+            }
+                        
             $data = array();
             $data['rtn'] = 0;
             $data['msg'] = $msg;
@@ -516,7 +603,7 @@ EOF;
         foreach($rt as $_k=>$_v){
             if($_k==='二等奖' || $_k==='一等奖'){
                 foreach($_v as $_vv){
-                    $str .= date('Y-m-d', strtotime($_vv['insert_time'])).'&nbsp;&nbsp;中'. $_k .'，奖金<span class="text-danger">￥'. number_format($_vv['price_value'], 0, '', ',') .'元</span><br/>';
+                    $str .= date('Y-m-d', strtotime($_vv['insert_time'])).'&nbsp;&nbsp;中'. $_k .'，奖金<span class="text-danger">￥'. number_format($_vv['pride_value'], 0, '', ',') .'元</span><br/>';
                 }
             }else{
                 $str .= '中'. $_k .'<span class="text-danger">'. $_v .'次</span><br/>';

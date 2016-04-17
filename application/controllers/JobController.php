@@ -318,69 +318,69 @@ class JobController extends MY_Controller {
         $content = explode('走势图', $content[1]);
         $content = explode('一等奖', $content[0]);
         
-        list($price_first, $content) = explode('二等奖', $content[1]);
-        list($price_second, $content) = explode('三等奖', $content);
-        list($price_third, $content) = explode('四等奖', $content);
-        list($price_forth, $content) = explode('五等奖', $content);
-        list($price_fivth, $content) = explode('六等奖', $content);
-        list($price_sixth) = explode('七等奖', $content);
+        list($pride_first, $content) = explode('二等奖', $content[1]);
+        list($pride_second, $content) = explode('三等奖', $content);
+        list($pride_third, $content) = explode('四等奖', $content);
+        list($pride_forth, $content) = explode('五等奖', $content);
+        list($pride_fivth, $content) = explode('六等奖', $content);
+        list($pride_sixth) = explode('七等奖', $content);
         
-        $price_first = explode('<td>', preg_replace('/\/|\s+/', '', $price_first));
-        $lottery['first_num'] = isset($price_first['4']) ? $price_first['4'] : 0;
-        $lottery['first'] = isset($price_first['6']) ? $price_first['6'] : '';
-        $lottery['first_add_num'] = isset($price_first['10']) ? $price_first['10'] : 0;
-        $lottery['first_add'] = isset($price_first['12']) ? $price_first['12'] : '';
+        $pride_first = explode('<td>', preg_replace('/\/|\s+/', '', $pride_first));
+        $lottery['first_num'] = isset($pride_first['4']) ? $pride_first['4'] : 0;
+        $lottery['first'] = isset($pride_first['6']) ? $pride_first['6'] : '';
+        $lottery['first_add_num'] = isset($pride_first['10']) ? $pride_first['10'] : 0;
+        $lottery['first_add'] = isset($pride_first['12']) ? $pride_first['12'] : '';
         
-        $price_second = explode('<td>', preg_replace('/\/|\s+/', '', $price_second));
-        $lottery['second_num'] = isset($price_second['4']) ? $price_second['4'] : 0;
-        $lottery['second'] = isset($price_second['6']) ? $price_second['6'] : '';
-        $lottery['second_add_num'] = isset($price_second['10']) ? $price_second['10'] : 0;
-        $lottery['second_add'] = isset($price_second['12']) ? $price_second['12'] : '';
+        $pride_second = explode('<td>', preg_replace('/\/|\s+/', '', $pride_second));
+        $lottery['second_num'] = isset($pride_second['4']) ? $pride_second['4'] : 0;
+        $lottery['second'] = isset($pride_second['6']) ? $pride_second['6'] : '';
+        $lottery['second_add_num'] = isset($pride_second['10']) ? $pride_second['10'] : 0;
+        $lottery['second_add'] = isset($pride_second['12']) ? $pride_second['12'] : '';
         
-        $price_third = explode('<td>', preg_replace('/\/|\s+/', '', $price_third));
-        $lottery['third_num'] = isset($price_third['4']) ? $price_third['4'] : 0;
-        $lottery['third'] = isset($price_third['6']) ? $price_third['6'] : '';
-        $lottery['third_add_num'] = isset($price_third['10']) ? $price_third['10'] : 0;
-        $lottery['third_add'] = isset($price_third['12']) ? $price_third['12'] : '';
+        $pride_third = explode('<td>', preg_replace('/\/|\s+/', '', $pride_third));
+        $lottery['third_num'] = isset($pride_third['4']) ? $pride_third['4'] : 0;
+        $lottery['third'] = isset($pride_third['6']) ? $pride_third['6'] : '';
+        $lottery['third_add_num'] = isset($pride_third['10']) ? $pride_third['10'] : 0;
+        $lottery['third_add'] = isset($pride_third['12']) ? $pride_third['12'] : '';
         
-        $price_has_add = strpos($price_forth, '基本')!==false ? true : false;
-        $price_forth = explode('<td>', preg_replace('/\/|\s+/', '', $price_forth));
-        if($price_has_add){
-            $lottery['forth_num'] = isset($price_forth['4']) ? $price_forth['4'] : 0;
-            $lottery['forth'] = isset($price_forth['6']) ? $price_forth['6'] : '';
-            $lottery['forth_add_num'] = isset($price_forth['10']) ? $price_forth['10'] : 0;
-            $lottery['forth_add'] = isset($price_forth['12']) ? $price_forth['12'] : '';
+        $pride_has_add = strpos($pride_forth, '基本')!==false ? true : false;
+        $pride_forth = explode('<td>', preg_replace('/\/|\s+/', '', $pride_forth));
+        if($pride_has_add){
+            $lottery['forth_num'] = isset($pride_forth['4']) ? $pride_forth['4'] : 0;
+            $lottery['forth'] = isset($pride_forth['6']) ? $pride_forth['6'] : '';
+            $lottery['forth_add_num'] = isset($pride_forth['10']) ? $pride_forth['10'] : 0;
+            $lottery['forth_add'] = isset($pride_forth['12']) ? $pride_forth['12'] : '';
         }else{
-            $lottery['forth_num'] = isset($price_forth['4']) ? $price_forth['2'] : 0;
-            $lottery['forth'] = isset($price_forth['6']) ? $price_forth['4'] : '';
+            $lottery['forth_num'] = isset($pride_forth['2']) ? $pride_forth['2'] : 0;
+            $lottery['forth'] = isset($pride_forth['4']) ? $pride_forth['4'] : '';
             $lottery['forth_add_num'] = 0;
             $lottery['forth_add'] = '';
         }
         
-        $price_has_add = strpos($price_fivth, '基本')!==false ? true : false;
-        $price_fivth = explode('<td>', preg_replace('/\/|\s+/', '', $price_fivth));
-        if($price_has_add){
-            $lottery['fivth_num'] = isset($price_fivth['4']) ? $price_fivth['4'] : 0;
-            $lottery['fivth'] = isset($price_fivth['6']) ? $price_fivth['6'] : '';
-            $lottery['fivth_add_num'] = isset($price_fivth['10']) ? $price_fivth['10'] : 0;
-            $lottery['fivth_add'] = isset($price_fivth['12']) ? $price_fivth['12'] : '';
+        $pride_has_add = strpos($pride_fivth, '基本')!==false ? true : false;
+        $pride_fivth = explode('<td>', preg_replace('/\/|\s+/', '', $pride_fivth));
+        if($pride_has_add){
+            $lottery['fivth_num'] = isset($pride_fivth['4']) ? $pride_fivth['4'] : 0;
+            $lottery['fivth'] = isset($pride_fivth['6']) ? $pride_fivth['6'] : '';
+            $lottery['fivth_add_num'] = isset($pride_fivth['10']) ? $pride_fivth['10'] : 0;
+            $lottery['fivth_add'] = isset($pride_fivth['12']) ? $pride_fivth['12'] : '';
         }else{
-            $lottery['fivth_num'] = isset($price_fivth['4']) ? $price_fivth['2'] : 0;
-            $lottery['fivth'] = isset($price_fivth['6']) ? $price_fivth['4'] : '';
+            $lottery['fivth_num'] = isset($pride_fivth['2']) ? $pride_fivth['2'] : 0;
+            $lottery['fivth'] = isset($pride_fivth['4']) ? $pride_fivth['4'] : '';
             $lottery['fivth_add_num'] = 0;
             $lottery['fivth_add'] = '';
         }
         
-        $price_has_add = strpos($price_sixth, '基本')!==false ? true : false;
-        $price_sixth = explode('<td>', preg_replace('/\/|\s+/', '', $price_sixth));
-        if($price_has_add){
-            $lottery['sixth_num'] = isset($price_sixth['4']) ? $price_sixth['4'] : 0;
-            $lottery['sixth'] = isset($price_sixth['6']) ? $price_sixth['6'] : '';
-            $lottery['sixth_add_num'] = isset($price_sixth['10']) ? $price_sixth['10'] : 0;
-            $lottery['sixth_add'] = isset($price_sixth['12']) ? $price_sixth['12'] : '';
+        $pride_has_add = strpos($pride_sixth, '基本')!==false ? true : false;
+        $pride_sixth = explode('<td>', preg_replace('/\/|\s+/', '', $pride_sixth));
+        if($pride_has_add){
+            $lottery['sixth_num'] = isset($pride_sixth['4']) ? $pride_sixth['4'] : 0;
+            $lottery['sixth'] = isset($pride_sixth['6']) ? $pride_sixth['6'] : '';
+            $lottery['sixth_add_num'] = isset($pride_sixth['10']) ? $pride_sixth['10'] : 0;
+            $lottery['sixth_add'] = isset($pride_sixth['12']) ? $pride_sixth['12'] : '';
         }else{
-            $lottery['sixth_num'] = isset($price_sixth['2']) ? $price_sixth['2'] : 0;
-            $lottery['sixth'] = isset($price_sixth['4']) ? $price_sixth['4'] : '';
+            $lottery['sixth_num'] = isset($pride_sixth['2']) ? $pride_sixth['2'] : 0;
+            $lottery['sixth'] = isset($pride_sixth['4']) ? $pride_sixth['4'] : '';
             $lottery['sixth_add_num'] = 0;
             $lottery['sixth_add'] = '';
         }
