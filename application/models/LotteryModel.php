@@ -42,7 +42,7 @@ class LotteryModel extends MY_Model{
     }
     
     public function checkSsq($data){
-        $num2price = array('', 'first', 'second', 'third', 'forth', 'fivth', 'sixth');
+        $num2pride = array('', 'first', 'second', 'third', 'forth', 'fivth', 'sixth');
         $num2info = array('', '一等奖', '二等奖', '三等奖', '四等奖', '五等奖', '六等奖');
         $query = $this->db->get('app_ssq');
         $result = $query && $query->num_rows()>0 ? $query->result_array() : array();
@@ -51,30 +51,30 @@ class LotteryModel extends MY_Model{
         foreach($result as $_v){
             $hitBlue = array($_v['a'],$_v['b'],$_v['c'],$_v['d'],$_v['e'],$_v['f']);
             $hitRed = $_v['g'];
-            $price = 1;
+            $pride = 1;
             if($hitRed!=$data['g']){
-                $price++;
+                $pride++;
             }
             
             foreach($data as $_index=>$_num){
                 
                 
                 if($_index!='g' && !in_array($_num, $hitBlue)){
-                    if($price===1){
-                        $price = 3;
+                    if($pride===1){
+                        $pride = 3;
                         continue;
                     }
-                    $price++;
+                    $pride++;
                 }
             }
             
-            if($price<3){
+            if($pride<3){
                 $tmp = $_v;
-                $tmp['price_info'] = $num2info[$price];
-                $tmp['price_value'] = $_v[$num2price[$price]];
-                $rt[$num2info[$price]][] = $tmp;
-            }elseif($price<7){
-                $rt[$num2info[$price]]++;
+                $tmp['pride_info'] = $num2info[$pride];
+                $tmp['pride_value'] = $_v[$num2prdce[$pride]];
+                $rt[$num2info[$pride]][] = $tmp;
+            }elseif($pride<7){
+                $rt[$num2info[$pride]]++;
             }
         }
 
@@ -82,7 +82,30 @@ class LotteryModel extends MY_Model{
     }
     
     public function checkFc3d($data){
-        return array();
+        $num2price = array('', 'first', 'second');
+        $num2info = array('', '一等奖', '二等奖');
+        $query = $this->db->get('app_fc3d');
+        $result = $query && $query->num_rows()>0 ? $query->result_array() : array();
+        
+        $rt = array('一等奖'=>0, '二等奖'=>0);
+        
+        $user_code = array($data['a'],$data['b'],$data['c']);
+        foreach($result as $_v){
+            $code = array($_v['a'],$_v['b'],$_v['c']);
+            
+            if(array_diff($code, $user_code)){
+                continue;
+            }
+
+            $pride = 1;
+            if(!($data['a']==$_v['a'] && $data['b']==$_v['b'] && $data['c']==$_v['c'])){
+                $pride = 2;
+            }
+            
+            $rt[$num2info[$pride]]++;
+        }
+
+        return $rt;
     }
     
     public function checkDlt($data){

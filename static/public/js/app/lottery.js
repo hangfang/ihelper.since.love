@@ -27,7 +27,7 @@ $(function(){
         
         $('#form_check .weui_cell_primary').hide();
         $('#'+$(this).val()+' input').val('');
-        $('#'+$(this).val()).show().find('input').focus();
+        $('#'+$(this).val()).show().find('input:first').focus();
     });
     
     $('#form_check').on('input', '#ssq .red', function(e){

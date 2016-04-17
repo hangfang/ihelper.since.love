@@ -592,7 +592,7 @@ EOF;
             foreach($data as &$_v){
                 $_v = str_pad($_v, 2, '0', STR_PAD_LEFT);
             }
-            $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>,<span class="text-primary">', array_slice($data, 0, 6)).'</span>+<span class="text-danger">'. $data['g'] .'</span>未中奖...';
+            $rt['msg'] = '<p class="weui_media_desc">很遗憾，<span class="text-primary">'.implode('</span>,<span class="text-primary">', array_slice($data, 0, 6)).'</span>+<span class="text-danger">'. $data['g'] .'</span>未中奖...</p>';
             $this->json($rt);
             return true;
         }
@@ -603,16 +603,16 @@ EOF;
         foreach($rt as $_k=>$_v){
             if($_k==='二等奖' || $_k==='一等奖'){
                 foreach($_v as $_vv){
-                    $str .= date('Y-m-d', strtotime($_vv['insert_time'])).'&nbsp;&nbsp;中'. $_k .'，奖金<span class="text-danger">￥'. number_format($_vv['pride_value'], 0, '', ',') .'元</span><br/>';
+                    $str .= '<p class="weui_media_desc">'.date('Y-m-d', strtotime($_vv['insert_time'])).'&nbsp;&nbsp;中'. $_k .'，奖金<span class="text-danger">￥'. number_format($_vv['pride_value'], 0, '', ',') .'元</span></p>';
                 }
             }else{
-                $str .= '中'. $_k .'<span class="text-danger">'. $_v .'次</span><br/>';
+                $str .= '<p class="weui_media_desc">中'. $_k .'<span class="text-danger">'. $_v .'次</span></p>';
             }
         }
         
         $rt = array();
         $rt['rtn'] = 0;
-        $rt['msg'] = '恭喜你，<span class="text-primary">'.implode('</span>,<span class="text-primary">', array_slice($data, 0, 6)).'</span>+<span class="text-danger">'. $data['g'] .'</span><br/>'. $str;
+        $rt['msg'] = '<p class="weui_media_desc">恭喜你，<span class="text-primary">'.implode('</span>,<span class="text-primary">', array_slice($data, 0, 6)).'</span>+<span class="text-danger">'. $data['g'] .'</span></p>'. $str;
         $this->json($rt);
         return true;
     }
@@ -623,9 +623,27 @@ EOF;
         $data['b'] = intval($this->input->get('b'));
         $data['c'] = intval($this->input->get('c'));
         
+        $this->load->model('LotteryModel');
+        $rt = $this->LotteryModel->checkFc3d($data);
+        
+        if(empty($rt)){
+            $rt = array();
+            $rt['rtn'] = 0;
+            $rt['msg'] = '<p class="weui_media_desc">很遗憾，<span class="text-primary">'.implode('</span>,<span class="text-primary">', $data).'</span>未中奖...</p>';
+            $this->json($rt);
+            return true;
+        }
+        
+        
+        
+        $str = '';
+        foreach($rt as $_k=>$_v){
+            $str .= '<p class="weui_media_desc">'. $_k .'<span class="text-danger">'. $_v .'次</span></p>';
+        }
+        
         $rt = array();
         $rt['rtn'] = 0;
-        $rt['msg'] = '很遗憾，<span class="text-primary">'.implode('</span>,<span class="text-primary">', $data).'</span>未中奖...';
+        $rt['msg'] = '<p class="weui_media_desc">恭喜你，<span class="text-primary">'.implode('</span>,<span class="text-primary">', $data).'</span></p>'. $str;
         $this->json($rt);
         return true;
     }
