@@ -163,7 +163,7 @@ class JobController extends MY_Controller {
                     }
                 }
             }else{
-                $this->keepDlt($row['expect']+1);
+                $this->keep3D($row['expect']+1);
             }
         }
     }
