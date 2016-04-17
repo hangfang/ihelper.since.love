@@ -225,12 +225,5 @@
 //        }, 30 * 1000);
     };
     
-    wx.ready(function(res){
-        alert('ready');
-        txmap.init();
-    });
-    
-    wx.error(function(res){
-        alert('error')
-    });
+    txmap.init();
 </script>
