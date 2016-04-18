@@ -332,8 +332,26 @@ $(function(){
                         map: txmap.map,
                         position: txmap.latLng
                     });
-
+                    
                     txmap.setMarker(marker, '当前位置');
+                    
+                    citylocation = new qq.maps.CityService({
+                        //设置地图
+                        map : txmap.map,
+
+                        complete : function(results){
+                            txmap.latLng = results.detail.latLng;
+                            txmap.map.setCenter(txmap.latLng);
+                            var marker = new qq.maps.Marker({//设置marker标记
+                                map: txmap.map,
+                                position: txmap.latLng
+                            });
+
+                            txmap.setMarker(marker, '当前位置');
+                            $('#region').val(results.detail.name);
+                        }
+                    });
+                    citylocation.searchCityByLatLng(txmap.latLng);
                 }
             });
         });
@@ -350,7 +368,7 @@ $(function(){
                 //设置地图
                 map : txmap.map,
 
-                complete : function(results){console.log(results);
+                complete : function(results){
                     txmap.latLng = results.detail.latLng;
                     txmap.map.setCenter(txmap.latLng);
                     var marker = new qq.maps.Marker({//设置marker标记
@@ -359,7 +377,7 @@ $(function(){
                     });
 
                     txmap.setMarker(marker, '当前位置');
-                    $('#region').val();
+                    $('#region').val(results.detail.name);
                 }
             });
             citylocation.searchLocalCity();
