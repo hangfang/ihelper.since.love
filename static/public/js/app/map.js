@@ -251,6 +251,7 @@
             }
         });
         
+        alert($('#client_ip').val());
         citylocation.searchCityByIP($('#client_ip').val());
         
     }
