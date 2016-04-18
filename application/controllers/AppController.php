@@ -563,18 +563,6 @@ EOF;
         $this->layout->view('App/news', $data);
     }
     
-    public function map(){
-        
-        $data = array();
-        $data['clientIP'] = $this->input->ip_address();
-        $data['title'] = '当前位置';
-        $sigObj = $this->WechatModel->getJsApiSigObj();
-
-        $data = array_merge($data, $sigObj);
-        $this->layout->setLayout('weui');
-        $this->layout->view('App/map', $data);
-    }
-    
     public function checkLottery(){
         
         $lottery_type = ucfirst($this->input->get('lottery_type'));

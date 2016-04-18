@@ -103,25 +103,25 @@
 
             </div>
             <div class="weui_tabbar">
-                <a href="/#/" class="weui_tabbar_item weui_bar_item_on">
+                <a href="/app/index" class="weui_tabbar_item <?php if($class==='app'){echo 'weui_bar_item_on';}?>">
                     <div class="weui_tabbar_icon">
                         <img src="/static/weui/images/icon_nav_button.png" alt="">
                     </div>
                     <p class="weui_tabbar_label">微信</p>
                 </a>
-                <a href="javascript:;" id="contact" class="weui_tabbar_item">
+                <a href="/contact/index" id="contact" class="weui_tabbar_item <?php if($class==='contact'){echo 'weui_bar_item_on';}?>">
                     <div class="weui_tabbar_icon">
                         <img src="/static/weui/images/icon_nav_msg.png" alt="">
                     </div>
                     <p class="weui_tabbar_label">通讯录</p>
                 </a>
-                <a href="/app/pano" class="weui_tabbar_item">
+                <a href="/map/index" class="weui_tabbar_item <?php if($class==='map'){echo 'weui_bar_item_on';}?>">
                     <div class="weui_tabbar_icon">
                         <img src="/static/weui/images/icon_nav_article.png" alt="">
                     </div>
                     <p class="weui_tabbar_label">发现</p>
                 </a>
-                <a href="/app/location" class="weui_tabbar_item">
+                <a href="/user/index" class="weui_tabbar_item <?php if($class==='user'){echo 'weui_bar_item_on';}?>">
                     <div class="weui_tabbar_icon">
                         <img src="/static/weui/images/icon_nav_cell.png" alt="">
                     </div>
