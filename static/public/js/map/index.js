@@ -338,7 +338,13 @@ $(function(){
             });
         });
     }else{
-        if($('#client_ip').val().indexOf('127.')>-1 && $('#client_ip').val().indexOf('10.')>-1){
+        if($('#client_ip').val().match(/^127\./) || $('#client_ip').val().match(/^10\./)){
+            $('#loadingToast').find('.weui_toast_content').html('获取位置失败').end().show();
+            setTimeout(function(){
+                $('#loadingToast').hide();
+            }, 1500);
+            
+        }else{
             //获取  城市位置信息查询 接口  
             citylocation = new qq.maps.CityService({
                 //设置地图
@@ -356,14 +362,7 @@ $(function(){
                     $('#region').val();
                 }
             });
-
             citylocation.searchCityByIP($('#client_ip').val());
-        }else{
-            $('#loadingToast').find('.weui_toast_content').html('获取位置失败').end().show();
-            setTimeout(function(){
-                $('#loadingToast').hide();
-            }, 1500);
         }
-
     }
 });
