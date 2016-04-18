@@ -1,10 +1,6 @@
     var txmap = {};
     txmap.map = {};
-    txmap.latLng = {
-                        lat: 22.5428234337,// 纬度，浮点数，范围为90 ~ -90
-                        lng: 114.0595370000// 经度，浮点数，范围为180 ~ -180。
-                    }
-
+    txmap.latLng = new qq.maps.LatLng('22.5428234337', '114.0595370000');
     txmap.init = function() {
 //        try{
 //            wx.getLocation({
@@ -49,7 +45,7 @@
         //初始化地图
         this.map = new qq.maps.Map(container, {
             // 地图的中心地理坐标。
-            center: new qq.maps.LatLng(txmap.latLng.lat, txmap.latLng.lng),
+            center: txmap.latLng,
             zoom: 13
         });
 
@@ -131,7 +127,7 @@
 
         $('body').on('click', '.weui_actionsheet_cell:eq(0)', function(e){
             /*--start---创建街景--start---*/
-            var latLng = $(this).data().latLng
+            var latLng = $(this).data().latLng;
             pano_service = new qq.maps.PanoramaService();
             var point = {lat: latLng.lat, lng: latLng.lng};
             var radius;
@@ -220,14 +216,11 @@
             wx.getLocation({
                 type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                 success: function (res) {
-                    txmap.latLng = {
-                                        lat: res.latitude,// 纬度，浮点数，范围为90 ~ -90
-                                        lng: res.longitude// 经度，浮点数，范围为180 ~ -180。
-                                    }
+                    txmap.latLng = new qq.maps.LatLng(res.latitude, res.longitude);
                     txmap.speed = res.speed; // 速度，以米/每秒计
                     txmap.accuracy = res.accuracy; // 位置精度
 
-                    txmap.map.setCenter(new qq.maps.LatLng(res.lat, res.lng));
+                    txmap.map.setCenter(txmap.latLng);
                     var marker = new qq.maps.Marker({//设置marker标记
                         map: txmap.map,
                         position: txmap.latLng
@@ -250,10 +243,11 @@
                 map : txmap.map,
 
                 complete : function(results){
-                    txmap.map.setCenter(results.detail.latLng);
+                    txmap.latLng = results.detail.latLng;
+                    txmap.map.setCenter(txmap.latLng);
                     var marker = new qq.maps.Marker({//设置marker标记
                         map: txmap.map,
-                        position: results.detail.latLng
+                        position: txmap.latLng
                     });
                     //设置Marker的可见性，为true时可见,false时不可见，默认属性为true
                     marker.setVisible(true);
@@ -266,8 +260,8 @@
 
             citylocation.searchCityByIP($('#client_ip').val());
         }else{
-            console.log(txmap.latLng);
-            txmap.map.setCenter(new qq.maps.LatLng(txmap.latLng.lat, txmap.latLng.lng));
+            
+            txmap.map.setCenter(txmap.latLng);
             var marker = new qq.maps.Marker({//设置marker标记
                 map: txmap.map,
                 position: txmap.latLng
