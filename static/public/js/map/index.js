@@ -84,7 +84,7 @@ txmap.searchService = new qq.maps.SearchService({
             map: txmap.map
         });
         var latlngBounds = new qq.maps.LatLngBounds();
-        console.log(results);
+
         for (var i = 0, l = pois.length; i < l; i++) {
             var poi = pois[i];
             //扩展边界范围，用来包含搜索到的Poi点
@@ -268,6 +268,12 @@ txmap.init = function() {
         }, 1000);
     });
     
+    $('body').on('change', '#keyword', function(e){
+        var marker = null;
+        while(marker = txmap.markers.pop()){
+            marker.setMap(null);
+        }
+    });
 //        var times = 0;
 //        var oInterval = setInterval(function () {
 //
