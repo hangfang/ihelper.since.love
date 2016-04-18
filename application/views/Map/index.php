@@ -45,4 +45,4 @@
         });
     }
 </script>
-<script src="/static/public/js/app/map.js?v=2016-04-07"></script>
+<script src="/static/public/js/map/index.js?v=2016-04-07"></script>
