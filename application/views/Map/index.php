@@ -30,7 +30,7 @@
         <a href="javascript:void(0);" class="weui_panel_ft">查看更多</a>
     </div>
 </div>
-<script src="http://map.qq.com/api/js?v=2.exp&key=J7CBZ-YV43X-PVS4E-ZGYVP-KF2T3-A3BQZ&libraries=place"></script>
+<script src="http://map.qq.com/api/js?v=2.exp&key=J7CBZ-YV43X-PVS4E-ZGYVP-KF2T3-A3BQZ&libraries=place,drawing"></script>
 <script src="/static/weui/js/jweixin-1.1.0.js?v=2016-04-07"></script>
 <script>
     var openInWechat = navigator.userAgent.toLowerCase().match(/MicroMessenger/i)=="micromessenger" ? true : false;
