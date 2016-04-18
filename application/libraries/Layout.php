@@ -19,7 +19,7 @@ class Layout
     
     function view($view, $data=null, $return=false) 
     { 
-        $data['class'] = $this->obj->uri->segment(1);
+        $data['class'] = $this->obj->uri->segment(1) ? $this->obj->uri->segment(1) : 'app';
         $data['environment'] = ENVIRONMENT;
         $data['base_url'] = BASE_URL;
         $data['content_for_layout'] = $this->obj->load->view($view,$data,true); 
