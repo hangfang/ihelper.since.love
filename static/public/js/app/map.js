@@ -149,14 +149,23 @@
 
         $('body').on('click', '.weui_actionsheet_cell:eq(1)', function(e){
             $('#loadingToast').find('.weui_toast_content').html('敬请期待').end().show();
+            setTimeout(function(){
+                $('#loadingToast').hdie();
+            }, 2000);
         });
 
         $('body').on('click', '.weui_actionsheet_cell:eq(2)', function(e){
             $('#loadingToast').find('.weui_toast_content').html('敬请期待').end().show();
+            setTimeout(function(){
+                $('#loadingToast').hdie();
+            }, 2000);
         });
 
         $('body').on('click', '.weui_actionsheet_cell:eq(3)', function(e){
             $('#loadingToast').find('.weui_toast_content').html('敬请期待').end().show();
+            setTimeout(function(){
+                $('#loadingToast').hdie();
+            }, 2000);
         });
 
 //        var times = 0;
