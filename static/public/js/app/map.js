@@ -1,8 +1,8 @@
     var txmap = {};
     txmap.map = {};
-    txmap.latLong = {
-                        latitude: 22.5428234337,// 纬度，浮点数，范围为90 ~ -90
-                        longitude: 114.0595370000// 经度，浮点数，范围为180 ~ -180。
+    txmap.latLng = {
+                        lat: 22.5428234337,// 纬度，浮点数，范围为90 ~ -90
+                        lng: 114.0595370000// 经度，浮点数，范围为180 ~ -180。
                     }
 
     txmap.init = function() {
@@ -49,7 +49,7 @@
         //初始化地图
         this.map = new qq.maps.Map(container, {
             // 地图的中心地理坐标。
-            center: new qq.maps.LatLng(txmap.latLong.latitude, txmap.latLong.longitude),
+            center: new qq.maps.LatLng(txmap.latLng.lat, txmap.latLng.lng),
             zoom: 13
         });
 
@@ -232,26 +232,53 @@
                         map: txmap.map,
                         position: txmap.latLng
                     });
+                    
+                    //设置Marker的可见性，为true时可见,false时不可见，默认属性为true
+                    marker.setVisible(true);
+                    //设置Marker的动画属性为从落下
+                    marker.setAnimation(qq.maps.MarkerAnimation.DOWN);
+                    //设置Marker是否可以被拖拽，为true时可拖拽，false时不可拖拽，默认属性为false
+                    marker.setDraggable(true);
                 }
             });
         });
     }else{
-        //获取  城市位置信息查询 接口  
-        citylocation = new qq.maps.CityService({
-            //设置地图
-            map : txmap.map,
+        if($('#client_ip').val().indexOf('127.')>-1 && $('#client_ip').val().indexOf('10.')>-1){
+            //获取  城市位置信息查询 接口  
+            citylocation = new qq.maps.CityService({
+                //设置地图
+                map : txmap.map,
 
-            complete : function(results){
-                txmap.map.setCenter(results.detail.latLng);
-                var marker = new qq.maps.Marker({//设置marker标记
-                    map: txmap.map,
-                    position: results.detail.latLng
-                });
-                
-            }
-        });
-        
-        alert($('#client_ip').val());
-        citylocation.searchCityByIP($('#client_ip').val());
-        
+                complete : function(results){
+                    txmap.map.setCenter(results.detail.latLng);
+                    var marker = new qq.maps.Marker({//设置marker标记
+                        map: txmap.map,
+                        position: results.detail.latLng
+                    });
+                    //设置Marker的可见性，为true时可见,false时不可见，默认属性为true
+                    marker.setVisible(true);
+                    //设置Marker的动画属性为从落下
+                    marker.setAnimation(qq.maps.MarkerAnimation.DOWN);
+                    //设置Marker是否可以被拖拽，为true时可拖拽，false时不可拖拽，默认属性为false
+                    marker.setDraggable(true);
+                }
+            });
+
+            citylocation.searchCityByIP($('#client_ip').val());
+        }else{
+            console.log(txmap.latLng);
+            txmap.map.setCenter(new qq.maps.LatLng(txmap.latLng.lat, txmap.latLng.lng));
+            var marker = new qq.maps.Marker({//设置marker标记
+                map: txmap.map,
+                position: txmap.latLng
+            });
+
+            //设置Marker的可见性，为true时可见,false时不可见，默认属性为true
+            marker.setVisible(true);
+            //设置Marker的动画属性为从落下
+            marker.setAnimation(qq.maps.MarkerAnimation.DOWN);
+            //设置Marker是否可以被拖拽，为true时可拖拽，false时不可拖拽，默认属性为false
+            marker.setDraggable(true);
+        }
+
     }
