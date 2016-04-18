@@ -1,12 +1,34 @@
 var txmap = {};
 txmap.latLng = new qq.maps.LatLng('22.5428234337', '114.0595370000');
 txmap.autocomplete = new qq.maps.place.Autocomplete(document.getElementById('keyword'), {location: $('#region').val()});
+
 txmap.map = new qq.maps.Map(document.getElementById("container"), {
         // 地图的中心地理坐标。
         center: txmap.latLng,
         zoom: 15
     });
-    
+txmap.drawingManager = new qq.maps.drawing.DrawingManager({
+        drawingMode: qq.maps.drawing.OverlayType.MARKER,
+        drawingControl: true,
+        drawingControlOptions: {
+            position: qq.maps.ControlPosition.TOP_CENTER,
+            drawingModes: [
+                qq.maps.drawing.OverlayType.MARKER,
+                qq.maps.drawing.OverlayType.CIRCLE,
+                qq.maps.drawing.OverlayType.POLYGON,
+                qq.maps.drawing.OverlayType.POLYLINE,
+                qq.maps.drawing.OverlayType.RECTANGLE
+            ]
+        },
+        circleOptions: {
+            fillColor: new qq.maps.Color(255, 208, 70, 0.3),
+            strokeColor: new qq.maps.Color(88, 88, 88, 1),
+            strokeWeight: 3,
+            clickable: false
+        }
+    });
+txmap.drawingManager.setMap(txmap.map);
+
 txmap.markers = [];
 
 txmap.setMarker = function(marker, text){
