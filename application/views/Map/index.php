@@ -2,7 +2,7 @@
     #container {height:95%; margin: 0;}
     #top-panel {position: absolute; top: 1.5%; left: 0; width: 100%;}
     #top-panel .weui_cells {background: transparent;}
-    #top-panel .weui_input {width: 70%; margin-left:6%; padding-bottom: 2px; background-color: rgb(223, 223, 223);}
+    #top-panel .weui_input {width: 70%; margin-left:6%; padding-bottom: 2px; background-color: rgb(255, 255, 255); border: 1px solid #04BE02;}
     #top-panel .weui_btn {width: 20%;}
     #right-menu {position: absolute;}
     
@@ -12,7 +12,7 @@
 <div id="top-panel">
     <div class="weui_cells">
         <div class="weui_cell_bd weui_cell_primary">
-            <input class="weui_input" type="text" placeholder="搜地点、查公交、找线路" maxlength="256">
+            <input class="weui_input" type="text" placeholder="搜地点、查公交、找线路" maxlength="256" id="keyword">
             <input type="button" value="搜索" class="weui_btn weui_btn_mini weui_btn_primary" id="search">
             <input type="hidden" value="<?php echo $clientIP;?>" id="client_ip">
             <input type="hidden" value="深圳市" id="region">
@@ -30,7 +30,7 @@
         <a href="javascript:void(0);" class="weui_panel_ft">查看更多</a>
     </div>
 </div>
-<script src="http://map.qq.com/api/js?v=2.exp&key=J7CBZ-YV43X-PVS4E-ZGYVP-KF2T3-A3BQZ"></script>
+<script src="http://map.qq.com/api/js?v=2.exp&key=J7CBZ-YV43X-PVS4E-ZGYVP-KF2T3-A3BQZ&libraries=place"></script>
 <script src="/static/weui/js/jweixin-1.1.0.js?v=2016-04-07"></script>
 <script>
     var openInWechat = navigator.userAgent.toLowerCase().match(/MicroMessenger/i)=="micromessenger" ? true : false;

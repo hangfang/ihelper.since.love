@@ -1,8 +1,13 @@
 var txmap = {};
 txmap.latLng = new qq.maps.LatLng('22.5428234337', '114.0595370000');
-txmap.map = {};
+txmap.autocomplete = new qq.maps.place.Autocomplete(document.getElementById('keyword'), {location: $('#region').val()});
+txmap.map = new qq.maps.Map(document.getElementById("container"), {
+        // 地图的中心地理坐标。
+        center: txmap.latLng,
+        zoom: 15
+    });
+    
 txmap.markers = [];
-txmap.searchService = {};
 
 txmap.setMarker = function(marker, text){
     //设置Marker的可见性，为true时可见,false时不可见，默认属性为true
@@ -70,14 +75,16 @@ txmap.searchKeyword = function(){
 };
 
 txmap.searchService = new qq.maps.SearchService({
+    map: txmap.map,
     //检索成功的回调函数
     complete: function(results) {
         //设置回调函数参数
         var pois = results.detail.pois;
         var infoWin = new qq.maps.InfoWindow({
-            map: map
+            map: txmap.map
         });
         var latlngBounds = new qq.maps.LatLngBounds();
+        console.log(results);
         for (var i = 0, l = pois.length; i < l; i++) {
             var poi = pois[i];
             //扩展边界范围，用来包含搜索到的Poi点
@@ -85,12 +92,12 @@ txmap.searchService = new qq.maps.SearchService({
 
             (function(n) {
                 var marker = new qq.maps.Marker({
-                    map: map
+                    map: txmap.map
                 });
                 marker.setPosition(pois[n].latLng);
 
                 marker.setTitle(i + 1);
-                markers.push(marker);
+                txmap.markers.push(marker);
 
 
                 qq.maps.event.addListener(marker, 'click', function() {
@@ -102,7 +109,7 @@ txmap.searchService = new qq.maps.SearchService({
             })(i);
         }
         //调整地图视野
-        map.fitBounds(latlngBounds);
+        txmap.map.fitBounds(latlngBounds);
     },
     //若服务请求失败，则运行以下函数
     error: function() {
@@ -111,21 +118,12 @@ txmap.searchService = new qq.maps.SearchService({
 });
     
 txmap.init = function() {
-    var container = document.getElementById("container");
-
-    //初始化地图
-    this.map = new qq.maps.Map(container, {
-        // 地图的中心地理坐标。
-        center: txmap.latLng,
-        zoom: 15
-    });
-
     qq.maps.event.addListener(this.map, 'click', function(e){
         
     });
     
     qq.maps.event.addListener(this.map, 'mousemove', function(e){
-        console.log(e);
+        //console.log(e);
     });
 
     qq.maps.event.addListener(this.map, 'dblclick', function(e){
@@ -221,7 +219,11 @@ txmap.init = function() {
     qq.maps.event.addListener(this.map, 'maptypeid_changed', function () {
         //console.log("地图类型ID为：" + map.getMapTypeId());
     });
-
+    
+    qq.maps.event.addListener(this.autocomplete, "confirm", function(res){console.log(res);
+        txmap.searchService.search(res.value);
+    });
+    
     $('body').on('click', '.weui_actionsheet_cell:eq(0)', function(e){
         /*--start---创建街景--start---*/
         var latLng = $(this).data().latLng;
@@ -265,7 +267,7 @@ txmap.init = function() {
             $('#loadingToast').hide();
         }, 1000);
     });
-
+    
 //        var times = 0;
 //        var oInterval = setInterval(function () {
 //
