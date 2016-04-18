@@ -237,6 +237,12 @@ txmap.init = function() {
                     },
                 zoom:1      //缩放
             })
+            pano.setOptions({
+                //显示移动箭头显示状态
+                disableMove: false,
+                //隐藏罗盘显示状态
+                disableCompass: false
+            });
             pano.setPano(result.svid);
         });
 
