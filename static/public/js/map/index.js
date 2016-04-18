@@ -129,8 +129,8 @@ txmap.init = function() {
     });
 
     qq.maps.event.addListener(this.map, 'dblclick', function(e){
+        $('.weui_actionsheet_cell').data(e);
         if(txmap.map.getZoom()===18){
-            $('.weui_actionsheet_cell').data(e);
             var mask = $('#mask');
             var weuiActionsheet = $('#weui_actionsheet');
             weuiActionsheet.addClass('weui_actionsheet_toggle');
