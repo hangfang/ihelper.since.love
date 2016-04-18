@@ -1,43 +1,3 @@
-<style>
-    #container {height:95%; margin: 0;}
-    #top-panel {position: absolute; top: 1.5%; left: 0; width: 100%;}
-    #top-panel .weui_cells {background: transparent;}
-    #top-panel .weui_input {width: 70%; margin-left:6%; padding-bottom: 2px; background-color: rgb(223, 223, 223);}
-    #top-panel .weui_btn {width: 20%;}
-    #right-menu {position: absolute;}
-    
-    .weui_actionsheet_cell {cursor: pointer;}
-</style>
-</div>
-<div id="top-panel">
-    <div class="weui_cells">
-        <div class="weui_cell_bd weui_cell_primary">
-            <input class="weui_input" type="text" placeholder="搜地点、查公交、找线路" maxlength="256">
-            <input type="button" value="搜索" class="weui_btn weui_btn_mini weui_btn_primary" id="search">
-        </div>
-    </div>
-    <div class="weui_panel weui_panel_access" style="display:none;">
-        <div class="weui_panel_hd">文字组合列表</div>
-        <div class="weui_panel_bd">
-            <div class="weui_media_box weui_media_text">
-                <p class="weui_media_desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</p>
-            </div>
-        </div>
-        <a href="javascript:void(0);" class="weui_panel_ft">查看更多</a>
-    </div>
-</div>
-<script src="http://map.qq.com/api/js?v=2.exp&key=J7CBZ-YV43X-PVS4E-ZGYVP-KF2T3-A3BQZ"></script>
-<script src="/static/weui/js/jweixin-1.1.0.js?v=2016-04-07"></script>
-<script>
-    wx.config({
-        debug: <?php echo $debug; ?>, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        appId: '<?php echo $appid; ?>', // 必填，公众号的唯一标识
-        timestamp: <?php echo $timestamp; ?>, // 必填，生成签名的时间戳
-        nonceStr: '<?php echo $nonceStr; ?>', // 必填，生成签名的随机串
-        signature: '<?php echo $signature; ?>', // 必填，签名，见附录1
-        jsApiList: ['chooseImage','startRecord','stopRecord','playVoice','pauseVoice','stopVoice','hideMenuItems','showAllNonBaseMenuItem','hideAllNonBaseMenuItem','showOptionMenu','hideOptionMenu','scanQRCode','closeWindow', 'getNetworkType', 'openLocation', 'getLocation','translateVoice'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-    });
-    
     var txmap = {};
     txmap.map = {};
     txmap.latLong = {
@@ -96,7 +56,7 @@
         qq.maps.event.addListener(this.map, 'click', function(e){
             //txmap.map.panTo(new qq.maps.LatLng(e.latLng.lat, e.latLng.lng));
         });
-        
+
         qq.maps.event.addListener(this.map, 'dbclick', function(e){
             if(txmap.map.getZoom()===18){
                 $('.weui_actionsheet_cell').data(e);
@@ -122,7 +82,7 @@
                 } 
             }
         });
-        
+
         qq.maps.event.addListener(this.map, 'rightclick', function(e){
             $('.weui_actionsheet_cell').data(e);
 
@@ -147,7 +107,7 @@
                 })
             }
         });
-        
+
         //根据指定的范围调整地图视野。
         //map.fitBounds(latlngBounds);
         qq.maps.event.addListener(this.map, 'bounds_changed', function () {
@@ -168,7 +128,7 @@
         qq.maps.event.addListener(this.map, 'maptypeid_changed', function () {
             //console.log("地图类型ID为：" + map.getMapTypeId());
         });
-        
+
         $('body').on('click', '.weui_actionsheet_cell:eq(0)', function(e){
             /*--start---创建街景--start---*/
             var latLng = $(this).data().latLng
@@ -186,19 +146,19 @@
                 })
                 pano.setPano(result.svid);
             });
-            
+
             $('#mask').click();
             /*---end----创建街景---end----*/
         });
-        
+
         $('body').on('click', '.weui_actionsheet_cell:eq(1)', function(e){
             $('#loadingToast').find('.weui_toast_content').html('敬请期待').end().show();
         });
-        
+
         $('body').on('click', '.weui_actionsheet_cell:eq(2)', function(e){
             $('#loadingToast').find('.weui_toast_content').html('敬请期待').end().show();
         });
-        
+
         $('body').on('click', '.weui_actionsheet_cell:eq(3)', function(e){
             $('#loadingToast').find('.weui_toast_content').html('敬请期待').end().show();
         });
@@ -252,22 +212,41 @@
 //
 //        }, 30 * 1000);
     };
-    
+
     txmap.init();
     
-    wx.ready(function(res){
-        wx.getLocation({
-            type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-            success: function (res) {
-                txmap.latLong = {
-                                    latitude: res.latitude,// 纬度，浮点数，范围为90 ~ -90
-                                    longitude: res.longitude// 经度，浮点数，范围为180 ~ -180。
-                                }
-                txmap.speed = res.speed; // 速度，以米/每秒计
-                txmap.accuracy = res.accuracy; // 位置精度
+    if(openInWechat){
+        wx.ready(function(res){
+            wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function (res) {
+                    txmap.latLong = {
+                                        latitude: res.latitude,// 纬度，浮点数，范围为90 ~ -90
+                                        longitude: res.longitude// 经度，浮点数，范围为180 ~ -180。
+                                    }
+                    txmap.speed = res.speed; // 速度，以米/每秒计
+                    txmap.accuracy = res.accuracy; // 位置精度
 
-                txmap.map.setCenter(new qq.maps.LatLng(res.latitude, res.longitude));
+                    txmap.map.setCenter(new qq.maps.LatLng(res.latitude, res.longitude));
+                }
+            });
+        });
+    }else{
+        //获取  城市位置信息查询 接口  
+        citylocation = new qq.maps.CityService({
+            //设置地图
+            map : txmap.map,
+
+            complete : function(results){
+                txmap.map.setCenter(results.detail.latLng);
+                var marker = new qq.maps.Marker({//设置marker标记
+                    map:map,
+                    position: results.detail.latLng
+                });
+                
             }
         });
-    });
-</script>
+        
+        citylocation.searchCityByIP($('#client_ip').val());
+        
+    }
