@@ -340,14 +340,6 @@ $(function(){
                         map : txmap.map,
 
                         complete : function(results){
-                            txmap.latLng = results.detail.latLng;
-                            txmap.map.setCenter(txmap.latLng);
-                            var marker = new qq.maps.Marker({//设置marker标记
-                                map: txmap.map,
-                                position: txmap.latLng
-                            });
-
-                            txmap.setMarker(marker, '当前位置');
                             $('#region').val(results.detail.name);
                         }
                     });
