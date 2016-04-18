@@ -15,7 +15,7 @@
             <input class="weui_input" type="text" placeholder="搜地点、查公交、找线路" maxlength="256">
             <input type="button" value="搜索" class="weui_btn weui_btn_mini weui_btn_primary" id="search">
             <input type="hidden" value="<?php echo $clientIP;?>" id="client_ip">
-            <input type="hidden" value="深圳" id="region">
+            <input type="hidden" value="深圳市" id="region">
             <input type="hidden" value="1" id="pageIndex">
             <input type="hidden" value="5" id="pageCapacity">
         </div>
