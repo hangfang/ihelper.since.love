@@ -350,7 +350,7 @@ $(function(){
                 //设置地图
                 map : txmap.map,
 
-                complete : function(results){
+                complete : function(results){console.log(results);
                     txmap.latLng = results.detail.latLng;
                     txmap.map.setCenter(txmap.latLng);
                     var marker = new qq.maps.Marker({//设置marker标记
