@@ -65,7 +65,7 @@ $(function () {
             /*---start-天气查询-start---*/
             $('#container').on('submit', '#form_weather', function(e){
 
-                if(!$('#cityid').val() || $('#cityid').val().length<6){
+                if(!$('#cityid').val()){
                     $('#dialog2').find('.weui_dialog_hd').html('输入错误').end().find('.weui_dialog_bd').html('城市不能为空').end().show();
                     return false;
                 }
