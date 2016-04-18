@@ -46,7 +46,7 @@
                     <i class="icon icon_actionSheet"></i>
                 </div>
                 <p class="weui_grid_label">
-                    查询
+                    生活查询
                 </p>
             </a>
             <a href="/app/lottery" class="weui_grid">
@@ -63,15 +63,15 @@
                     <i class="icon icon_progress"></i>
                 </div>
                 <p class="weui_grid_label">
-                    资讯
+                    新闻资讯
                 </p>
             </a>
-            <a href="/app/pano" class="weui_grid">
+            <a href="/app/map" class="weui_grid">
                 <div class="weui_grid_icon">
                     <i class="icon icon_button"></i>
                 </div>
                 <p class="weui_grid_label">
-                    街景
+                    地图服务
                 </p>
             </a>
         </div>
