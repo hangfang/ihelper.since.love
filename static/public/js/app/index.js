@@ -155,11 +155,6 @@ $(function () {
         })
     }
     
-    $('#contact').click(function(e){
-        $('#container').hide();
-        $('#msg').show();
-    });
-    
     $('#dialog2 .weui_btn_dialog').click(function(e){
         $('#dialog2').hide();
     })
