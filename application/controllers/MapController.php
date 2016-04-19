@@ -6,6 +6,18 @@ class MapController extends MY_Controller {
         parent::__construct();
         $this->load->model('WechatModel');
     }
+    public function txmap(){
+        
+        $data = array();
+        $data['clientIP'] = $this->input->ip_address();
+        $data['title'] = '当前位置';
+        $sigObj = $this->WechatModel->getJsApiSigObj();
+
+        $data = array_merge($data, $sigObj);
+        $this->layout->setLayout('weui');
+        $this->layout->view('Map/txmap', $data);
+    }
+    
     public function index(){
         
         $data = array();
@@ -16,17 +28,5 @@ class MapController extends MY_Controller {
         $data = array_merge($data, $sigObj);
         $this->layout->setLayout('weui');
         $this->layout->view('Map/index', $data);
-    }
-    
-    public function baidu(){
-        
-        $data = array();
-        $data['clientIP'] = $this->input->ip_address();
-        $data['title'] = '当前位置';
-        $sigObj = $this->WechatModel->getJsApiSigObj();
-
-        $data = array_merge($data, $sigObj);
-        $this->layout->setLayout('weui');
-        $this->layout->view('Map/baidu', $data);
     }
 }
