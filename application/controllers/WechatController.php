@@ -290,7 +290,7 @@ EOF;
         $data = $this->_send_format['text'];
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
-        $data['text']['content'] = $rt==='new' ? sprintf($this->_msg_welcome_newbeing, $this->_base_url, $this->_base_url, $this->_base_url) : sprintf($this->_msg_welcome_back, $this->_base_url, $this->_base_url, $this->_base_url);
+        $data['text']['content'] = $rt==='new' ? sprintf($this->_msg_welcome_newbeing, $this->_base_url, $this->_base_url, $this->_base_url, $this->_base_url) : sprintf($this->_msg_welcome_back, $this->_base_url, $this->_base_url, $this->_base_url, $this->_base_url);
         $this->WechatModel->sendMessage($data);
     }
 
@@ -392,7 +392,7 @@ EOF;
         $data = $this->_send_format['text'];
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
-        $data['text']['content'] = sprintf($this->_unrecognized_msg, $msg, $this->_base_url, $this->_base_url, $this->_base_url);
+        $data['text']['content'] = sprintf($this->_unrecognized_msg, $msg, $this->_base_url, $this->_base_url, $this->_base_url, $this->_base_url);
         $this->WechatModel->sendMessage($data);
     }
     
