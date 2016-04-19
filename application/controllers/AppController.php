@@ -526,36 +526,35 @@ EOF;
         $data = array();
         $this->input->get('keyword') && $data['word'] = $this->input->get('keyword');
         
-        $data['page'] = $this->input->get('page') ? $this->input->get('page') : rand(1,9999);
+        $data['page'] = $this->input->get('page') ? $this->input->get('page') : 0;
         
         $data['rand'] = 1;
-        $data['num'] = 8;
+        $data['num'] = 25;
         
         $this->load->model('BaiduModel');
         $rt = $this->BaiduModel->getNews($data);
-        
+
         
         $data = array();
         $data['rtn'] = 0;
-        $msg_news_list = $msg_news_banner = '';
+        $data['msg'] = $msg_news_list = $msg_news_banner = '';
         if($rt['code']!==200){
             $msg_news_banner = sprintf($this->_msg_news_banner, '/static/public/images/app/1.jpg', '新闻飞走了');
             $data['msg'] = sprintf($this->_msg_news, $msg_news_banner, '');
         }else{
             foreach($rt['newslist'] as $_k=>$_v){
-                if($_k==0){
+                if($_k%5 === 0){
                     $msg_news_banner = sprintf($this->_msg_news_banner, $_v['url'], $_v['picUrl'], $_v['title']);
                 }else{
                     $msg_news_list .= sprintf($this->_msg_news_list, $_v['url'], $_v['title'], $_v['picUrl']);
                 }
+                
+                if(($_k+1)%5 === 0){
+                    $data['msg'] .= sprintf($this->_msg_news, $msg_news_banner, $msg_news_list);
+                    $msg_news_list = '';
+                }
             }
             
-             $data['msg'] = sprintf($this->_msg_news, $msg_news_banner, $msg_news_list);
-        }
-        
-        if($this->input->is_ajax_request()){
-            $this->json($data);
-            return true;
         }
         
         $data['title'] = 'WeApp-资讯';
