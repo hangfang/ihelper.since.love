@@ -135,11 +135,6 @@
         <div class="weui_mask_transition" id="mask" style="display: none;"></div>
         <div class="weui_actionsheet" id="weui_actionsheet">
             <div class="weui_actionsheet_menu">
-                <div class="weui_actionsheet_cell">全景预览</div>
-                <div class="weui_actionsheet_cell">以此为起点</div>
-                <div class="weui_actionsheet_cell">以此为终点</div>
-                <div class="weui_actionsheet_cell">以此点附近找...</div>
-                <div class="weui_actionsheet_cell">添加新地点</div>
             </div>
             <div class="weui_actionsheet_action">
                 <div class="weui_actionsheet_cell" id="actionsheet_cancel">取消</div>
