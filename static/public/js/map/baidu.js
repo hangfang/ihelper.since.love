@@ -267,6 +267,9 @@ $(function(){
     
     $('body').on('input', '#keyword', function(e){
         bdmap.clearOverlays();
+        if(!$(this).val()){
+            return false;
+        }
         
         if($(this).val().match(/^\d{1,3}|[a-zA-Z]{1}\d{1,3}$/)){
             bdmap.busline.getBusList($(this).val());
@@ -280,6 +283,10 @@ $(function(){
         
         bdmap.local.searchInBounds($('#keyword').val().split(' '), bdmap.getBounds());
     }).on('click', '#keyword', function(e){
+        if(!$(this).val()){
+            $('#search-panel').hide();
+            return false;
+        }
         $('#search-panel').show();
     });
 
