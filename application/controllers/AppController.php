@@ -291,13 +291,13 @@ EOF;
             $lottery = array_flip($lottery);
             foreach($rt as $_v){
                 $code = array();
-                isset($_v['a']) && $code[] = str_pad($_v['a'], 2, 0, STR_PAD_LEFT);
-                isset($_v['b']) && $code[] = str_pad($_v['b'], 2, 0, STR_PAD_LEFT);
-                isset($_v['c']) && $code[] = str_pad($_v['c'], 2, 0, STR_PAD_LEFT);
-                isset($_v['d']) && $code[] = str_pad($_v['e'], 2, 0, STR_PAD_LEFT);
-                isset($_v['e']) && $code[] = str_pad($_v['e'], 2, 0, STR_PAD_LEFT);
-                isset($_v['f']) && $code[] = str_pad($_v['f'], 2, 0, STR_PAD_LEFT);
-                isset($_v['g']) && $code[] = str_pad($_v['g'], 2, 0, STR_PAD_LEFT);
+                isset($_v['a']) && $code[] = in_array($data['lotterycode'], array('ssq', 'dlt', 'qlc')) ? str_pad($_v['a'], 2, 0, STR_PAD_LEFT) : $_v['a'];
+                isset($_v['b']) && $code[] = in_array($data['lotterycode'], array('ssq', 'dlt', 'qlc')) ? str_pad($_v['b'], 2, 0, STR_PAD_LEFT) : $_v['b'];
+                isset($_v['c']) && $code[] = in_array($data['lotterycode'], array('ssq', 'dlt', 'qlc')) ? str_pad($_v['c'], 2, 0, STR_PAD_LEFT) : $_v['c'];
+                isset($_v['d']) && $code[] = in_array($data['lotterycode'], array('ssq', 'dlt', 'qlc')) ? str_pad($_v['d'], 2, 0, STR_PAD_LEFT) : $_v['d'];
+                isset($_v['e']) && $code[] = in_array($data['lotterycode'], array('ssq', 'dlt', 'qlc')) ? str_pad($_v['e'], 2, 0, STR_PAD_LEFT) : $_v['e'];
+                isset($_v['f']) && $code[] = in_array($data['lotterycode'], array('ssq', 'dlt', 'qlc')) ? str_pad($_v['f'], 2, 0, STR_PAD_LEFT) : $_v['f'];
+                isset($_v['g']) && $code[] = in_array($data['lotterycode'], array('ssq', 'dlt', 'qlc')) ? str_pad($_v['g'], 2, 0, STR_PAD_LEFT) : $_v['g'];
                 
                 $prideInfo = '';
                 switch($data['lotterycode']){
