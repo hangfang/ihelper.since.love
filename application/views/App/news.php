@@ -1,17 +1,43 @@
+<div class="navbar">
+    <div class="bd" style="height: 100%;">
+        <div class="weui_tab">
+            <div class="weui_navbar">
+                <a class="weui_navbar_item weui_bar_item_on" href="/app/news">
+                    资讯
+                </a>
+                <a class="weui_navbar_item" href="/app/girls">
+                    美图
+                </a>
+                <a class="weui_navbar_item" href="/app/hots">
+                    热搜
+                </a>
+            </div>
+            <div class="weui_tab_bd">
+
+            </div>
+        </div>
+    </div>
+</div>
 <style>
     body {background-color: rgb(235,235,235);}
+    #container {margin-bottom: 65px;}
     .banner {position:absolute; bottom:0; color:#fff; width:100%; background:rgba(0,0,0,.7);}
     .txt {display:table-cell; vertical-align:middle; height:40px;}
     .no-new-line {overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
     .img {height:40px;}
     .font16 {font-size:16px;}
     .bg-wrapper {position:relative;}
-    .container-fluid {margin-top:15px; padding: 0; border-radius: 5px;}
+    #container .container-fluid:nth-child(3) {margin-top:55px;}
+    .container-fluid {margin-top:9px; padding: 0 5px; border-radius: 5px;}
     .list-group {margin-bottom: 0px;}
     .list-group-item{border-color: rgb(197,197,197); padding-top:2px; padding-bottom:2px;}
     .list-group-item a {display:block; color: #000;}
     .img-responsive {width:403px; height:268px;}
     .pull-right {width:43px; height:43px;}
+    
+    .navbar {position: fixed;top: -1px;display: block;width: 100%; z-index:1;}
+    .navbar a { color:#888; text-decoration: none;}
+    .weui_navbar_item {padding:10px 0 !important;}
 </style>
 <?php echo $msg;?>
 <script>

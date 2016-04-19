@@ -3,22 +3,9 @@ $(function(){
         news.touchstart = event.changedTouches[0].clientY;
     }).on('touchend', '.container-fluid:last', function(e){
         news.touchsend = event.changedTouches[0].clientY;
-        if(news.touchstart-news.touchsend > 200){
-            var data = {};
-            $('#loadingToast').show();
-            $.ajax({
-                url : '/app/news',
-                data : data,
-                type : 'get',
-                dataType : 'json',
-                success : function(data, textStatus, xhr){
-                    $('#loadingToast').hide();
-                    news.page++;
-                    $('#container').append(data.msg);
-                    return true;
-                }
-            });
-        }
+        var match = location.search.match(/page=(\d+)/);
+        page = match ? match[1]-0+1 : 1;
+        location.href = '/app/news?page='+page;
         return false;
     });
 });
