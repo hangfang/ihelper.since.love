@@ -6,7 +6,7 @@ $(function(){
         
         if(girls.touchstart-girls.touchend > 100){
             var match = location.search.match(/page=(\d+)/);
-            page = match ? match[1]-0+1 : 1;
+            page = match ? match[1]-0+1 : 2;
             location.href = '/app/girls?page='+page;
             return false;
         }
