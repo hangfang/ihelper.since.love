@@ -161,11 +161,12 @@ EOF;
     }
     
     
-    public function getGirls($msgXml=array()){
+    public function getGirls($param, $msgXml=array()){
         $data = array();
         $data['method'] = 'get';
         $data['header'] = array('apikey: '. BAIDU_API_KEY);
         $data['url'] = sprintf(BAIDU_GIRLS_API_URL);
+        $data['data'] = $param;
         $rt = $this->http($data);
         
         if(empty($msgXml)){
