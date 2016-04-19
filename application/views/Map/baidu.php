@@ -1,7 +1,7 @@
 </div>
 <style>
     #container {height:95%; margin-top: 0px;}
-    #top-panel {position: absolute; top: 4px; right: 57px; width: 180px;}
+    #top-panel {position: absolute; top: 4px; right: 57px; width: 69%;}
     #top-panel .weui_cells {background: transparent; margin-top: 0px;}
     #top-panel .weui_input {width: 100%; padding-bottom: 2px; background-color: rgb(255, 255, 255); border: 1px solid rgb(179, 179, 179); box-shadow: rgba(0, 0, 0, 0.298039) 0px 0px 3px;}
     #top-panel .weui_btn {width: 20%;}
@@ -17,6 +17,7 @@
     
     .pano_close {top: 4px !important;}
     
+    .weui_actionsheet_menu {height: 193px; overflow: auto;}
 </style>
 <div id="top-panel">
     <div class="weui_cells">
@@ -29,6 +30,8 @@
     <div class="weui_panel weui_panel_access" id="search-panel">
     </div>
     <div class="weui_panel weui_panel_access" id="info-panel">
+    </div>
+    <div class="weui_panel weui_panel_access" id="busline-panel">
     </div>
 </div>
 <script src="http://api.map.baidu.com/api?v=2.0&ak=26587903c740a20817cd121881dc5dcc"></script>
