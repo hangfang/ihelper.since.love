@@ -2,7 +2,7 @@ $(function(){
     $('#container').on('touchstart', '.container-fluid:last', function(e){
         girls.touchstart = event.changedTouches[0].clientY;
     }).on('touchend', '.container-fluid:last', function(e){
-        girls.touchsend = event.changedTouches[0].clientY;
+        girls.touchend = event.changedTouches[0].clientY;
         
         if(girls.touchstart-girls.touchend > 100){
             var match = location.search.match(/page=(\d+)/);
