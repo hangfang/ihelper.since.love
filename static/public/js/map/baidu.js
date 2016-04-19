@@ -130,7 +130,7 @@ bdmap.init = function(){
         marker.enableDragging(); //marker可拖拽
         searchInfoWindow.open(marker);
         bdmap.addOverlay(marker); //在地图中添加marker
-        bdmap.centerAndZoom(e.point, 13);
+        bdmap.centerAndZoom(e.point, 14);
     });
  };
  
