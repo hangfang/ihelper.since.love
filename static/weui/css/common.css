@@ -8,7 +8,7 @@ body {
 	background-color: #fbf9fe
 }
 
-.container {
+#container {
 	//height: 100%;
         margin-bottom: 75px;
 	overflow-y: auto;

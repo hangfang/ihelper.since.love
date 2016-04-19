@@ -66,7 +66,7 @@
                     新闻资讯
                 </p>
             </a>
-            <a href="/map/index" class="weui_grid">
+            <a href="/map/baidu" class="weui_grid">
                 <div class="weui_grid_icon">
                     <i class="icon icon_button"></i>
                 </div>
