@@ -1,220 +1,116 @@
-var txmap = {};
-txmap.latLng = new qq.maps.LatLng('22.5428234337', '114.0595370000');
-txmap.autocomplete = new qq.maps.place.Autocomplete(document.getElementById('keyword'), {location: $('#region').val()});
-
-txmap.map = new qq.maps.Map(document.getElementById("container"), {
-        // 地图的中心地理坐标。
-        center: txmap.latLng,
-        zoom: 15
+function initCity(res){
+    
+    bdmap.local = new BMap.LocalSearch(bdmap, {
+        renderOptions:{map: bdmap, panel: 'search-panel'}
     });
-txmap.drawingManager = new qq.maps.drawing.DrawingManager({
-        drawingMode: qq.maps.drawing.OverlayType.MARKER,
-        drawingControl: true,
-        drawingControlOptions: {
-            position: qq.maps.ControlPosition.TOP_CENTER,
-            drawingModes: [
-                qq.maps.drawing.OverlayType.MARKER,
-                qq.maps.drawing.OverlayType.CIRCLE,
-                qq.maps.drawing.OverlayType.POLYGON,
-                qq.maps.drawing.OverlayType.POLYLINE,
-                qq.maps.drawing.OverlayType.RECTANGLE
-            ]
+    bdmap.local.enableAutoViewport();
+    bdmap.local.setPageCapacity(5);
+    bdmap.local.setLocation(res.name);
+    bdmap.local.setResultsHtmlSetCallback(searchHtmlComplete);
+    bdmap.local.setInfoHtmlSetCallback(searchInfoComplete);
+    bdmap.setCenter(res.name);
+    bdmap.city = res;
+}
+
+function searchHtmlComplete(panel){
+    var div = $(panel).find('div');
+    div.find('li a').remove();
+    div.eq(div.length-2).find('a:first').remove();
+}
+
+function searchInfoComplete(poi){
+    $('#search-panel').hide();
+    $('.BMap_bubble_title a').remove();  
+}
+
+var bdmap = new BMap.Map("container");
+bdmap.init = function(){
+    bdmap.point = new BMap.Point( '114.0595370000', '22.5428234337');
+    bdmap.centerAndZoom(bdmap.point, 14);
+    bdmap.enableScrollWheelZoom();
+    bdmap.enableInertialDragging();
+
+    bdmap.enableContinuousZoom();
+
+    bdmap.addControl(new BMap.CityListControl({
+        anchor: BMAP_ANCHOR_TOP_LEFT,
+        offset: new BMap.Size(10, 20),
+        // 切换城市之间事件
+        // onChangeBefore: function(){
+        //    alert('before');
+        // },
+        // 切换城市之后事件
+        // onChangeAfter:function(){
+        //   alert('after');
+        // }
+    }));
+
+    bdmap.navigationControl = new BMap.NavigationControl({
+        // 靠左上角位置
+        anchor: BMAP_ANCHOR_BOTTOM_LEFT,
+        // LARGE类型
+        type: BMAP_NAVIGATION_CONTROL_LARGE,
+        // 启用显示定位
+        enableGeolocation: true
+        });
+    bdmap.addControl(bdmap.navigationControl);
+    // 添加定位控件
+
+    bdmap.geolocationControl = new BMap.GeolocationControl({
+        anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+        enableAutoLocation: true, 
+        offset: new BMap.Size(0, 0),
+        localIcon:new BMap.Icon("position.png",new BMap.Size(74,74))
+    });
+
+    bdmap.geolocationControl.addEventListener("locationSuccess", function(point, AddressComponent){
+        // 定位成功事件
+        bdmap.addMarker(point);
+    });
+    bdmap.geolocationControl.addEventListener("locationError",function(e){
+        $('#loadingToast').find('.weui_toast_content').html('定位失败').end().show();
+        setTimeout(function(){
+            $('#loadingToast').hide();
+        }, 1000);
+    });
+    bdmap.addControl(bdmap.geolocationControl);
+
+
+    // 覆盖区域图层测试
+    //bdmap.addTileLayer(new BMap.PanoramaCoverageLayer());
+
+    bdmap.panoramaControl = new BMap.PanoramaControl({
+        anchor: BMAP_ANCHOR_TOP_RIGHT,
+        indoorSceneSwitchControl: true,//配置全景室内景切换控件显示
+        offset: new BMap.Size(20, 20),
+        albumsControlOptions: {
+            anchor: BMAP_ANCHOR_TOP_RIGHT,
+            offset: new BMap.Size(100, 15),
+            maxWidth: '60%',
+            imageHeight: 80
         },
-        circleOptions: {
-            fillColor: new qq.maps.Color(255, 208, 70, 0.3),
-            strokeColor: new qq.maps.Color(88, 88, 88, 1),
-            strokeWeight: 3,
-            clickable: false
-        }
-    });
-txmap.drawingManager.setMap(txmap.map);
 
-txmap.markers = [];
-
-txmap.setMarker = function(marker, text){
-    //设置Marker的可见性，为true时可见,false时不可见，默认属性为true
-    marker.setVisible(true);
-    //设置Marker的动画属性为从落下
-    marker.setAnimation(qq.maps.MarkerAnimation.DOWN);
-    //设置Marker是否可以被拖拽，为true时可拖拽，false时不可拖拽，默认属性为false
-    marker.setDraggable(false);
-
-    //设置标注的名称，当鼠标划过Marker时显示
-    marker.setTitle(text);
-
-    //添加信息窗口
-    var info = new qq.maps.InfoWindow({
-        map: txmap.map
-    });
-    //标记Marker点击事件
-    qq.maps.event.addListener(marker, 'click', function() {
-        info.open();
-        info.setContent(text);
-        info.setPosition(marker.getPosition());
-    });
-    //设置Marker停止拖动事件
-    qq.maps.event.addListener(marker, 'dragend', function() {
-        info.open();
-        info.setContent(text);
-        //getPosition()  返回Marker的位置
-        info.setPosition(marker.getPosition());
-    });
+    }); //构造全景控件
+    bdmap.addControl(bdmap.panoramaControl);//添加全景控件
     
-    txmap.markers.push(marker);
-};
-
-txmap.clearMarkers = function() {
-    var marker;
-    while (marker = txmap.markers.pop()) {
-        marker.setMap(null);
-    }
-};
-    
-//设置搜索的范围和关键字等属性
-txmap.searchKeyword = function(){
-    var keyword = $("#keyword").val();
-    var region = $("#region").val();
-    var pageIndex = parseInt($("#pageIndex").val());
-    var pageCapacity = parseInt($("#pageCapacity").val());
-
-    this.clearMarkers();
-
-    //根据输入的城市设置搜索范围
-    this.searchService.setLocation(region);
-    //设置搜索页码
-    this.searchService.setPageIndex(pageIndex);
-    //设置每页的结果数
-    this.searchService.setPageCapacity(pageCapacity);
-    //根据输入的关键字在搜索范围内检索
-    this.searchService.search(keyword);
-    //根据输入的关键字在圆形范围内检索
-    //var region = new qq.maps.LatLng(39.916527,116.397128);
-    //searchService.searchNearBy(keyword, region , 2000);
-    //根据输入的关键字在矩形范围内检索
-    //region = new qq.maps.LatLngBounds(new qq.maps.LatLng(39.936273,116.440043),new qq.maps.LatLng(39.896775,116.354212));
-    //searchService.searchInBounds(keyword, region);
-
-};
-
-txmap.searchService = new qq.maps.SearchService({
-    map: txmap.map,
-    //检索成功的回调函数
-    complete: function(results) {
-        //设置回调函数参数
-        var pois = results.detail.pois;
-        var infoWin = new qq.maps.InfoWindow({
-            map: txmap.map
-        });
-        var latlngBounds = new qq.maps.LatLngBounds();
-
-        for (var i = 0, l = pois.length; i < l; i++) {
-            var poi = pois[i];
-            //扩展边界范围，用来包含搜索到的Poi点
-            latlngBounds.extend(poi.latLng);
-
-            (function(n) {
-                var marker = new qq.maps.Marker({
-                    map: txmap.map
-                });
-                marker.setPosition(pois[n].latLng);
-
-                marker.setTitle(i + 1);
-                txmap.markers.push(marker);
-
-
-                qq.maps.event.addListener(marker, 'click', function() {
-                    infoWin.open();
-                    infoWin.setContent('<div style="width:280px;height:100px;">' + 'POI的ID为：' +
-                        pois[n].id + '，POI的名称为：' + pois[n].name + '，POI的地址为：' + pois[n].address + '，POI的类型为：' + pois[n].type + '</div>');
-                    infoWin.setPosition(pois[n].latLng);
-                });
-            })(i);
-        }
-        //调整地图视野
-        txmap.map.fitBounds(latlngBounds);
-    },
-    //若服务请求失败，则运行以下函数
-    error: function() {
-        alert("出错了。");
-    }
-});
-    
-txmap.init = function() {
-    qq.maps.event.addListener(this.map, 'click', function(e){
-        
-    });
-    
-    qq.maps.event.addListener(this.map, 'mousemove', function(e){
-        //console.log(e);
-    });
-
-    qq.maps.event.addListener(this.map, 'dblclick', function(e){
-        $('.weui_actionsheet_cell').data(e);
-        if(txmap.map.getZoom()===18){
-            var mask = $('#mask');
-            var weuiActionsheet = $('#weui_actionsheet');
-            weuiActionsheet.addClass('weui_actionsheet_toggle');
-            mask.show().addClass('weui_fade_toggle').one('click', function () {
-                hideActionSheet(weuiActionsheet, mask);
-            });
-            $('#actionsheet_cancel').one('click', function () {
-                hideActionSheet(weuiActionsheet, mask);
-            });
-            weuiActionsheet.unbind('transitionend').unbind('webkitTransitionEnd');
-
-            function hideActionSheet(weuiActionsheet, mask) {
-                weuiActionsheet.removeClass('weui_actionsheet_toggle');
-                mask.removeClass('weui_fade_toggle');
-                weuiActionsheet.on('transitionend', function () {
-                    mask.hide();
-                }).on('webkitTransitionEnd', function () {
-                    mask.hide();
-                })
-            } 
-        }
-    });
-
-    qq.maps.event.addListener(this.map, 'rightclick', function(e){
-        $('.weui_actionsheet_cell').data(e);
-
-        var mask = $('#mask');
-        var weuiActionsheet = $('#weui_actionsheet');
-        weuiActionsheet.addClass('weui_actionsheet_toggle');
-        mask.show().addClass('weui_fade_toggle').one('click', function () {
-            hideActionSheet(weuiActionsheet, mask);
-        });
-        $('#actionsheet_cancel').one('click', function () {
-            hideActionSheet(weuiActionsheet, mask);
-        });
-        weuiActionsheet.unbind('transitionend').unbind('webkitTransitionEnd');
-
-        function hideActionSheet(weuiActionsheet, mask) {
-            weuiActionsheet.removeClass('weui_actionsheet_toggle');
-            mask.removeClass('weui_fade_toggle');
-            weuiActionsheet.on('transitionend', function () {
-                mask.hide();
-            }).on('webkitTransitionEnd', function () {
-                mask.hide();
-            })
-        }
-    });
-
-    //根据指定的范围调整地图视野。
-    //map.fitBounds(latlngBounds);
-    qq.maps.event.addListener(this.map, 'bounds_changed', function () {
-        //console.log("地图的可视范围为：" + map.getBounds());
-    });
-
-
-    qq.maps.event.addListener(this.map, 'center_changed', function () {
-        //console.log("地图中心为：" + map.getCenter());
-    });
-
-
-    //当地图缩放级别更改时会触发此事件。
-    qq.maps.event.addListener(this.map, 'zoom_changed', function () {
-        //console.log("地图缩放级别为：" + map.getZoom());
-        if(txmap.map.getZoom()===18){
+    bdmap.busline = new BMap.BusLineSearch(bdmap,{
+        renderOptions:{map:bdmap},
+        onGetBusListComplete: function(result){
+            if(result) {
+                var fstLine = result.getBusListItem(0);//获取第一个公交列表显示到map上
+                bdmap.busline.getBusLine(fstLine);
+            }
+            
+            var html = '';
+            bdmap.busListResult = {};
+            for(var i in result.JA){
+                bdmap.busListResult[result.JA[i].name] = result.JA[i];
+                html += '<div class="weui_actionsheet_cell">'+result.JA[i].name+'</div>';
+            }
+            
+            $('#keyword').attr('data', html);
+            $('#weui_actionsheet .weui_actionsheet_menu').html(html);
+            
             var mask = $('#mask');
             var weuiActionsheet = $('#weui_actionsheet');
             weuiActionsheet.addClass('weui_actionsheet_toggle');
@@ -238,172 +134,174 @@ txmap.init = function() {
         }
     });
 
-    qq.maps.event.addListener(this.map, 'maptypeid_changed', function () {
-        //console.log("地图类型ID为：" + map.getMapTypeId());
-    });
+    bdmap.addMarker = function(point, index){  // 创建图标对象   
+        var myIcon = new BMap.Icon("markers.png", new BMap.Size(23, 25), {    
+            // 指定定位位置。   
+            // 当标注显示在地图上时，其所指向的地理位置距离图标左上    
+            // 角各偏移10像素和25像素。您可以看到在本例中该位置即是     
+           // 图标中央下端的尖角位置。    
+           offset: new BMap.Size(10, 25),    
+           // 设置图片偏移。   
+           // 当您需要从一幅较大的图片中截取某部分作为标注图标时，您   
+           // 需要指定大图的偏移位置，此做法与css sprites技术类似。    
+           imageOffset: new BMap.Size(0, 0 - index * 25)   // 设置图片偏移    
+        });      
+        // 创建标注对象并添加到地图   
+        var marker = new BMap.Marker(point, {icon: myIcon});
+        marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+        bdmap.addOverlay(marker);    
+    };
     
-    qq.maps.event.addListener(this.autocomplete, "confirm", function(res){console.log(res);
-        txmap.searchService.search(res.value);
-    });
-    
-    $('body').on('click', '.weui_actionsheet_cell:eq(0)', function(e){
-        /*--start---创建街景--start---*/
-        var latLng = $(this).data().latLng;
-        pano_service = new qq.maps.PanoramaService();
-        var point = {lat: latLng.lat, lng: latLng.lng};
-        var radius;
-        pano_service.getPano(point, radius, function (result){
-            pano = new qq.maps.Panorama(document.getElementById('container'), {
-                //pano: '10011501120802180635300',    //场景ID
-                pov:{   //视角
-                        heading:1,  //偏航角
-                        pitch:0     //俯仰角
-                    },
-                zoom:1      //缩放
-            })
-            
-            pano.setPano(result.svid);
-        });
-
-        $('#mask').click();
-        /*---end----创建街景---end----*/
-    });
-
-    $('body').on('click', '.weui_actionsheet_cell:eq(1)', function(e){
-        $('#loadingToast').find('.weui_toast_content').html('敬请期待').end().show();
-        setTimeout(function(){
-            $('#loadingToast').hide();
-        }, 1000);
-    });
-
-    $('body').on('click', '.weui_actionsheet_cell:eq(2)', function(e){
-        $('#loadingToast').find('.weui_toast_content').html('敬请期待').end().show();
-        setTimeout(function(){
-            $('#loadingToast').hide();
-        }, 1000);
-    });
-
-    $('body').on('click', '.weui_actionsheet_cell:eq(3)', function(e){
-        $('#loadingToast').find('.weui_toast_content').html('敬请期待').end().show();
-        setTimeout(function(){
-            $('#loadingToast').hide();
-        }, 1000);
-    });
-    
-    $('body').on('change', '#keyword', function(e){
-        var marker = null;
-        while(marker = txmap.markers.pop()){
-            marker.setMap(null);
+    bdmap.addEventListener('click', function(e){
+        if($(event.target).attr('class')!=='BMap_mask'){
+            return false;
         }
+        //bdmap.clearOverlays();
+
+        var searchInfoWindow = null;
+	searchInfoWindow = new BMapLib.SearchInfoWindow(bdmap, 'test', {
+            title  : "百度大厦",      //标题
+            width  : 290,             //宽度
+            height : 105,              //高度
+            panel  : "panel",         //检索结果面板
+            enableAutoPan : true,     //自动平移
+            searchTypes   :[
+                    BMAPLIB_TAB_SEARCH,   //周边检索
+                    BMAPLIB_TAB_TO_HERE,  //到这里去
+                    BMAPLIB_TAB_FROM_HERE //从这里出发
+            ]
+        });
+        
+        $('body').on('click', '.BMapLib_bubble_close', function(e){
+            searchInfoWindow.close();
+        }).on('click', '.BMapLib_nav_tab', function(e){
+            var target = e.target;
+            target = target.nodeName.toUpperCase() === 'LI' ? target : target.parentNode;
+            $(target).addClass('BMapLib_current').siblings().removeClass('BMapLib_current');
+            var id = $(target).attr('id');
+            if(id.indexOf('tohere')>-1){
+                var li = $(target).parents('.BMapLib_nav').find('.BMapLib_nav_tab_content li').hide().eq(1).show();
+                li.find('td').eq(0).attr('width', 35).find('div').html('起点');
+                li.find('td').eq(1).attr('width', 115);
+            }else if(id.indexOf('fromhere')>-1){
+                var li = $(target).parents('.BMapLib_nav').find('.BMapLib_nav_tab_content li').hide().eq(1).show();
+                li.find('td').eq(0).attr('width', 35).find('div').html('终点');
+                li.find('td').eq(1).attr('width', 115);
+                
+                li.on('click', 'input:first', function(e){
+                    //bdmap.busline.
+                    searchInfoWindow.close();
+                });
+                
+                li.on('click', 'input:2th', function(e){
+                    
+                    searchInfoWindow.close();
+                });
+            }else{
+                var li = $(target).parents('.BMapLib_nav').find('.BMapLib_nav_tab_content li').hide().eq(0).show();
+                li.on('click', 'input[type=submit]', function(e){
+                    bdmap.clearOverlays();
+                    bdmap.local.searchInBounds($(e.target).closest('li').find('input[type=text]').val().split(' '), bdmap.getBounds());
+                    searchInfoWindow.close();
+                });
+                
+            }
+            li.find('input[type=text]').focus();
+        });
+        
+        var marker = new BMap.Marker(e.point); //创建marker对象
+        marker.enableDragging(); //marker可拖拽
+        marker.addEventListener("click", function(e){
+            searchInfoWindow.open(marker);
+        })
+        bdmap.addOverlay(marker); //在地图中添加marker
+        searchInfoWindow.open(marker);
+        
+        $('.BMapLib_nav_tab').find('li:first').click();
     });
-//        var times = 0;
-//        var oInterval = setInterval(function () {
-//
-//            //panBy()将地图中心移动一段指定的距离（以像素为单位）。
-//            map.panBy(-100, 100);
-//
-//            //zoomBy()将地图缩放到指定的缩放比例（每次所增加的数值）。
-//            map.zoomBy(5);
-//            times++;
-//            if (times >= 1) {
-//                clearInterval(oInterval)
-//            }
-//        }, 3 * 1000);
-//
-//
-//        setTimeout(function () {
-//
-//            //panTo()将地图中心移动到指定的经纬度坐标。
-//            map.panTo(new qq.maps.LatLng(39.9, 116.4));
-//
-//            //zoomTo()将地图缩放到指定的级别。
-//            map.zoomTo(15);
-//
-//        }, 8 * 1000);
-//
-//
-//        setTimeout(function () {
-//            //setCenter()设置地图中心点坐标。
-//            map.setCenter(new qq.maps.LatLng(30, 117));
-//
-//            //setZoom()设置地图缩放级别。
-//            map.setZoom(6);
-//
-//            //setMapTypeId()设置地图类型。
-//            map.setMapTypeId(qq.maps.MapTypeId.HYBRID);
-//
-//        }, 15 * 1000);
-//
-//
-//        setTimeout(function () {
-//
-//            //设置地图参数。
-//            map.setOptions({
-//                keyboardShortcuts: false,
-//                scrollwheel: false
-//            });
-//
-//        }, 30 * 1000);
-};
+    
+    $('#weui_actionsheet').on('click', '.weui_actionsheet_menu', function(e){console.log(1);
+        bdmap.busline.getBusLine(bdmap.busListResult[$(e.target).html()]);
+        $('#actionsheet_cancel').click();
+    });
+ };
+
+$('body').on('touchstart', '#tabbar', function(e){
+    bdmap.touchstart = event.changedTouches[0].clientY;
+}).on('touchend', '#tabbar', function(e){
+    bdmap.touchend = event.changedTouches[0].clientY;
+    if(bdmap.touchstart-bdmap.touchend>50){
+
+        var mask = $('#mask');
+        var weuiActionsheet = $('#weui_actionsheet');
+        weuiActionsheet.addClass('weui_actionsheet_toggle');
+        mask.show().addClass('weui_fade_toggle').one('click', function () {
+            hideActionSheet(weuiActionsheet, mask);
+        });
+        $('#actionsheet_cancel').one('click', function () {
+            hideActionSheet(weuiActionsheet, mask);
+        });
+        weuiActionsheet.unbind('transitionend').unbind('webkitTransitionEnd');
+
+        function hideActionSheet(weuiActionsheet, mask) {
+            weuiActionsheet.removeClass('weui_actionsheet_toggle');
+            mask.removeClass('weui_fade_toggle');
+            weuiActionsheet.on('transitionend', function () {
+                mask.hide();
+            }).on('webkitTransitionEnd', function () {
+                mask.hide();
+            })
+        }
+
+        $('#weui_actionsheet').one('click', '.weui_actionsheet_menu', function(e){
+            bdmap.busline.getBusLine($(this).attr('data'));
+            $('#actionsheet_cancel').click();
+        });
+    }
+});
 
 $(function(){
-    txmap.init();
-
-    if(openInWechat){
-        wx.ready(function(res){
-            wx.getLocation({
-                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-                success: function (res) {
-                    txmap.latLng = new qq.maps.LatLng(res.latitude, res.longitude);
-                    txmap.speed = res.speed; // 速度，以米/每秒计
-                    txmap.accuracy = res.accuracy; // 位置精度
-
-                    txmap.map.setCenter(txmap.latLng);
-                    var marker = new qq.maps.Marker({//设置marker标记
-                        map: txmap.map,
-                        position: txmap.latLng
-                    });
-                    
-                    txmap.setMarker(marker, '当前位置');
-                    
-                    citylocation = new qq.maps.CityService({
-                        //设置地图
-                        map : txmap.map,
-
-                        complete : function(results){
-                            $('#region').val(results.detail.name);
-                        }
-                    });
-                    citylocation.searchCityByLatLng(txmap.latLng);
-                }
-            });
-        });
-    }else{
-        if($('#client_ip').val().match(/^127\./) || $('#client_ip').val().match(/^10\./)){
-            $('#loadingToast').find('.weui_toast_content').html('获取位置失败').end().show();
-            setTimeout(function(){
-                $('#loadingToast').hide();
-            }, 1500);
-            
-        }else{
-            //获取  城市位置信息查询 接口  
-            citylocation = new qq.maps.CityService({
-                //设置地图
-                map : txmap.map,
-
-                complete : function(results){
-                    txmap.latLng = results.detail.latLng;
-                    txmap.map.setCenter(txmap.latLng);
-                    var marker = new qq.maps.Marker({//设置marker标记
-                        map: txmap.map,
-                        position: txmap.latLng
-                    });
-
-                    txmap.setMarker(marker, '当前位置');
-                    $('#region').val(results.detail.name);
-                }
-            });
-            citylocation.searchLocalCity();
+    bdmap.init();
+    bdmap.localCity = new BMap.LocalCity();      
+    bdmap.localCity.get(initCity);
+    
+    $('body').on('input', '#keyword', function(e){
+        bdmap.clearOverlays();
+        if(!$(this).val()){
+            return false;
         }
-    }
+        
+        if($(this).val().match(/^\d{1,3}|[a-zA-Z]{1}\d{1,3}$/)){
+            bdmap.busline.getBusList($(this).val());
+            return true;
+        }
+//        var circle = new BMap.Circle(bdmap.latLng,10000,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});
+//        bdmap.addOverlay(circle);
+//        
+//	bdmap.local.searchNearby($('#keyword').val(), bdmap.latLng, 10000); 
+        //bdmap.local.search($('#keyword').val());
+        
+        bdmap.local.searchInBounds($('#keyword').val().split(' '), bdmap.getBounds());
+    }).on('click', '#keyword', function(e){
+        if(!$(this).val()){
+            $('#search-panel').hide();
+            return false;
+        }
+        $('#search-panel').show();
+    });
+
+    bdmap.intervalId = setInterval(function(){
+        if($('.anchorBL a').length > 0){
+            $('.anchorBL a').remove();
+            clearInterval(bdmap.intervalId);
+        }
+    }, 20);
+    
+    setTimeout(function(){
+        $('.BMap_geolocationIcon').click();
+    }, 500);
+    
+    setInterval(function(){
+        $('.BMap_geolocationIcon').click();
+    }, 60000);
 });

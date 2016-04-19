@@ -1,46 +1,36 @@
-</div>
 <style>
-    #container {height:95%; margin-top: 0px;}
-    #top-panel {position: absolute; top: 4px; right: 57px; width: 69%;}
+    #container {height:95%; margin: 0;}
+    #top-panel {position: absolute; top: 5.5%; left: 0; width: 100%;}
     #top-panel .weui_cells {background: transparent; margin-top: 0px;}
-    #top-panel .weui_input {width: 100%; padding-bottom: 2px; background-color: rgb(255, 255, 255); border: 1px solid rgb(179, 179, 179); box-shadow: rgba(0, 0, 0, 0.298039) 0px 0px 3px;}
+    #top-panel .weui_input {width: 70%; margin-left:6%; padding-bottom: 2px; background-color: rgb(255, 255, 255); border: 1px solid #04BE02;}
     #top-panel .weui_btn {width: 20%;}
-    #top-panel .weui_panel {margin-top: 0;}
     #right-menu {position: absolute;}
     
     .weui_actionsheet_cell {cursor: pointer;}
-    
-    .anchorTR {top: 4px !important; right: 4px !important;}
-    .anchorTL {top: 4px !important; left: 4px !important;}
-    .anchorBL {bottom: 20px !important; left: 4px !important;}
-    .anchorBR {bottom: 20px !important; right: 4px !important;}
-    
-    .pano_close {top: 4px !important;}
-    
-    .weui_actionsheet_menu {height: 193px; overflow: auto;}
 </style>
+</div>
 <div id="top-panel">
     <div class="weui_cells">
         <div class="weui_cell_bd weui_cell_primary">
             <input class="weui_input" type="text" placeholder="搜地点、查公交、找线路" maxlength="256" id="keyword">
-            <input type="button" value="搜索" class="weui_btn weui_btn_mini weui_btn_primary" id="search" style="display:none;">
+            <input type="button" value="搜索" class="weui_btn weui_btn_mini weui_btn_primary" id="search">
             <input type="hidden" value="<?php echo $clientIP;?>" id="client_ip">
+            <input type="hidden" value="深圳市" id="region">
+            <input type="hidden" value="1" id="pageIndex">
+            <input type="hidden" value="5" id="pageCapacity">
         </div>
     </div>
-    <div class="weui_panel weui_panel_access" id="search-panel">
-    </div>
-    <div class="weui_panel weui_panel_access" id="info-panel">
-    </div>
-    <div class="weui_panel weui_panel_access" id="busline-panel">
+    <div class="weui_panel weui_panel_access" style="display:none;">
+        <div class="weui_panel_hd">文字组合列表</div>
+        <div class="weui_panel_bd">
+            <div class="weui_media_box weui_media_text">
+                <p class="weui_media_desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</p>
+            </div>
+        </div>
+        <a href="javascript:void(0);" class="weui_panel_ft">查看更多</a>
     </div>
 </div>
-<script src="http://api.map.baidu.com/api?v=2.0&ak=26587903c740a20817cd121881dc5dcc"></script>
-<!--加载鼠标绘制工具-->
-<script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
-<link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
-<!--加载检索信息窗口-->
-<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js"></script>
-<link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />
+<script src="http://map.qq.com/api/js?v=2.exp&key=J7CBZ-YV43X-PVS4E-ZGYVP-KF2T3-A3BQZ&libraries=place,drawing"></script>
 <script src="/static/weui/js/jweixin-1.1.0.js?v=2016-04-07"></script>
 <script>
     var openInWechat = navigator.userAgent.toLowerCase().match(/MicroMessenger/i)=="micromessenger" ? true : false;
@@ -55,4 +45,4 @@
         });
     }
 </script>
-<script src="/static/public/js/map/baidu.js?v=2016-04-07"></script>
+<script src="/static/public/js/map/txmap.js?v=2016-04-07"></script>
