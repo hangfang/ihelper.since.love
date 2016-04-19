@@ -86,7 +86,7 @@ class JobController extends MY_Controller {
         }else{
             $this->load->database();
             
-            $query = $this->db->where('expect', '16015')->order_by('id', 'desc')->get('app_pl3');
+            $query = $this->db->order_by('id', 'desc')->get('app_pl3');
             $row = $query->num_rows()>0 ? $query->row_array() : array();
             if(!$row){
                 for($i=4; $i<=ltrim(date('Y'), '20'); $i++){
@@ -165,7 +165,7 @@ class JobController extends MY_Controller {
         }else{
             $this->load->database();
             
-            $query = $this->db->where('expect', '09061')->order_by('id', 'desc')->get('app_qxc');
+            $query = $this->db->order_by('id', 'desc')->get('app_qxc');
             $row = $query->num_rows()>0 ? $query->row_array() : array();
             if(!$row){
                 for($i=9; $i<=ltrim(date('Y'), '20'); $i++){
