@@ -79,7 +79,7 @@
 </script>
 <script type="text/html" id="tpl_query">
     <div class="hd">
-        <h1 class="page_title">物流查询</h1>
+        <h1 class="page_title">生活查询</h1>
     </div>
     <div class="bd">
         <form class="form-horizontal" action="/app/express" method="post" target="_self" id="form_express">
