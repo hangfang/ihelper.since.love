@@ -474,7 +474,7 @@ EOF;
         $data = $this->_send_format['text'];
         $data['touser'] = $msgXml['FromUserName'];
         $data['fromuser'] = $msgXml['ToUserName'];
-        $data['text']['content'] = sprintf($this->_msg_to_large, $this->_base_url, $this->_base_url, $this->_base_url);
+        $data['text']['content'] = sprintf($this->_msg_to_large, $this->_base_url, $this->_base_url, $this->_base_url, $this->_base_url);
         $this->WechatModel->sendMessage($data);
     }
     
