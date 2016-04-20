@@ -482,17 +482,18 @@ EOF;
     }
     
     public function getGirls($msgXml){
-        
-        $data = $this->BaiduModel->getGirls($msgXml);
+        $data = array();
+        $keyword && $data['word'] = $keyword;
+        $data['page'] = rand(1,9999);
+        $data['rand'] = 1;
+        $data['num'] = 5;
+        $data = $this->BaiduModel->getGirls($data, $msgXml);
         $this->WechatModel->sendMessage($data);
     }
     
     public function getNews($keyword, $msgXml){
         $data = array();
-        $keyword && $data['word'] = $keyword;
-        $data['page'] = rand(1,10);
-        $data['rand'] = 1;
-        $data['num'] = 8;
+        $data['num'] = 5;
         $data = $this->BaiduModel->getNews($data, $msgXml);
         if($data===false){
             $this->unrecognize($keyword, $msgXml);
