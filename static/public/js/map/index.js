@@ -220,8 +220,10 @@ bdmap.init = function(){
         $('.BMapLib_nav_tab').find('li:first').click();
     });
     
-    $('#weui_actionsheet').on('click', '.weui_actionsheet_menu', function(e){console.log(1);
-        bdmap.busline.getBusLine(bdmap.busListResult[$(e.target).html()]);
+    $('#weui_actionsheet').on('click', '.weui_actionsheet_menu', function(e){
+        if($(e.target).html() && $(e.target).html()!='谢谢使用WeApp！'){
+            bdmap.busline.getBusLine(bdmap.busListResult[$(e.target).html()]);
+        }
         $('#actionsheet_cancel').click();
     });
  };

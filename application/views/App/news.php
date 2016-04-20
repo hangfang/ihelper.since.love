@@ -38,10 +38,11 @@
     .navbar {position: fixed;top: -1px;display: block;width: 100%; z-index:1;}
     .navbar a { color:#888; text-decoration: none;}
     .weui_navbar_item {padding:10px 0 !important;}
+    
+    .weui_cell_ft {position: fixed; bottom: 41px; right: 0px;}
 </style>
 <?php echo $msg;?>
-<script>
-    var news = {};
-    news.page = 2;
-</script>
+<div class="weui_cell_ft">
+    <input class="weui_switch" type="checkbox">
+</div>
 <script src="/static/public/js/app/news.js?d=20160110"></script>

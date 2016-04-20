@@ -539,7 +539,7 @@ EOF;
         $data['rtn'] = 0;
         $data['msg'] = $msg_news_list = $msg_news_banner = '';
         if($rt['code']!==200){
-            $msg_news_banner = sprintf($this->_msg_news_banner, '/static/public/images/app/1.jpg', '新闻飞走了');
+            $msg_news_banner = sprintf($this->_msg_news_banner, 'javascript:void(0)', '/static/public/images/app/1.jpg', '新闻飞走了');
             $data['msg'] = sprintf($this->_msg_news, $msg_news_banner, '');
         }else{
             foreach($rt['newslist'] as $_k=>$_v){
@@ -580,7 +580,7 @@ EOF;
         $data['rtn'] = 0;
         $data['msg'] = $msg_news_list = $msg_news_banner = '';
         if($rt['code']!==200){
-            $msg_news_banner = sprintf($this->_msg_news_banner, '/static/public/images/app/1.jpg', '悲剧，美女都表示不约...');
+            $msg_news_banner = sprintf($this->_msg_news_banner, 'javascript:void(0)', '/static/public/images/app/1.jpg', '悲剧，美女都表示不约...');
             $data['msg'] = sprintf($this->_msg_news, $msg_news_banner, '');
         }else{
             foreach($rt['newslist'] as $_k=>$_v){
@@ -601,6 +601,49 @@ EOF;
         $data['title'] = 'WeApp-美图';
         $this->layout->setLayout('weui');
         $this->layout->view('App/girls', $data);
+    }
+    
+    public function hots(){
+        
+        $data = array();
+        $this->input->get('keyword') && $data['word'] = $this->input->get('keyword');
+        
+        $data['page'] = $this->input->get('page') ? $this->input->get('page') : 1;
+        
+        !isset($data['word']) && $data['page'] = rand(1,999);
+        
+        $data['rand'] = 1;
+        $data['num'] = 25;
+        
+        $this->load->model('BaiduModel');
+        $rt = $this->BaiduModel->getNews($data);
+
+        
+        $data = array();
+        $data['rtn'] = 0;
+        $data['msg'] = $msg_news_list = $msg_news_banner = '';
+        if($rt['code']!==200){
+            $msg_news_banner = sprintf($this->_msg_news_banner, 'javascript:void(0)', '/static/public/images/app/1.jpg', '老夫夜关天象，今日太冷清');
+            $data['msg'] = sprintf($this->_msg_news, $msg_news_banner, '');
+        }else{
+            foreach($rt['newslist'] as $_k=>$_v){
+                if($_k%5 === 0){
+                    $msg_news_banner = sprintf($this->_msg_news_banner, $_v['url'], $_v['picUrl'], $_v['title']);
+                }else{
+                    $msg_news_list .= sprintf($this->_msg_news_list, $_v['url'], $_v['title'], $_v['picUrl']);
+                }
+                
+                if(($_k+1)%5 === 0){
+                    $data['msg'] .= sprintf($this->_msg_news, $msg_news_banner, $msg_news_list);
+                    $msg_news_list = '';
+                }
+            }
+            
+        }
+        
+        $data['title'] = 'WeApp-热搜';
+        $this->layout->setLayout('weui');
+        $this->layout->view('App/hots', $data);
     }
     
     public function checkLottery(){
