@@ -17,6 +17,6 @@ class UserController extends MY_Controller {
 
         $data = array_merge($data, $sigObj);
         $this->layout->setLayout('weui');
-        $this->layout->view('user/index', $data);
+        $this->layout->view('User/index', $data);
     }
 }
