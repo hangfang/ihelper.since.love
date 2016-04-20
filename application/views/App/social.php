@@ -5,10 +5,10 @@
                 <a class="weui_navbar_item" href="/app/news">
                     微信
                 </a>
-                <a class="weui_navbar_item" href="/app/social">
+                <a class="weui_navbar_item weui_bar_item_on" href="/app/social">
                     社会
                 </a>
-                <a class="weui_navbar_item weui_bar_item_on" href="/app/girls">
+                <a class="weui_navbar_item" href="/app/girls">
                     美图
                 </a>
                 <a class="weui_navbar_item" href="/app/hots">

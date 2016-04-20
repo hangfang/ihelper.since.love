@@ -194,7 +194,9 @@ EOF;
                 }elseif(in_array($contents[0], $wechat['genlottery'])){
                     $this->genLottery($contents[0], $msgXml);
                 }else{
-                    $this->getNews($contents[0], $msgXml);
+                    $type = array('getNews', 'getSocials');
+                    $funcName = $type[rand(0, 1)];
+                    $this->$funcName($contents[0], $msgXml);
                 }
             case 2:
                 if(($kdniao = include_config('kdniao')) && in_array($contents[0], array_keys($kdniao))){
@@ -495,6 +497,18 @@ EOF;
         $data['rand'] = 1;
         $data['num'] = 5;
         $data = $this->BaiduModel->getNews($data, $msgXml);
+        if($data===false){
+            $this->unrecognize($keyword, $msgXml);
+            return false;
+        }
+        $this->WechatModel->sendMessage($data);
+    }
+    
+    public function getSocials($keyword, $msgXml){
+        $data = array();
+        $data['page'] = rand(1, 999);
+        $data['num'] = 5;
+        $data = $this->BaiduModel->getSocials($data, $msgXml);
         if($data===false){
             $this->unrecognize($keyword, $msgXml);
             return false;
