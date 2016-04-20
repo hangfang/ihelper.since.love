@@ -47,15 +47,16 @@ $(function(){
     });
     
     $('#switch').on('click', function(e){
+        $(window).scrollTop( $('#container').get(0).scrollHeight);
         if($('#search input').val().length>0){
             location.href = location.pathname+'?keyword='+encodeURIComponent($('#search input').val());
             return true;
         }
         
         if($(this).prop('checked')){
-           $('#search').show().animate({left: 5});
+           $('#search').show().animate({left: 5}).find('input').focus();
         }else{
-           $('#search').show().animate({left: -999});
+           $('#search').show().animate({left: -999}).find('input').focus();
         }
     });
 });
