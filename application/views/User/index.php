@@ -1,5 +1,5 @@
 <style>
-    body {background-color: #efeff4;}
+    body {background-color: #efeff4; font-size:14px;}
     .weui_panel_hd {text-align: center;}
     .panel1 .weui_panel_bd {background:url(/static/public/img/user/bg.png) no-repeat; height: 115px}
     .head-img {position: absolute; top: 1.65rem; left: 4.62rem; width: 75px; height: 75px; border-radius: 39px; background-color: #fff;}
@@ -9,7 +9,7 @@
     
     .panel2 {width: 100%; height: 12%; margin-top: 0.26rem; background-color: #fff;}
     .panel2 ul {list-style: none;}
-    .panel2 ul li { position: relative; float: left; width: 30%; height: 28px; font-size: 0.3rem; text-align: center; margin-left: 10px;}
+    .panel2 ul li { position: relative; float: left; width: 30%; height: 28px; font-size: 14px; text-align: center; margin-left: 10px;}
     .idt {display: block; position: absolute; left: 0.68rem; float: left; width: 20px; height: 18px; background: url(/static/public/img/user/indent.png) no-repeat; background-size: 20px 18px;}
     .clt {display: block; position: absolute; left: 0.68rem; float: left; width: 20px; height: 18px; background: url(/static/public/img/user/clt.png) no-repeat; background-size: 20px 18px;}
     .rcm {display: block; position: absolute; left: 0.68rem; float: left; width: 20px; height: 18px; background: url(/static/public/img/user/rcm.png) no-repeat; background-size: 20px 18px;}
@@ -26,7 +26,7 @@
     .panel4 .weui_cell {padding-top: 5px; padding-bottom: 5px;}
 </style>
 <div class="weui_panel panel1" style="margin-top: 0;">
-    <div class="weui_panel_hd">个人中心</div>
+<!--    <div class="weui_panel_hd">个人中心</div>-->
     <div class="weui_panel_bd">
         <div class="weui_media_box weui_media_text">
             <div class="head-img">
