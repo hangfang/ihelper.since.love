@@ -3,7 +3,10 @@
         <div class="weui_tab">
             <div class="weui_navbar">
                 <a class="weui_navbar_item weui_bar_item_on" href="/app/news">
-                    资讯
+                    微信
+                </a>
+                <a class="weui_navbar_item" href="/app/social">
+                    社会
                 </a>
                 <a class="weui_navbar_item" href="/app/girls">
                     美图
@@ -45,17 +48,4 @@
     
 </style>
 <?php echo $msg;?>
-<div class="weui_cell_ft">
-    <input class="weui_switch" type="checkbox" id="switch">
-</div>
-<div class="weui_cells weui_cells_form" id="search" style="display: none;">
-    <div class="weui_cell">
-<!--        <div class="weui_cell_hd">
-            <label class="weui_label">QQ</label>
-        </div>-->
-        <div class="weui_cell_bd weui_cell_primary">
-            <input class="weui_input" type="text" maxlength=10 placeholder="热搜关键字">
-        </div>
-    </div>
-</div>
 <script src="/static/public/js/app/news.js?d=20160110"></script>

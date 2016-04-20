@@ -526,7 +526,7 @@ EOF;
         $data = array();
         $this->input->get('keyword') && $data['word'] = $this->input->get('keyword');
         
-        $data['page'] = $this->input->get('page') ? $this->input->get('page') : 0;
+        $data['page'] = $this->input->get('page') ? $this->input->get('page') : 1;
         
         $data['rand'] = 1;
         $data['num'] = 25;
@@ -562,12 +562,53 @@ EOF;
         $this->layout->view('App/news', $data);
     }
     
+    public function social(){
+        
+        $data = array();
+        $this->input->get('keyword') && $data['word'] = $this->input->get('keyword');
+        
+        $data['page'] = $this->input->get('page') ? $this->input->get('page') : 1;
+        
+        $data['rand'] = 1;
+        $data['num'] = 25;
+        
+        $this->load->model('BaiduModel');
+        $rt = $this->BaiduModel->getSocials($data);
+
+        
+        $data = array();
+        $data['rtn'] = 0;
+        $data['msg'] = $msg_news_list = $msg_news_banner = '';
+        if($rt['code']!==200){
+            $msg_news_banner = sprintf($this->_msg_news_banner, 'javascript:void(0)', '/static/public/images/app/1.jpg', '新闻飞走了');
+            $data['msg'] = sprintf($this->_msg_news, $msg_news_banner, '');
+        }else{
+            foreach($rt['newslist'] as $_k=>$_v){
+                if($_k%5 === 0){
+                    $msg_news_banner = sprintf($this->_msg_news_banner, $_v['url'], $_v['picUrl'], $_v['title']);
+                }else{
+                    $msg_news_list .= sprintf($this->_msg_news_list, $_v['url'], $_v['title'], $_v['picUrl']);
+                }
+                
+                if(($_k+1)%5 === 0){
+                    $data['msg'] .= sprintf($this->_msg_news, $msg_news_banner, $msg_news_list);
+                    $msg_news_list = '';
+                }
+            }
+            
+        }
+        
+        $data['title'] = 'WeApp-社会';
+        $this->layout->setLayout('weui');
+        $this->layout->view('App/social', $data);
+    }
+    
     public function girls(){
         
         $data = array();
         $this->input->get('keyword') && $data['word'] = $this->input->get('keyword');
         
-        $data['page'] = $this->input->get('page') ? $this->input->get('page') : 0;
+        $data['page'] = $this->input->get('page') ? $this->input->get('page') : 1;
         
         $data['rand'] = 1;
         $data['num'] = 25;

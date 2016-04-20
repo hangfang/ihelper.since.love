@@ -3,7 +3,10 @@
         <div class="weui_tab">
             <div class="weui_navbar">
                 <a class="weui_navbar_item" href="/app/news">
-                    资讯
+                    微信
+                </a>
+                <a class="weui_navbar_item" href="/app/social">
+                    社会
                 </a>
                 <a class="weui_navbar_item" href="/app/girls">
                     美图

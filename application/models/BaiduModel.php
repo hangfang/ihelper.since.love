@@ -234,6 +234,40 @@ EOF;
         return false;
     }
     
+    public function getSocials($param, $msgXml=array()){
+        $data = array();
+        $data['method'] = 'get';
+        $data['header'] = array('apikey: '. BAIDU_API_KEY);
+        $data['url'] = BAIDU_SOCIALS_API_URL;
+        $data['data'] = $param;
+        $rt = $this->http($data);
+        
+        if(empty($msgXml)){
+            return $rt;
+        }
+        
+        if($rt['code'] === 200){
+
+            $data = $this->_send_format['news'];
+            $data['touser'] = $msgXml['FromUserName'];
+            $data['fromuser'] = $msgXml['ToUserName'];
+
+            $news = array();
+            foreach($rt['newslist'] as $_k=>$_v){
+                $tmp = array();
+                $tmp['title'] = $_v['title'];
+                $tmp['description'] = $_v['description'];
+                $tmp['picurl'] = $_v['picUrl'];
+                $tmp['url'] = $_v['url'];
+                $news[] = $tmp;
+            }
+            $data['articles'] = $news;
+            return $data;
+        }
+        
+        return false;
+    }
+    
     /**
      * @todo 查询彩票开奖信息
      * @param array $data

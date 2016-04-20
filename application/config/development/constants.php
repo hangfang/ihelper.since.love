@@ -57,6 +57,9 @@ define('BAIDU_GIRLS_API_URL', 'http://apis.baidu.com/txapi/mvtp/meinv?num=8');
 /*百度新闻*/
 define('BAIDU_NEWS_API_URL', 'http://apis.baidu.com/txapi/weixin/wxhot');
 
+/*百度社会新闻*/
+define('BAIDU_SOCIALS_API_URL', 'http://apis.baidu.com/txapi/social/social');
+
 /*百度彩票开奖*/
 define('BAIDU_LOTTERY_API_URL', 'http://apis.baidu.com/apistore/lottery/lotteryquery');
 

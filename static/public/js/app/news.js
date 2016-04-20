@@ -47,16 +47,24 @@ $(function(){
     });
     
     $('#switch').on('click', function(e){
-        $(window).scrollTop( $('#container').get(0).scrollHeight);
         if($('#search input').val().length>0){
             location.href = location.pathname+'?keyword='+encodeURIComponent($('#search input').val());
             return true;
         }
-        
-        if($(this).prop('checked')){
-           $('#search').show().animate({left: 5}).find('input').focus();
+    });
+    
+    $(window).on('scroll', function(e){
+        var switcher = $('#switch');
+        if($(document).scrollTop() >= $(document).height() - $(window).height()){
+            switcher.prop('checked', true);
         }else{
-           $('#search').show().animate({left: -999}).find('input').focus();
+            switcher.prop('checked', false);
+        }
+       
+       if(switcher.prop('checked')){
+            $('#search').show().animate({left: 5}, 0).find('input').focus();
+        }else{
+            $('#search').hide().animate({left: -300}, 0);
         }
     });
 });
