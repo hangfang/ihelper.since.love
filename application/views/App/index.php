@@ -49,7 +49,7 @@
                     生活查询
                 </p>
             </a>
-            <a href="/app/lottery" class="weui_grid">
+            <a href="/lottery/index" class="weui_grid">
                 <div class="weui_grid_icon">
                     <i class="icon icon_toast"></i>
                 </div>
