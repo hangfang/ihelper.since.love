@@ -491,7 +491,7 @@ EOF;
     public function getNews($keyword, $msgXml){
         $data = array();
         $keyword && $data['word'] = $keyword;
-        $data['page'] = rand(1,9999);
+        $data['page'] = rand(1,999);
         $data['rand'] = 1;
         $data['num'] = 5;
         $data = $this->BaiduModel->getNews($data, $msgXml);
