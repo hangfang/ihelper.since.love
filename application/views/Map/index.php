@@ -17,7 +17,7 @@
     
     .pano_close {top: 4px !important;}
     
-    .weui_actionsheet_menu {height: 193px; overflow: auto;}
+    .weui_actionsheet_menu {max-height: 193px; overflow: auto;}
 </style>
 <div id="top-panel">
     <div class="weui_cells">

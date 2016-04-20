@@ -15,6 +15,11 @@
         p.weui_tabbar_label {padding: 0; margin:0;}
         .weui_tabbar_icon + .weui_tabbar_label {margin: 0;}
     </style>
+    <?php if($environment==='production'){ ?>
+    <script>
+        window.onerror = function(){return true;};
+    </script>
+    <?php }?>
 </head>
 <body>
     <div id="container">
@@ -135,6 +140,7 @@
         <div class="weui_mask_transition" id="mask" style="display: none;"></div>
         <div class="weui_actionsheet" id="weui_actionsheet">
             <div class="weui_actionsheet_menu">
+                <div class="weui_actionsheet_cell">谢谢使用WeApp！</div>
             </div>
             <div class="weui_actionsheet_action">
                 <div class="weui_actionsheet_cell" id="actionsheet_cancel">取消</div>

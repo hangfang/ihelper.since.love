@@ -4,6 +4,11 @@
         <meta charset="UTF-8">
         <title><?php echo $title; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <?php if($environment==='production'){ ?>
+        <script>
+            window.onerror = function(){return true;};
+        </script>
+        <?php }?>
     </head>
     <body>
         <?php echo $content_for_layout ?>
