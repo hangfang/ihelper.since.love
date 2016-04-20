@@ -69,5 +69,4 @@ EOF;
     </div>
 </div>
 
-<script src="/static/public/js/jquery.subscribe.js?d=20160110"></script>
-<script src="/static/public/js/app/lottery.js?d=20160110"></script>
+<script src="/static/public/js/lottery/lottery.js?d=20160110"></script>

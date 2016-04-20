@@ -3,7 +3,7 @@ $(function(){
         var _this = this;
         $('#loadingToast').show();
         $.ajax({
-            url : '/app/lottery',
+            url : '/lottery/index',
             data : {lottery_code: $(_this).val()},
             type : 'get',
             dataType : 'json',
@@ -202,7 +202,7 @@ $(function(){
 
         $('#loadingToast').show();
         $.ajax({
-            url : '/app/checkLottery',
+            url : '/lottery/checkLottery',
             data : data,
             type : 'get',
             dataType : 'json',

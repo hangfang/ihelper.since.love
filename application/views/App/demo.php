@@ -1091,5 +1091,3 @@
 <script src="/static/weui/js/zepto.min.js"></script>
 <script src="/static/weui/js/router.min.js"></script>
 <script src="/static/public/js/app/demo.js"></script>
-</body>
-</html>
