@@ -160,7 +160,7 @@ EOF;
 
         $data = array_merge($data, $sigObj);
         $this->layout->setLayout('weui');
-        $this->layout->view('lottery/index', $data);
+        $this->layout->view('Lottery/index', $data);
     }
     
     public function checkLottery(){
