@@ -310,12 +310,14 @@ class JobController extends MY_Controller {
 
 
         $content = explode('奖池滚存', $content[1]);
-        preg_match_all('/>([\d,]+)元/', $content[0], $lottery['sell']);
-        $lottery['sell'] = str_replace(',', '', $lottery['sell'][1][0]);
+        $lottery['sell'] = 0;
+        preg_match_all('/>([\d,]+)元/', $content[0], $match);
+        isset($match[1][0]) && $lottery['sell'] = str_replace(',', '', $match['sell'][1][0]);
 
         $content = explode('开奖详情', $content[1]);
-        preg_match_all('/>([\d,]+)元/', $content[0], $lottery['remain']);
-        $lottery['remain'] = str_replace(',', '', $lottery['remain'][1][0]);
+        $lottery['remain'] = 0;
+        preg_match_all('/>([\d,]+)元/', $content[0], $match);
+        isset($match[1][0]) && $lottery['remain'] = str_replace(',', '', $match[1][0]);
 
         $content = explode('走势图', $content[1]);
         $content = explode('一等奖', $content[0]);
@@ -327,31 +329,41 @@ class JobController extends MY_Controller {
         list($pride_fivth, $content) = explode('六等奖', $content);
         list($pride_sixth) = explode('七等奖', $content);
         
-        $pride_first = explode('<td>', preg_replace('/\/|\s+/', '', $pride_first));
-        $lottery['first_num'] = isset($pride_first['4']) ? $pride_first['4'] : 0;
-        $lottery['first'] = isset($pride_first['6']) ? $pride_first['6'] : '';
-        $lottery['first_add_num'] = isset($pride_first['10']) ? $pride_first['10'] : 0;
-        $lottery['first_add'] = isset($pride_first['12']) ? $pride_first['12'] : '';
+        if(strpos($pride_first, '派奖')!==false){
+            $pride_first = explode('<td>', preg_replace('/\/|\s+/', '', $pride_first));
+            $lottery['first_num'] = isset($pride_first['4']) ? $pride_first['4'] : 0;
+            $lottery['first'] = isset($pride_first['6']) ? $pride_first['6'] : '';
+            $lottery['first_add_num'] = isset($pride_first['20']) ? $pride_first['20'] : 0;
+            $lottery['first_add'] = isset($pride_first['22']) ? $pride_first['22'] : '';
+        }else{
+            
+            $pride_first = explode('<td>', preg_replace('/\/|\s+/', '', $pride_first));
+            $lottery['first_num'] = isset($pride_first['4']) ? $pride_first['4'] : 0;
+            $lottery['first'] = isset($pride_first['6']) ? $pride_first['6'] : '';
+            $lottery['first_add_num'] = isset($pride_first['10']) ? $pride_first['10'] : 0;
+            $lottery['first_add'] = isset($pride_first['12']) ? $pride_first['12'] : '';
+        }
+        
         
         $pride_second = explode('<td>', preg_replace('/\/|\s+/', '', $pride_second));
         $lottery['second_num'] = isset($pride_second['4']) ? $pride_second['4'] : 0;
         $lottery['second'] = isset($pride_second['6']) ? $pride_second['6'] : '';
-        $lottery['second_add_num'] = isset($pride_second['10']) ? $pride_second['10'] : 0;
-        $lottery['second_add'] = isset($pride_second['12']) ? $pride_second['12'] : '';
+        $lottery['second_add_num'] = isset($pride_second['13']) ? $pride_second['13'] : 0;
+        $lottery['second_add'] = isset($pride_second['14']) ? $pride_second['14'] : '';
         
         $pride_third = explode('<td>', preg_replace('/\/|\s+/', '', $pride_third));
         $lottery['third_num'] = isset($pride_third['4']) ? $pride_third['4'] : 0;
         $lottery['third'] = isset($pride_third['6']) ? $pride_third['6'] : '';
-        $lottery['third_add_num'] = isset($pride_third['10']) ? $pride_third['10'] : 0;
-        $lottery['third_add'] = isset($pride_third['12']) ? $pride_third['12'] : '';
+        $lottery['third_add_num'] = isset($pride_third['12']) ? $pride_third['12'] : 0;
+        $lottery['third_add'] = isset($pride_third['14']) ? $pride_third['14'] : '';
         
         $pride_has_add = strpos($pride_forth, '基本')!==false ? true : false;
         $pride_forth = explode('<td>', preg_replace('/\/|\s+/', '', $pride_forth));
         if($pride_has_add){
             $lottery['forth_num'] = isset($pride_forth['4']) ? $pride_forth['4'] : 0;
             $lottery['forth'] = isset($pride_forth['6']) ? $pride_forth['6'] : '';
-            $lottery['forth_add_num'] = isset($pride_forth['10']) ? $pride_forth['10'] : 0;
-            $lottery['forth_add'] = isset($pride_forth['12']) ? $pride_forth['12'] : '';
+            $lottery['forth_add_num'] = isset($pride_forth['12']) ? $pride_forth['12'] : 0;
+            $lottery['forth_add'] = isset($pride_forth['14']) ? $pride_forth['14'] : '';
         }else{
             $lottery['forth_num'] = isset($pride_forth['2']) ? $pride_forth['2'] : 0;
             $lottery['forth'] = isset($pride_forth['4']) ? $pride_forth['4'] : '';
@@ -364,8 +376,8 @@ class JobController extends MY_Controller {
         if($pride_has_add){
             $lottery['fivth_num'] = isset($pride_fivth['4']) ? $pride_fivth['4'] : 0;
             $lottery['fivth'] = isset($pride_fivth['6']) ? $pride_fivth['6'] : '';
-            $lottery['fivth_add_num'] = isset($pride_fivth['10']) ? $pride_fivth['10'] : 0;
-            $lottery['fivth_add'] = isset($pride_fivth['12']) ? $pride_fivth['12'] : '';
+            $lottery['fivth_add_num'] = isset($pride_fivth['12']) ? $pride_fivth['12'] : 0;
+            $lottery['fivth_add'] = isset($pride_fivth['14']) ? $pride_fivth['14'] : '';
         }else{
             $lottery['fivth_num'] = isset($pride_fivth['2']) ? $pride_fivth['2'] : 0;
             $lottery['fivth'] = isset($pride_fivth['4']) ? $pride_fivth['4'] : '';
@@ -378,8 +390,8 @@ class JobController extends MY_Controller {
         if($pride_has_add){
             $lottery['sixth_num'] = isset($pride_sixth['4']) ? $pride_sixth['4'] : 0;
             $lottery['sixth'] = isset($pride_sixth['6']) ? $pride_sixth['6'] : '';
-            $lottery['sixth_add_num'] = isset($pride_sixth['10']) ? $pride_sixth['10'] : 0;
-            $lottery['sixth_add'] = isset($pride_sixth['12']) ? $pride_sixth['12'] : '';
+            $lottery['sixth_add_num'] = isset($pride_sixth['12']) ? $pride_sixth['12'] : 0;
+            $lottery['sixth_add'] = isset($pride_sixth['14']) ? $pride_sixth['14'] : '';
         }else{
             $lottery['sixth_num'] = isset($pride_sixth['2']) ? $pride_sixth['2'] : 0;
             $lottery['sixth'] = isset($pride_sixth['4']) ? $pride_sixth['4'] : '';
