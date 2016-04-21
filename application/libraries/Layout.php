@@ -6,7 +6,7 @@ class Layout
     var $obj; 
     var $layout; 
     
-    function Layout($layout = array("common")) 
+    function __construct($layout = array("common")) 
     {
         $this->obj =& get_instance(); 
         $this->layout = '_layouts/' . $layout[0]; 
