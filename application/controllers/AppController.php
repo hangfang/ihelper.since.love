@@ -91,9 +91,6 @@ EOF;
         
         $data = array();
         $data['title'] = '页面样例';
-        $sigObj = $this->WechatModel->getJsApiSigObj();
-        
-        $data = array_merge($data, $sigObj);
         $this->layout->setLayout('weui');
         $this->layout->view('App/demo', $data);
     }

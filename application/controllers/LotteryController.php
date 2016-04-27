@@ -156,9 +156,6 @@ EOF;
         
         $data['lotteryList'] = $lottery;
         
-        $sigObj = $this->WechatModel->getJsApiSigObj();
-
-        $data = array_merge($data, $sigObj);
         $this->layout->setLayout('weui');
         $this->layout->view('Lottery/index', $data);
     }
