@@ -138,14 +138,19 @@ class JobController extends MY_Controller {
 
         $content = explode('上一期', $content[1]);
         $content = explode('直选', $content[0]);
-        $keyword = strpos($content[1], '组三')!==false ? '组三' : '组六';
+        $keyword = strpos($content[1], '组六')===false && strpos($content[1], '组三')===false ? '直选' : (strpos($content[1], '组三')!==false ? '组三' : '组六');
+        $content = explode($keyword, $content[1]);
         $content = explode($keyword, $content[1]);
 
         list($_, $_, $lottery['first_num'], $_, $lottery['first']) = explode('<td>', preg_replace('/\/|\s+/', '', $content[0]));
         $lottery['first'] = str_replace(',', '', $lottery['first']);
-
-        list($_, $_, $lottery['second_num'], $_, $lottery['second']) = explode('<td>', preg_replace('/\/|\s+/', '', $content[1]));
-        $lottery['second'] = str_replace(',', '', $lottery['second']);
+        
+        if($keyword!=='直选'){
+            list($_, $_, $lottery['second_num'], $_, $lottery['second']) = explode('<td>', preg_replace('/\/|\s+/', '', $content[1]));
+            $lottery['second'] = str_replace(',', '', $lottery['second']);
+        }else{
+             $lottery['second'] =  $lottery['second_num'] = 0;
+        }
 
         $this->load->database();
         

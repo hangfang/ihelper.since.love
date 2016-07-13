@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50542
 File Encoding         : 65001
 
-Date: 2016-04-27 15:44:42
+Date: 2016-04-27 18:10:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20479,3 +20479,19 @@ INSERT INTO `wechat_user` VALUES ('1', '2016-04-09 15:09:49', 'ohwjvw9IVbH0JFtaM
 INSERT INTO `wechat_user` VALUES ('2', '2016-04-09 15:28:35', 'sssss', '1', '0000-00-00 00:00:00');
 INSERT INTO `wechat_user` VALUES ('3', '2016-04-09 15:58:42', 'ohwjvw1QPmm0YLy3yKhjGYg4qS_g', '0', '2016-04-09 15:58:42');
 INSERT INTO `wechat_user` VALUES ('4', '2016-04-14 17:51:05', 'ohwjvw0zdU4nyDmaswyq39E6jhEM', '0', '2016-04-14 17:51:05');
+
+-- ----------------------------
+-- Table structure for `yaf_sessions`
+-- ----------------------------
+DROP TABLE IF EXISTS `yaf_sessions`;
+CREATE TABLE `yaf_sessions` (
+  `id` varchar(40) NOT NULL,
+  `ip_address` varchar(45) NOT NULL,
+  `timestamp` int(10) unsigned NOT NULL DEFAULT '0',
+  `data` blob NOT NULL,
+  KEY `ci_sessions_timestamp` (`timestamp`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of yaf_sessions
+-- ----------------------------
